@@ -6,7 +6,7 @@ SetaFPDF is a clone of [FPDF](http://www.fpdf.org/) with an almost compatible in
 
 The main motivation for this project was to be able to create PDF/A documents in PHP without changing all existing PDF generation scripts which rely on [FPDF](http://www.fpdf.org/).
 
-FPDF is a wide spread and very common PHP library for PDF generation. It is small, well tested and runs on millions of websites. It also comes with several extenstions and an active [forum](http://fpdf.org/phorum/).
+FPDF is a wide spread and very common PHP library for PDF generation. It is small, well tested and runs on millions of websites. It also comes with several extensions and an active [forum](http://fpdf.org/phorum/).
 
 The [SetaPDF-Core](https://www.setasign.com/core) component is a PHP component which allows PHP developers to interact with existing PDF documents on a low level. While there is no high-level API for PDF generation it comes with all low-level features which are required to create PDF/A documents:
 
@@ -46,15 +46,15 @@ Add following to your composer.json:
 
 ```json
 {
+    "require": {
+        "setasign/setafpdf": "^1.0"
+    },
     "repositories": [
         {
             "type": "composer",
             "url": "https://www.setasign.com/downloads/"
         }
-    ],
-    "require": {
-        "setasign/setafpdf": "^1.0"
-    }
+    ]
 }
 ```
 
@@ -65,15 +65,15 @@ By default this packages depends on a licensed version of the [SetaPDF-Core](htt
 
 ```json
 {
+    "require": {
+        "setasign/setafpdf": "dev-evaluation"
+    },
     "repositories": [
         {
             "type": "composer",
             "url": "https://www.setasign.com/downloads/"
         }
-    ],
-    "require": {
-        "setasign/setafpdf": "dev-evaluation"
-    }
+    ]
 }
 ```
 
@@ -130,7 +130,7 @@ Nothing new here. It's code you already know from FPDF. And that's it. In the no
 If your script relies on page numbering which is implemented by the use of `AliasNbPages()` in e.g. the `Header()` or `Footer()` methods you need to refactor your script. With FPDF it was done e.g. this way:
 
 ```php
-class Pdf extends SetaFpdf
+class Pdf extends FPDF
 {
     public function Footer()
     {
@@ -139,7 +139,7 @@ class Pdf extends SetaFpdf
     }
 }
 
-$pdf = new FPDF();
+$pdf = new Pdf();
 $pdf->AddPage();
 // ...
 $pdf->AddPage();
@@ -151,10 +151,10 @@ $pdf->AddPage();
 $pdf->Output();
 ``` 
 
-With SetaFPDF you need to interate over the created pages and write the footer manually:
+With SetaFPDF you need to iterate over the created pages and write the footer manually:
 
 ```php
-class Pdf extends FPDF
+class Pdf extends SetaFpdf
 {
     public function writeFooters()
     {
@@ -172,7 +172,7 @@ class Pdf extends FPDF
     }
 }
 
-$pdf = new FPDF();
+$pdf = new Pdf();
 $pdf->AddPage();
 // ...
 $pdf->AddPage();
@@ -213,7 +213,7 @@ $pdf->Output();
 #### Generating PDF/A documents
 
 With SetaFPDF you are able to create PDF/A documents. Anyhow it's up to you to not use features which are not allowed in PDF/A. Also it's up to you to add the missing puzzle pieces through the underlaying SetaPDF functionallities. 
-There's a simple example available in `demos/pdf-a-3b.php` that adds the salt to make the PDF PDF/A conform.
+There's a simple example available in `demos/pdf-a-3b.php` that adds the required pieces to make the PDF PDF/A conform.
 
 If you want to create PDF/A documents while importing other files, you need to make sure, that these documents are PDF/A already.
 
