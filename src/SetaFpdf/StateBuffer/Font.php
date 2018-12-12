@@ -4,8 +4,6 @@
  *
  * @package   setasign\SetaFpdf
  * @copyright Copyright (c) 2018 Setasign - Jan Slabon (https://www.setasign.com)
- * @author    Timo Scholz <timo.scholz@setasign.com>
- * @author    Jan Slabon <jan.slabon@setasign.com>
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 
@@ -15,7 +13,6 @@ use setasign\SetaFpdf\Manager;
 
 /**
  * Class Font
- * @package setasign\SetaFpdf\StateBuffer
  *
  * @property \SetaPDF_Core_Font_FontInterface|null $font
  * @property int|float|null $fontSize

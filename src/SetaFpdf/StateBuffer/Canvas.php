@@ -4,8 +4,6 @@
  *
  * @package   setasign\SetaFpdf
  * @copyright Copyright (c) 2018 Setasign - Jan Slabon (https://www.setasign.com)
- * @author    Timo Scholz <timo.scholz@setasign.com>
- * @author    Jan Slabon <jan.slabon@setasign.com>
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 
@@ -15,12 +13,10 @@ use setasign\SetaFpdf\Manager;
 
 /**
  * Class Canvas
- * @package setasign\SetaFpdf\StateBuffer
  *
  * @property int|float $lineWidth
- * @method void ensureLineWidth()
- *
  * @property int|float $lineCap
+ * @method void ensureLineWidth()
  * @method void ensureLineCap()
  */
 class Canvas extends StateBuffer

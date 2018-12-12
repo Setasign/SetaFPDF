@@ -4,8 +4,6 @@
  *
  * @package   setasign\SetaFpdf
  * @copyright Copyright (c) 2018 Setasign - Jan Slabon (https://www.setasign.com)
- * @author    Timo Scholz <timo.scholz@setasign.com>
- * @author    Jan Slabon <jan.slabon@setasign.com>
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 
@@ -73,10 +71,10 @@ class Draw
     {
         $converter = $this->manager->getConverter();
 
-        $x = $converter->convertX($x);
-        $y = $converter->convertY($y);
-        $width = $converter->convert($width);
-        $height = $converter->convert($height);
+        $x = $converter->toPt($x);
+        $y = $this->manager->getHeight() - $converter->toPt($y);
+        $width = $converter->toPt($width);
+        $height = $converter->toPt($height);
 
         switch (\strtolower($style)) {
             case 'f':
@@ -113,10 +111,10 @@ class Draw
     {
         $converter = $this->manager->getConverter();
 
-        $x1 = $converter->convertX($x1);
-        $y1 = $converter->convertY($y1);
-        $x2 = $converter->convertX($x2);
-        $y2 = $converter->convertY($y2);
+        $x1 = $converter->toPt($x1);
+        $y1 = $this->manager->getHeight() - $converter->toPt($y1);
+        $x2 = $converter->toPt($x2);
+        $y2 = $this->manager->getHeight() - $converter->toPt($y2);
 
         $this->ensureDraw();
 
@@ -133,7 +131,6 @@ class Draw
      * @param int|float $width
      * @param int|float $height
      * @param string $link
-     * @throws \BadMethodCallException
      * @throws \InvalidArgumentException
      */
     public function image($file, $x, $y, $width, $height, $link)
@@ -148,10 +145,13 @@ class Draw
             if ($uuid === false) {
                 $uuid = $file;
             }
-        } elseif (\is_object($file) ) {
+            /**
+             * @var string $uuid
+             */
+        } elseif (\is_object($file)) {
             $uuid = spl_object_hash($file);
         } elseif (\is_resource($file)) {
-            $uuid = (string)$file;
+            $uuid = (string) $file;
         }
 
         if ($uuid === null || !isset($this->images[$uuid])) {
@@ -172,10 +172,10 @@ class Draw
         }
 
         if ($width < 0) {
-            $width = $converter->revert(-$xObject->getWidth() * 72 / $width);
+            $width = $converter->fromPt(-$xObject->getWidth() * 72 / $width);
         }
         if ($height < 0) {
-            $height = $converter->revert(-$xObject->getHeight() * 72 / $height);
+            $height = $converter->fromPt(-$xObject->getHeight() * 72 / $height);
         }
         /** @noinspection TypeUnsafeComparisonInspection */
         if ($width == 0) {
@@ -200,11 +200,11 @@ class Draw
             $x = $this->manager->getCursor()->getX();
         }
 
-        $width = $converter->convert($width);
-        $height = $converter->convert($height);
-        $x = $converter->convert($x);
+        $width = $converter->toPt($width);
+        $height = $converter->toPt($height);
+        $x = $converter->toPt($x);
         $canvas = $this->manager->getCanvas();
-        $y = $canvas->getHeight() - ($converter->convert($y) + $height);
+        $y = $canvas->getHeight() - ($converter->toPt($y) + $height);
 
         $xObject->draw(
             $canvas,

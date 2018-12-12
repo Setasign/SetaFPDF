@@ -4,8 +4,6 @@
  *
  * @package   setasign\SetaFpdf
  * @copyright Copyright (c) 2018 Setasign - Jan Slabon (https://www.setasign.com)
- * @author    Timo Scholz <timo.scholz@setasign.com>
- * @author    Jan Slabon <jan.slabon@setasign.com>
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 
@@ -14,11 +12,6 @@ namespace setasign\SetaFpdf\Modules;
 use setasign\SetaFpdf\Manager;
 use setasign\SetaFpdf\StateBuffer\StateBufferInterface;
 
-/**
- * Class Margin
- * @package setasign\SetaFpdf\Modules
- *
- */
 class Margin implements StateBufferInterface
 {
 
@@ -34,7 +27,7 @@ class Margin implements StateBufferInterface
      *
      * @var int|float
      */
-    private  $left;
+    private $left;
 
     /**
      * The stored left margin.
@@ -109,7 +102,7 @@ class Margin implements StateBufferInterface
         $this->manager = $manager;
 
         $converter = $this->manager->getConverter();
-        $margin = $converter->revert(28.35);
+        $margin = $converter->fromPt(28.35);
         $this->set($margin, $margin);
         $this->cell = $margin / 10;
         $this->bottom = $margin * 2;

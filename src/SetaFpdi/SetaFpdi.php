@@ -4,8 +4,6 @@
  *
  * @package   setasign\SetaFpdi
  * @copyright Copyright (c) 2018 Setasign - Jan Slabon (https://www.setasign.com)
- * @author    Timo Scholz <timo.scholz@setasign.com>
- * @author    Jan Slabon <jan.slabon@setasign.com>
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 
@@ -91,7 +89,8 @@ class SetaFpdi extends SetaFpdfTpl
     /**
      * Set the source PDF file.
      *
-     * @param string|resource|\SetaPDF_Core_Reader_Stream $file Path to the file or a stream resource or a StreamReader instance.
+     * @param string|resource|\SetaPDF_Core_Reader_Stream $file Path to the file or a stream resource or
+     *                                                          a StreamReader instance.
      * @return int The page count of the PDF document.
      * @throws \InvalidArgumentException
      * @throws \Exception
@@ -189,13 +188,13 @@ class SetaFpdi extends SetaFpdfTpl
 
         $canvas = $this->manager->getCanvas();
 
-        $height = $this->manager->getConverter()->convert($newSize['height']);
-        $width = $this->manager->getConverter()->convert($newSize['width']);
+        $height = $this->manager->getConverter()->toPt($newSize['height']);
+        $width = $this->manager->getConverter()->toPt($newSize['width']);
 
         $this->importedPages[$pageId]->draw(
             $canvas,
-            $this->manager->getConverter()->convert($x),
-            $canvas->getHeight() - $this->manager->getConverter()->convert($y) - $height,
+            $this->manager->getConverter()->toPt($x),
+            $canvas->getHeight() - $this->manager->getConverter()->toPt($y) - $height,
             $width,
             $height
         );
@@ -223,8 +222,8 @@ class SetaFpdi extends SetaFpdfTpl
             $converter = $this->manager->getConverter();
 
             if ($width === null && $height === null) {
-                $width = $converter->revert($importedPage->getWidth());
-                $height = $converter->revert($importedPage->getHeight());
+                $width = $converter->fromPt($importedPage->getWidth());
+                $height = $converter->fromPt($importedPage->getHeight());
             } elseif ($width === null) {
                 $width = $importedPage->getWidth($height);
             } elseif ($height  === null) {
@@ -249,7 +248,6 @@ class SetaFpdi extends SetaFpdfTpl
 
     /**
      * @inheritdoc
-     * @throws \SetaPDF_Exception_NotImplemented
      */
     public function useTemplate($tpl, $x = 0, $y = 0, $width = null, $height = null, $adjustPageSize = false)
     {
@@ -284,4 +282,3 @@ class SetaFpdi extends SetaFpdfTpl
         return parent::getTemplateSize($tpl, $width, $height);
     }
 }
-

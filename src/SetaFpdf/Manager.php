@@ -4,8 +4,6 @@
  *
  * @package   setasign\SetaFpdf
  * @copyright Copyright (c) 2018 Setasign - Jan Slabon (https://www.setasign.com)
- * @author    Timo Scholz <timo.scholz@setasign.com>
- * @author    Jan Slabon <jan.slabon@setasign.com>
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 
@@ -67,9 +65,43 @@ class Manager implements CleanupInterface
     {
         $this->cursor = new Cursor($this);
         $this->stateBufferInterfaces[] = $this->cursor;
-        $this->converter = new Converter($scaleFactor, $this);
+        $this->converter = new Converter($scaleFactor);
 
         $this->lastHeight = 0;
+    }
+
+    /**
+     * Returns the width of the canvas.
+     *
+     * If there isn't a canvas (because no page was added yet) the default page width of the document will be returned.
+     *
+     * @return float|int
+     */
+    public function getWidth()
+    {
+        if ($this->canvas === null) {
+            // fallback if no page was added before
+            return $this->getModule(Document::class)->getDefaultWidth();
+        }
+
+        return $this->canvas->getWidth();
+    }
+
+    /**
+     * Returns the height of the canvas.
+     *
+     * If there isn't a canvas (because no page was added yet) the default page height of the document will be returned.
+     *
+     * @return float|int
+     */
+    public function getHeight()
+    {
+        if ($this->canvas === null) {
+            // fallback if no page was added before
+            return $this->getModule(Document::class)->getDefaultHeight();
+        }
+
+        return $this->canvas->getHeight();
     }
 
     /**
@@ -82,11 +114,7 @@ class Manager implements CleanupInterface
     {
         $margin = $this->getModule(Margin::class);
 
-        try {
-            $canvasHeight = $this->getConverter()->revert($this->getCanvas()->getHeight());
-        } catch (\BadMethodCallException $e) {
-            $canvasHeight = $this->getModule(Document::class)->getDefaultHeight();
-        }
+        $canvasHeight = $this->getConverter()->fromPt($this->getHeight());
 
         $leftSpace = $canvasHeight - $this->getCursor()->getY() - $margin->getBottom();
 

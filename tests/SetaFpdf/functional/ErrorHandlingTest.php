@@ -1,7 +1,6 @@
 <?php
 
-namespace setasign\tests\SetaFpdf\unit\SetaFpdf;
-
+namespace setasign\tests\SetaFpdf\functional\SetaFpdf;
 
 use setasign\SetaFpdf\SetaFpdf;
 use setasign\tests\TestCase;
@@ -25,7 +24,7 @@ class ErrorHandlingTest extends TestCase
     public function testAddFontWithAlreadyAddedFont()
     {
         $pdf = new SetaFpdf();
-        $pdf->AddFont('dejavu', '', __DIR__ . '/../../../../assets/fonts/DejaVu/DejaVuSans.ttf');
-        $pdf->AddFont('DeJavu', '', __DIR__ . '/../../../../assets/fonts/DejaVu/DejaVuSans-BoldOblique.ttf');
+        $pdf->AddFont('dejavu', '', __DIR__ . '/../../../assets/fonts/DejaVu/DejaVuSans.ttf');
+        $pdf->AddFont('DeJavu', '', __DIR__ . '/../../../assets/fonts/DejaVu/DejaVuSans-BoldOblique.ttf');
     }
 }

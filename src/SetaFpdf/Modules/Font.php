@@ -4,8 +4,6 @@
  *
  * @package   setasign\SetaFpdf
  * @copyright Copyright (c) 2018 Setasign - Jan Slabon (https://www.setasign.com)
- * @author    Timo Scholz <timo.scholz@setasign.com>
- * @author    Jan Slabon <jan.slabon@setasign.com>
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 
@@ -100,7 +98,7 @@ class Font
     /**
      * Implementation of the FPDF::SetFont() method.
      *
-     * @param string|null $family
+     * @param string $family
      * @param string $style
      * @param string $size
      * @throws \InvalidArgumentException
@@ -114,8 +112,8 @@ class Font
             $family = 'helvetica';
         }
 
-        if ($family == null) {
-            $family = $this->currentFamily;
+        if ($family === '') {
+            $family = (string) $this->currentFamily;
         }
         $this->currentFamily = $family;
 
@@ -129,14 +127,14 @@ class Font
         $fontKey = $family . $style;
 
         if (!isset($this->fonts[$fontKey])) {
-            if (isset(self::$fontMapping[$fontKey])) {
-                $name = '\\' . self::$fontMapping[$fontKey];
-
-                /** @noinspection PhpUndefinedMethodInspection */
-                $this->fonts[$fontKey] = $name::create($this->document->get());
-            } else {
+            if (!isset(self::$fontMapping[$fontKey])) {
                 throw new \InvalidArgumentException(sprintf('Font "%s" with style "%s" not found.', $family, $style));
             }
+
+            $className = '\\' . self::$fontMapping[$fontKey];
+
+            /** @noinspection PhpUndefinedMethodInspection */
+            $this->fonts[$fontKey] = $className::create($this->document->get());
         }
 
         $this->fontState->font = $this->fonts[$fontKey];
@@ -207,19 +205,16 @@ class Font
             return;
         }
 
-        $converter = $this->manager->getConverter();
-
         $font = $this->fontState->getNewFont();
 
-        $fontSizePt = $this->fontState->getNewFontSize();
-        $fontSize = $converter->revert($fontSizePt);
+        $fontSize = $this->fontState->getNewFontSize();
 
         $this->manager->getCanvas()->draw()->setStrokingColor($this->manager->getColorState()->textColor);
         $this->manager->getCanvas()->draw()->rect(
             $x,
-            $y + $converter->convert($font->getUnderlinePosition() / 1000 * $fontSize),
+            $y + ($font->getUnderlinePosition() / 1000 * $fontSize),
             $width,
-            -($font->getUnderlineThickness() / 1000 * $fontSizePt),
+            -($font->getUnderlineThickness() / 1000 * $fontSize),
             \SetaPDF_Core_Canvas_Draw::STYLE_FILL
         );
         $strokingColor = $this->manager->getColorState()->strokingColor;
