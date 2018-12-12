@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// if in travis scope
+
 if (defined('AUTOLOAD_PATH')) {
     if (is_file(__DIR__ . '/../' . AUTOLOAD_PATH)) {
         /** @noinspection PhpIncludeInspection */

@@ -22,26 +22,26 @@ class TestProxy extends \PHPUnit\Framework\TestCase
     /**
      * @param $name
      * @param $arguments
-     * @return \stdClass|mixed
-     * @throws \RuntimeException
+     * @return mixed
+     * @throws \Throwable
      */
     public function __call($name, $arguments)
     {
         return $this->assertResult(function ($instance) use ($name, $arguments) {
-            return call_user_func_array([$instance, $name], $arguments);//->{$name}(...$arguments);
-        }, 'Method: ' . $name);
+            return call_user_func_array([$instance, $name], $arguments);
+        }, '__call: ' . $name);
     }
 
     /**
      * @param $name
-     * @return \stdClass|mixed
-     * @throws \RuntimeException
+     * @return mixed
+     * @throws \Throwable
      */
     public function __get($name)
     {
-        return $this->assertResult(function($instance) use ($name) {
+        return $this->assertResult(function ($instance) use ($name) {
             return $instance->{$name};
-        });
+        }, '__get: ' . $name);
     }
 
     /** @noinspection MagicMethodsValidityInspection */
@@ -57,47 +57,63 @@ class TestProxy extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param callback $callback
+     * @param callable $callback
      * @return mixed
      * @throws \RuntimeException
      * @throws \Throwable
      */
     protected function assertResult($callback, $method)
     {
-        $exceptionThrown = false;
-
-        $empty = new \stdClass();
-        $result = $empty;
-
-        foreach ($this->instances as $instance) {
+        $results = array_map(function ($instance) use ($callback) {
             try {
-                $currentResult = call_user_func($callback, $instance);
+                return \call_user_func($callback, $instance);
+            // required for php5.6
+            } catch (\Exception $e) {
+                return $e;
             } catch (\Throwable $e) {
-                $exceptionThrown = true;
-                $currentResult = $e;
+                return $e;
             }
+        }, $this->instances);
 
-            if ($result === $empty) {
-                $result = $currentResult;
+        if (count($results) === 0) {
+            throw new \BadMethodCallException('No result found! Probably because of no configured instances.');
+        }
+
+        $isFirst = true;
+        $expectedResult = null;
+        foreach ($results as $result) {
+            if ($isFirst) {
+                $expectedResult = $result;
+                $isFirst = false;
                 continue;
             }
 
-            if (
-                (is_object($currentResult) && $currentResult instanceof \Throwable) ||
-                (is_object($result) && $result instanceof \Throwable)
-            ) {
-                $this->assertInstanceOf(\Exception::class, $currentResult, get_class($instance));
-                $this->assertInstanceOf(\Exception::class, $result, 'Compare');
+            $resultIsError = (
+                is_object($result) && (
+                $result instanceof \Exception || $result instanceof \Throwable
+            ));
+
+            $expectedResultIsError = (is_object($expectedResult) && (
+                $expectedResult instanceof \Exception || $expectedResult instanceof \Throwable
+            ));
+
+            if ($resultIsError || $expectedResultIsError) {
+                $this->assertEquals(
+                    $expectedResultIsError,
+                    $resultIsError,
+                    $resultIsError ? (string) $result : (string) $expectedResult
+                );
             } else {
-                $this->assertEquals($result, $currentResult, $method);
+                $this->assertEquals($expectedResult, $result, 'Different result: '. var_export($method, true));
             }
         }
 
-        if ($exceptionThrown === true) {
-            throw $result;
+        /** @noinspection NotOptimalIfConditionsInspection */
+        if ($expectedResult instanceof \Exception || $expectedResult instanceof \Throwable) {
+            throw $expectedResult;
         }
 
-        return $result;
+        return $expectedResult;
     }
 
     /**

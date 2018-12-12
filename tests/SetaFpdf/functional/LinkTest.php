@@ -152,7 +152,6 @@ class LinkTest extends TestCase
         unlink($originalFileName);
 
         try {
-
             $targetDir = realpath(self::tempDir);
             $currentDir = realpath($tempDir);
 
@@ -163,7 +162,10 @@ class LinkTest extends TestCase
             } while (($currentDir = $newCurrentDir) !== $targetDir);
 
             rmdir($targetDir);
-        } catch (\Throwable $e) {}
+        // required for php5.6
+        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+        }
     }
 
     /**

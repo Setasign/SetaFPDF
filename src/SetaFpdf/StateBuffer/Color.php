@@ -4,8 +4,6 @@
  *
  * @package   setasign\SetaFpdf
  * @copyright Copyright (c) 2018 Setasign - Jan Slabon (https://www.setasign.com)
- * @author    Timo Scholz <timo.scholz@setasign.com>
- * @author    Jan Slabon <jan.slabon@setasign.com>
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 
@@ -15,12 +13,10 @@ use setasign\SetaFpdf\Manager;
 
 /**
  * Class Color
- * @package setasign\SetaFpdf\StateBuffer
  *
  * @property array|null $strokingColor
- * @method void ensureStrokingColor()
- *
  * @property array|null $nonStrokingColor
+ * @method void ensureStrokingColor()
  * @method void ensureNonStrokingColor()
  */
 class Color extends StateBuffer
@@ -69,7 +65,7 @@ class Color extends StateBuffer
      *
      * @var array
      */
-    private$storedFillColor;
+    private $storedFillColor;
 
     /**
      * Color constructor.
