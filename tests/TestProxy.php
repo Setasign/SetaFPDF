@@ -88,18 +88,20 @@ class TestProxy extends \PHPUnit\Framework\TestCase
                 continue;
             }
 
-            if ((is_object($result) && (
-                    $result instanceof \Exception || $result instanceof \Throwable
-                ))
-                || (is_object($expectedResult) && (
-                    $expectedResult instanceof \Exception || $expectedResult instanceof \Throwable
-                ))
-            ) {
-                $this->assertInstanceOf(\Exception::class, $result, get_class($result));
-                $this->assertInstanceOf(
-                    \Exception::class,
-                    $expectedResult,
-                    'Check whether last result was also an exception'
+            $resultIsError = (
+                is_object($result) && (
+                $result instanceof \Exception || $result instanceof \Throwable
+            ));
+
+            $expectedResultIsError = (is_object($expectedResult) && (
+                $expectedResult instanceof \Exception || $expectedResult instanceof \Throwable
+            ));
+
+            if ($resultIsError || $expectedResultIsError) {
+                $this->assertEquals(
+                    $expectedResultIsError,
+                    $resultIsError,
+                    $resultIsError ? (string) $result : (string) $expectedResult
                 );
             } else {
                 $this->assertEquals($expectedResult, $result, 'Different result: '. var_export($method, true));

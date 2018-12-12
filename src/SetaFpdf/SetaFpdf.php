@@ -17,6 +17,7 @@ use setasign\SetaFpdf\Modules\Font;
 use setasign\SetaFpdf\Modules\Link;
 use setasign\SetaFpdf\Modules\Margin;
 use setasign\SetaFpdf\Modules\Text;
+use setasign\SetaFpdf\Position\Converter;
 
 class SetaFpdf
 {
@@ -66,15 +67,15 @@ class SetaFpdf
     public function __construct($orientation = 'P', $unit = 'mm', $size = 'A4')
     {
         if ($unit === 'pt') {
-            $factor = 1;
+            $factor = Converter::UNIT_PT;
         } elseif ($unit === 'mm') {
-            $factor = 72 / 25.4;
+            $factor = Converter::UNIT_MM;
         } elseif ($unit === 'cm') {
-            $factor = 72 / 2.54;
+            $factor = Converter::UNIT_CM;
         } elseif ($unit === 'in') {
-            $factor = 72;
+            $factor = Converter::UNIT_IN;
         } else {
-            throw new \InvalidArgumentException('Incorrect unit: ' . $unit);
+            throw new \InvalidArgumentException(sprintf('Incorrect unit: %s', $unit));
         }
 
         $this->manager = new Manager($factor);
@@ -979,6 +980,7 @@ class SetaFpdf
             case 'bMargin':
                 return $this->manager->getModule(Margin::class)->getBottom();
             case 'PageBreakTrigger':
+                // todo solve via property
                 $margin = $this->manager->getModule(Margin::class);
 
                 return $this->manager->getConverter()->fromPt($this->manager->getCanvas()->getHeight())

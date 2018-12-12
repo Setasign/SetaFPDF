@@ -14,10 +14,6 @@
     </php>
 
     <testsuites>
-        <testsuite name="SetaFpdf unit Tests">
-            <directory>./tests/SetaFpdf/unit</directory>
-        </testsuite>
-
         <testsuite name="SetaFpdf functional Tests">
             <directory>./tests/SetaFpdf/functional</directory>
         </testsuite>

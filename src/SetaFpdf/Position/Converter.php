@@ -18,6 +18,11 @@ namespace setasign\SetaFpdf\Position;
  */
 class Converter
 {
+    const UNIT_PT = 1;
+    const UNIT_MM = 72 / 25.4;
+    const UNIT_CM = 72 / 2.54;
+    const UNIT_IN = 72;
+
     /**
      * @var int|float
      */

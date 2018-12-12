@@ -4,7 +4,7 @@ namespace setasign\tests\SetaFpdf\functional\Exception;
 
 use setasign\tests\TestCase;
 
-class PageTest extends TestCase
+class MissingPageTest extends TestCase
 {
     public function getProxy($orientation = 'P', $unit = 'mm', $size = 'A4')
     {
@@ -19,7 +19,7 @@ class PageTest extends TestCase
      * @expectedException \BadMethodCallException
      * @expectedExceptionMessage No page has been added yet.
      */
-    public function testFontNotSetTextEmpty()
+    public function testWithTextEmpty()
     {
         $proxy = $this->getProxy();
         $proxy->Text(0, 0, '');
@@ -29,7 +29,7 @@ class PageTest extends TestCase
      * @expectedException \BadMethodCallException
      * @expectedExceptionMessage No page has been added yet.
      */
-    public function testFontNotSetText()
+    public function testWithText()
     {
         $proxy = $this->getProxy();
         $proxy->Text(0, 0, 'testen');
@@ -38,7 +38,7 @@ class PageTest extends TestCase
     /**
      * Surprisingly This should not throw an exception.
      */
-    public function testFontNotSetCellEmpty()
+    public function testWithCellEmpty()
     {
         $proxy = $this->getProxy();
         $proxy->Cell(200, 200, '');
@@ -48,14 +48,18 @@ class PageTest extends TestCase
      * @expectedException \BadMethodCallException
      * @expectedExceptionMessage No page has been added yet.
      */
-    public function testFontNotSetCell()
+    public function testWithSetCell()
     {
         $proxy =  $this->getProxy();
         $proxy->Cell(200, 200, 'hallo');
     }
 
-
-    public function testFontNotSetMultiCellEmpty()
+    /**
+     * Note this test behaves differently on php5.6
+     *
+     * @requires PHP 7.0
+     */
+    public function testWithMultiCellEmpty()
     {
         $proxy = $this->getProxy();
         $proxy->MultiCell(200, 200, '');
@@ -65,13 +69,13 @@ class PageTest extends TestCase
      * @expectedException \BadMethodCallException
      * @expectedExceptionMessage No page has been added yet.
      */
-    public function testFontNotSetMultiCell()
+    public function testWithMultiCell()
     {
         $proxy = $this->getProxy();
         $proxy->MultiCell(200, 200, 'hallo');
     }
 
-    public function testFontNotSetWriteEmpty()
+    public function testWithWriteEmpty()
     {
         $proxy = $this->getProxy();
         $proxy->Write(200, '');
@@ -81,7 +85,7 @@ class PageTest extends TestCase
      * @expectedException \BadMethodCallException
      * @expectedExceptionMessage No page has been added yet.
      */
-    public function testFontNotSetWrite()
+    public function testWithWrite()
     {
         $proxy = $this->getProxy();
         $proxy->Write(200, 'hallo');
