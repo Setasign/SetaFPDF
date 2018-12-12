@@ -4,8 +4,6 @@
  *
  * @package   setasign\SetaFpdi
  * @copyright Copyright (c) 2018 Setasign - Jan Slabon (https://www.setasign.com)
- * @author    Timo Scholz <timo.scholz@setasign.com>
- * @author    Jan Slabon <jan.slabon@setasign.com>
  * @license   http://opensource.org/licenses/mit-license The MIT License
  */
 
