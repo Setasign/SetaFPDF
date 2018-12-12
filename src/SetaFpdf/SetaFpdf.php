@@ -959,9 +959,9 @@ class SetaFpdf
                 return $this->manager->getCursor()->getX();
             case 'y':
                 return $this->manager->getCursor()->getY();
-            case 'wpt':
+            case 'wPt':
                 return $this->manager->getCanvas()->getWidth();
-            case 'hpt':
+            case 'hPt':
                 return $this->manager->getCanvas()->getHeight();
             case 'w':
                 return $this->GetPageWidth();
