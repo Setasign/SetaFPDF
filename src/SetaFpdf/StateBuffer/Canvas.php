@@ -13,12 +13,10 @@ use setasign\SetaFpdf\Manager;
 
 /**
  * Class Canvas
- * @package setasign\SetaFpdf\StateBuffer
  *
  * @property int|float $lineWidth
- * @method void ensureLineWidth()
- *
  * @property int|float $lineCap
+ * @method void ensureLineWidth()
  * @method void ensureLineCap()
  */
 class Canvas extends StateBuffer

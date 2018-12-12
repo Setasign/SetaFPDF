@@ -14,8 +14,6 @@ use setasign\SetaFpdf\StateBuffer\StateBufferInterface;
 
 /**
  * Class Margin
- * @package setasign\SetaFpdf\Modules
- *
  */
 class Margin implements StateBufferInterface
 {

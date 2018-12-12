@@ -12,8 +12,6 @@ namespace setasign\SetaFpdf\Modules\Cell;
 /**
  * Class StaticHelper
  *
- * @package setasign\SetaFpdf\Modules\Cell
- *
  * @TODO Maybe merge back into SetaPDF
  */
 class StaticHelper

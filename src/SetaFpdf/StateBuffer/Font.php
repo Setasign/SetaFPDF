@@ -13,7 +13,6 @@ use setasign\SetaFpdf\Manager;
 
 /**
  * Class Font
- * @package setasign\SetaFpdf\StateBuffer
  *
  * @property \SetaPDF_Core_Font_FontInterface|null $font
  * @property int|float|null $fontSize
