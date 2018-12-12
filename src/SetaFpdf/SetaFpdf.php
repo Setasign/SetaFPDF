@@ -112,6 +112,8 @@ class SetaFpdf
      * @param string $family
      * @param string $style
      * @param string|\SetaPDF_Core_Font_FontInterface $pathOrInstance
+     * @throws \SetaPDF_Core_Font_Exception
+     * @throws \SetaPDF_Exception_NotImplemented
      */
     public function AddFont($family, $style = '', $pathOrInstance = '')
     {
@@ -168,10 +170,9 @@ class SetaFpdf
      *
      * Currently not supported {@see SetaFpdf::SetPage()} for "manual" processing.
      *
-     * @param string $nb
      * @throws \SetaPDF_Exception_NotImplemented
      */
-    public function AliasNbPages($nb = '{nb}')
+    public function AliasNbPages()
     {
         throw new \SetaPDF_Exception_NotImplemented('This method is not supported in SetaFpdf.');
     }
@@ -185,12 +186,12 @@ class SetaFpdf
      * If automatic page breaking is enabled and the cell goes beyond the limit, a page break is done before outputting.
      *
      * @param int|float $w Cell width. If 0, the cell extends up to the right margin.
-     * @param int|float $h Cell height. Default value: 0.
-     * @param string $txt String to print. Default value: empty string.
+     * @param int|float $h Cell height.
+     * @param string $txt String to print.
      * @param int|string $border
      * @param int $ln
      * @param string $align
-     * @param bool $fill Indicates if the cell background must be painted (true) or transparent (false). Default value: false.
+     * @param bool $fill Indicates if the cell background must be painted (true) or transparent (false).
      * @param string $link URL or identifier returned by AddLink().
      * @throws \InvalidArgumentException
      * @throws \BadMethodCallException
@@ -320,14 +321,20 @@ class SetaFpdf
      *                          ordinate is moved to the bottom of the image.
      * @param int $w Width of the image in the page. There are three cases:
      * @param int $h Height of the image in the page. There are three cases:
-     * @param string $type Image format. Possible values are (case insensitive): JPG, JPEG, PNG and GIF. If not specified,
-     *                     the type is inferred from the file extension. (NOT USED)
+     * @param string $type Unused property - remains at place to have the same signature as FPDF
      * @param string $link URL or identifier returned by AddLink().
      * @throws \InvalidArgumentException
      * @throws \BadMethodCallException
      */
-    public function Image($file, $x = null, $y = null, $w = 0, $h = 0, $type = '', $link = '')
-    {
+    public function Image(
+        $file,
+        $x = null,
+        $y = null,
+        $w = 0,
+        $h = 0,
+        /** @noinspection PhpUnusedParameterInspection */ $type = '',
+        $link = ''
+    ) {
         $this->manager->getModule(Draw::class)->image($file, $x, $y, $w, $h, $link);
     }
 
@@ -429,20 +436,18 @@ class SetaFpdf
      *                       F: save to a local file with the name given by name (may include a path).
      *                       S: return the document as a string.
      * @param string $name The name of the file. It is ignored in case of destination S.
-     * @param bool $utf8 Indicates if name is encoded in ISO-8859-1 (false) or UTF-8 (true). Only used for destinations I and D.
      * @return null|string
      * @throws \InvalidArgumentException
      * @throws \BadMethodCallException
      * @throws \SetaPDF_Core_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
      */
-    public function Output($dest='', $name = '')
+    public function Output($dest = '', $name = '')
     {
         $this->manager->getModule(Link::class)->writeLinks(
             $this->manager->getModule(Document::class)->get()
         );
 
-        if(\strlen($name) === 1 && strlen($dest) !== 1)  {
+        if (\strlen($name) === 1 && strlen($dest) !== 1) {
             // Fix parameter order.
             list($dest, $name) = [$name, $dest];
         }
@@ -454,7 +459,6 @@ class SetaFpdf
         if ($name === '') {
             $name = 'doc.pdf';
         }
-
 
         return $this->manager->getModule(Document::class)->output($dest, $name, $this->displayMode);
     }
@@ -583,10 +587,11 @@ class SetaFpdf
 
     /**
      * Defines the color used for all drawing operations (lines, rectangles and cell borders). It can be expressed in
-     * RGB components, CMYK components or gray scale. The method can be called before the first page is created and the value is retained
-     * from page to page.
+     * RGB components, CMYK components or gray scale. The method can be called before the first page is created and the
+     * value is retained from page to page.
      *
-     * @param int|float $r If g and b are given, red component; if $k is given, cyan component; if not, indicates the gray level. Value between 0 and 255.
+     * @param int|float $r If g and b are given, red component; if $k is given, cyan component;
+     *                     if not, indicates the gray level. Value between 0 and 255.
      * @param int|float|null $g If $k is given, magenta component; if not Green component. Value between 0 and 255.
      * @param int|float|null $b If $k is given, yellow component; if nto Blue component. Value between 0 and 255.
      * @param int|float|null $k If $k black component. Value between 0 and 255.
@@ -598,10 +603,11 @@ class SetaFpdf
 
     /**
      * Defines the color used for all filling operations (filled rectangles and cell backgrounds). It can be expressed
-     * in RGB components, CMYK components or gray scale. The method can be called before the first page is created and the value is
-     * retained from page to page.
+     * in RGB components, CMYK components or gray scale. The method can be called before the first page is created and
+     * the value is retained from page to page.
      *
-     * @param int|float $r If g and b are given, red component; if $k is given, cyan component; if not, indicates the gray level. Value between 0 and 255.
+     * @param int|float $r If g and b are given, red component; if $k is given, cyan component;
+     *                     if not, indicates the gray level. Value between 0 and 255.
      * @param int|float|null $g If $k is given, magenta component; if not Green component. Value between 0 and 255.
      * @param int|float|null $b If $k is given, yellow component; if nto Blue component. Value between 0 and 255.
      * @param int|float|null $k If $k black component. Value between 0 and 255.
@@ -614,11 +620,12 @@ class SetaFpdf
     /**
      * Sets the font used to print character strings. It is mandatory to call this method at least once before printing
      * text or the resulting document would not be valid. The font can be either a standard one or a font added via the
-     * AddFont() method. Standard fonts use the Windows encoding cp1252 (Western Europe). The method can be called before
-     * the first page is created and the font is kept from page to page. If you just wish to change the current font size,
-     * it is simpler to call SetFontSize().
+     * AddFont() method. Standard fonts use the Windows encoding cp1252 (Western Europe). The method can be called
+     * before the first page is created and the font is kept from page to page. If you just wish to change the current
+     * font size, it is simpler to call SetFontSize().
      *
-     * @param string $family Family font. It can be either a name defined by AddFont() or one of the standard families (case insensitive):
+     * @param string $family Family font. It can be either a name defined by AddFont() or one of the
+     *                       standard families (case insensitive):
      *                         Courier: (fixed with)
      *                         Helvetica or Arial: (synonymous; sans serif)
      *                         Times: (serif)
@@ -630,8 +637,8 @@ class SetaFpdf
      *                        B: bold
      *                        I: italic
      *                        U: underline
-     *                      or any combination. The default value is regular. Bold and italic styles do not apply to Symbol
-     *                      and ZapfDingbats.
+     *                      or any combination. The default value is regular. Bold and italic styles do not apply to
+     *                      Symbol and ZapfDingbats.
      * @param string $size Font size in points. The default value is the current size. If no size has been specified
      *                     since the beginning of the document, the value taken is 12.
      */
@@ -689,7 +696,8 @@ class SetaFpdf
      * Defines the page and position a link points to.
      *
      * @param int $link The link identifier returned by AddLink().
-     * @param int|float $y Ordinate of target position; -1 indicates the current position. The default value is 0 (top of page).
+     * @param int|float $y Ordinate of target position; -1 indicates the current position.
+     *                     The default value is 0 (top of page).
      * @param int $page Number of target page; -1 indicates the current page. This is the default value.
      */
     public function SetLink($link, $y = 0, $page = -1)
@@ -742,7 +750,8 @@ class SetaFpdf
      * It can be expressed in RGB components, CMYK components or gray scale. The method can be called
      * before the first page is created and the value is retained from page to page.
      *
-     * @param int|float $r If g and b are given, red component; if $k is given, cyan component; if not, indicates the gray level. Value between 0 and 255.
+     * @param int|float $r If g and b are given, red component; if $k is given, cyan component;
+     *                     if not, indicates the gray level. Value between 0 and 255.
      * @param int|float|null $g If $k is given, magenta component; if not Green component. Value between 0 and 255.
      * @param int|float|null $b If $k is given, yellow component; if nto Blue component. Value between 0 and 255.
      * @param int|float|null $k If $k black component. Value between 0 and 255.

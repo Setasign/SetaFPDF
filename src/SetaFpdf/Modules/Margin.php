@@ -32,7 +32,7 @@ class Margin implements StateBufferInterface
      *
      * @var int|float
      */
-    private  $left;
+    private $left;
 
     /**
      * The stored left margin.

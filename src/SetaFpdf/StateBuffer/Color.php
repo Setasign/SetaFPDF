@@ -13,12 +13,10 @@ use setasign\SetaFpdf\Manager;
 
 /**
  * Class Color
- * @package setasign\SetaFpdf\StateBuffer
  *
  * @property array|null $strokingColor
- * @method void ensureStrokingColor()
- *
  * @property array|null $nonStrokingColor
+ * @method void ensureStrokingColor()
  * @method void ensureNonStrokingColor()
  */
 class Color extends StateBuffer
@@ -67,7 +65,7 @@ class Color extends StateBuffer
      *
      * @var array
      */
-    private$storedFillColor;
+    private $storedFillColor;
 
     /**
      * Color constructor.

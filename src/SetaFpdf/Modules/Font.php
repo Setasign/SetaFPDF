@@ -105,6 +105,10 @@ class Font
      */
     public function set($family, $style, $size)
     {
+        if ($family === null) {
+            $family = $this->currentFamily;
+        }
+
         $family = \strtolower($family);
         $style = \strtolower($style);
 
@@ -112,9 +116,6 @@ class Font
             $family = 'helvetica';
         }
 
-        if ($family == null) {
-            $family = $this->currentFamily;
-        }
         $this->currentFamily = $family;
 
         if (\strpos($style, 'u') !== false) {

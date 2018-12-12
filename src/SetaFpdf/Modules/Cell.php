@@ -48,8 +48,18 @@ class Cell
      * @throws \SetaPDF_Core_Type_IndirectReference_Exception
      * @throws \SetaPDF_Exception_NotImplemented
      */
-    public function cell($width, $height, $text, $border, $lineBreak, $align, $fill, $link, $encoding = 'UTF-8', $wordSpacing = 0)
-    {
+    public function cell(
+        $width,
+        $height,
+        $text,
+        $border,
+        $lineBreak,
+        $align,
+        $fill,
+        $link,
+        $encoding = 'UTF-8',
+        $wordSpacing = 0
+    ) {
         if ($encoding !== 'UTF-16BE') {
             $text = \SetaPDF_Core_Encoding::convert($text, $encoding, 'UTF-16BE');
         }
@@ -85,7 +95,6 @@ class Cell
 
         /** @noinspection TypeUnsafeComparisonInspection also allow true */
         if ($fill || $border == 1) {
-
             $canvasState->ensureLineWidth();
             $canvasState->ensureLineCap();
 
@@ -253,7 +262,11 @@ class Cell
 
         /** @noinspection TypeUnsafeComparisonInspection */
         if ($width == 0) {
-            $width = $converter->revert($this->manager->getCanvas()->getWidth()) - $margin->getRight() - $cursor->getX();
+            $width = (
+                $converter->revert($this->manager->getCanvas()->getWidth())
+                - $margin->getRight()
+                - $cursor->getX()
+            );
         }
         $wMax = ($width - 2 * $margin->getCell());
 
@@ -358,12 +371,23 @@ class Cell
         $margin = $this->manager->getModule(Margin::class);
         $converter = $this->manager->getConverter();
 
-        $width = $this->manager->getCanvas()->getWidth() - $converter->convert($margin->getRight()) - $converter->convert($cursor->getX());
+        $width = (
+            $this->manager->getCanvas()->getWidth()
+            - $converter->convert($margin->getRight())
+            - $converter->convert($cursor->getX())
+        );
         $maxWidth = ($width - 2 * $converter->convert($margin->getCell()));
 
         try {
             $firstLines = StaticHelper::getLines(
-                $text, $maxWidth, $font->getNewFont(), $font->getNewFontSize(), 0, 0, 1, false
+                $text,
+                $maxWidth,
+                $font->getNewFont(),
+                $font->getNewFontSize(),
+                0,
+                0,
+                1,
+                false
             );
 
             if (isset($firstLines[1])) {
@@ -381,7 +405,11 @@ class Cell
             }
         }
 
-        $width = $this->manager->getCanvas()->getWidth() - $converter->convert($margin->getRight()) - $converter->convert($margin->getLeft());
+        $width = (
+            $this->manager->getCanvas()->getWidth()
+            - $converter->convert($margin->getRight())
+            - $converter->convert($margin->getLeft())
+        );
         $maxWidth = ($width - 2 * $converter->convert($margin->getCell()));
         if ($text !== '') {
             foreach (StaticHelper::getLines($text, $maxWidth, $font->getNewFont(), $font->getNewFontSize()) as $line) {

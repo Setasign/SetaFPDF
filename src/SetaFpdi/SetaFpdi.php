@@ -89,7 +89,8 @@ class SetaFpdi extends SetaFpdfTpl
     /**
      * Set the source PDF file.
      *
-     * @param string|resource|\SetaPDF_Core_Reader_Stream $file Path to the file or a stream resource or a StreamReader instance.
+     * @param string|resource|\SetaPDF_Core_Reader_Stream $file Path to the file or a stream resource or
+     *                                                          a StreamReader instance.
      * @return int The page count of the PDF document.
      * @throws \InvalidArgumentException
      * @throws \Exception
@@ -247,7 +248,6 @@ class SetaFpdi extends SetaFpdfTpl
 
     /**
      * @inheritdoc
-     * @throws \SetaPDF_Exception_NotImplemented
      */
     public function useTemplate($tpl, $x = 0, $y = 0, $width = null, $height = null, $adjustPageSize = false)
     {
@@ -282,4 +282,3 @@ class SetaFpdi extends SetaFpdfTpl
         return parent::getTemplateSize($tpl, $width, $height);
     }
 }
-

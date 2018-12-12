@@ -33,7 +33,7 @@ class SetaFpdfTpl extends SetaFpdf
      *
      * @var int|null
      */
-    protected $currentTemplateId = null;
+    protected $currentTemplateId;
 
     /**
      * Get the next template id.
@@ -196,7 +196,8 @@ class SetaFpdfTpl extends SetaFpdf
         $this->currentTemplateId = $this->getNextTemplateId();
 
         $this->templates[$this->currentTemplateId] = \SetaPDF_Core_XObject_Form::create(
-            $document->get(), [0, 0, $converter->convert($width), $converter->convert($height)]
+            $document->get(),
+            [0, 0, $converter->convert($width), $converter->convert($height)]
         );
 
         $this->manager->save();

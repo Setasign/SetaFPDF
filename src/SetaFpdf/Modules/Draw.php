@@ -131,7 +131,6 @@ class Draw
      * @param int|float $width
      * @param int|float $height
      * @param string $link
-     * @throws \BadMethodCallException
      * @throws \InvalidArgumentException
      */
     public function image($file, $x, $y, $width, $height, $link)
@@ -146,10 +145,13 @@ class Draw
             if ($uuid === false) {
                 $uuid = $file;
             }
-        } elseif (\is_object($file) ) {
+            /**
+             * @var string $uuid
+             */
+        } elseif (\is_object($file)) {
             $uuid = spl_object_hash($file);
         } elseif (\is_resource($file)) {
-            $uuid = (string)$file;
+            $uuid = (string) $file;
         }
 
         if ($uuid === null || !isset($this->images[$uuid])) {

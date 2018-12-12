@@ -125,7 +125,9 @@ class Link
 
             if (!isset($targetCache[$link['target']])) {
                 $targetCache[$link['target']] = $this->createTarget(
-                    $document, $page->getHeight(), $this->linkTargets[$link['target']]
+                    $document,
+                    $page->getHeight(),
+                    $this->linkTargets[$link['target']]
                 );
             }
 

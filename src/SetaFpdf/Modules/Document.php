@@ -90,7 +90,6 @@ class Document implements StateBufferInterface
         }
 
         $catalog->setOpenAction(new \SetaPDF_Core_Document_Destination($_zoomMode));
-
     }
 
     /**
@@ -180,14 +179,14 @@ class Document implements StateBufferInterface
     /**
      * The current orientation.
      *
-     * @var \SetaPDF_Core_PageFormats::ORIENTATION_PORTRAIT|\SetaPDF_Core_PageFormats::ORIENTATION_LANDSCAPE
+     * @var string \SetaPDF_Core_PageFormats::ORIENTATION_PORTRAIT or \SetaPDF_Core_PageFormats::ORIENTATION_LANDSCAPE
      */
     private $orientation;
 
     /**
      * The default orientation
      *
-     * @var \SetaPDF_Core_PageFormats::ORIENTATION_PORTRAIT|\SetaPDF_Core_PageFormats::ORIENTATION_LANDSCAPE
+     * @var string \SetaPDF_Core_PageFormats::ORIENTATION_PORTRAIT or \SetaPDF_Core_PageFormats::ORIENTATION_LANDSCAPE
      */
     private $defaultOrientation;
 
@@ -246,7 +245,6 @@ class Document implements StateBufferInterface
      */
     protected $activePage;
 
-
     /**
      * Document constructor.
      *
@@ -259,8 +257,14 @@ class Document implements StateBufferInterface
      * @throws \BadMethodCallException
      * @throws \InvalidArgumentException
      */
-    public function __construct(Manager $manager, $defaultOrientation, $defaultSize, $footerCallable, $headerCallable, $pageBreakCallable)
-    {
+    public function __construct(
+        Manager $manager,
+        $defaultOrientation,
+        $defaultSize,
+        $footerCallable,
+        $headerCallable,
+        $pageBreakCallable
+    ) {
         $this->manager = $manager;
 
         $this->document = new \SetaPDF_Core_Document();
@@ -300,7 +304,9 @@ class Document implements StateBufferInterface
     /**
      * Implementation of the FPDF::AddPage() method.
      *
-     * @param string|\SetaPDF_Core_PageFormats::ORIENTATION_PORTRAIT|\SetaPDF_Core_PageFormats::ORIENTATION_LANDSCAPE $orientation
+     * @param string $orientation You should use one of the following constants:
+     *                            \SetaPDF_Core_PageFormats::ORIENTATION_PORTRAIT
+     *                            \SetaPDF_Core_PageFormats::ORIENTATION_LANDSCAPE
      * @param string|array $size
      * @param int $rotation
      * @throws \InvalidArgumentException
@@ -429,7 +435,6 @@ class Document implements StateBufferInterface
      * @throws \BadMethodCallException
      * @throws \InvalidArgumentException
      * @throws \SetaPDF_Core_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
      */
     public function output($destination, $name, array $displayMode = null)
     {

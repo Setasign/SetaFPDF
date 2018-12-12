@@ -51,8 +51,7 @@ class StaticHelper
         $wordSpacing = 0,
         $lineCount = 0,
         $breakWords = true
-    )
-    {
+    ) {
         if ($width === null) {
             return explode("\x00\x0a", $text);
         }
@@ -87,13 +86,19 @@ class StaticHelper
                 continue;
             }
 
-            if (
-                (
+            if ((
                     "\x00\x20" === $char
-                    || (isset(\SetaPDF_Core_Text::$possibleDelimiter[$char]) && 1 === \SetaPDF_Core_Text::$possibleDelimiter[$char])
-                    || (isset(\SetaPDF_Core_Text::$possibleDelimiter[$char]) && (($lastDelimiterPos === null &&
-                            ($nextChar === false || !isset(\SetaPDF_Core_Text::$possibleGlueCharacters[$nextChar])))
-                        || $lastDelimiterPos === ($linePosition - 1))
+                    || (isset(\SetaPDF_Core_Text::$possibleDelimiter[$char])
+                        && 1 === \SetaPDF_Core_Text::$possibleDelimiter[$char]
+                    )
+                    || (isset(\SetaPDF_Core_Text::$possibleDelimiter[$char])
+                        && (($lastDelimiterPos === null
+                                && ($nextChar === false
+                                    || !isset(\SetaPDF_Core_Text::$possibleGlueCharacters[$nextChar])
+                                )
+                            )
+                            || $lastDelimiterPos === ($linePosition - 1)
+                        )
                     )
                     || ("\x00\x25" === $char && (
                             $lastChar === null || $lastChar[0] !== "\x00" || !ctype_digit($lastChar[1])
@@ -107,8 +112,7 @@ class StaticHelper
 
             $charWidth = $font->getGlyphWidth($char) / 1000 * $fontSize;
 
-            if (
-                $char !== "\x00\x20"
+            if ($char !== "\x00\x20"
                 && (abs($charWidth + $lineWidth) - $width > \SetaPDF_Core::FLOAT_COMPARISON_PRECISION)
             ) {
                 if ($breakWords === true && $lines[$currentLine] === '') {
@@ -135,13 +139,11 @@ class StaticHelper
                 // If no delimiter exists in the current line, simply add a line break
                 if ($lastDelimiterPos === null) {
                     if ($breakWords === false) {
-                        throw new \InvalidArgumentException(
-                            sprintf(
-                                'The long word (%s) does not fit into the given $width (%F).',
-                                \SetaPDF_Core_Encoding::convert($lines[$currentLine], 'UTF-16BE', 'UTF-8'),
-                                $width
-                                )
-                        );
+                        throw new \InvalidArgumentException(sprintf(
+                            'The long word (%s) does not fit into the given $width (%F).',
+                            \SetaPDF_Core_Encoding::convert($lines[$currentLine], 'UTF-16BE', 'UTF-8'),
+                            $width
+                        ));
                     }
 
                     $currentLine++;
@@ -175,7 +177,9 @@ class StaticHelper
                         $lineWidth += $linePosition * $charSpacing;
                     }
 
-                    if (isset(\SetaPDF_Core_Text::$possibleDelimiter[$char]) && 0 === \SetaPDF_Core_Text::$possibleDelimiter[$char]) {
+                    if (isset(\SetaPDF_Core_Text::$possibleDelimiter[$char])
+                        && 0 === \SetaPDF_Core_Text::$possibleDelimiter[$char]
+                    ) {
                         $lastDelimiterPos = $linePosition;
                         $lastDelimiterDirection = \SetaPDF_Core_Text::$possibleDelimiter[$char];
                     } else {
@@ -184,10 +188,10 @@ class StaticHelper
                 }
             }
 
-            if (
-                $linePosition > 0
-                && (
-                    (isset(\SetaPDF_Core_Text::$possibleDelimiter[$char]) && 0 === \SetaPDF_Core_Text::$possibleDelimiter[$char])
+            if ($linePosition > 0
+                && ((isset(\SetaPDF_Core_Text::$possibleDelimiter[$char])
+                        && 0 === \SetaPDF_Core_Text::$possibleDelimiter[$char]
+                    )
                     || (
                         $char === "\x00\x25" && $lastChar !== null
                         && $lastChar[0] === "\x00" && ctype_digit($lastChar[1])
