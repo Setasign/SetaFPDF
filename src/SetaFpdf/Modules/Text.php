@@ -47,8 +47,8 @@ class Text
 
         $converter = $this->manager->getConverter();
 
-        $x = $converter->convertX($x);
-        $y = $converter->convertY($y);
+        $x = $converter->toPt($x);
+        $y = $this->manager->getHeight() - $converter->toPt($y);
 
         $font->ensureFont();
         $this->manager->getColorState()->ensureTextColor();
@@ -56,7 +56,7 @@ class Text
         $this->manager->getModule(Font::class)->doUnderline(
             $x,
             $y,
-            $converter->convert($this->manager->getModule(Cell::class)->getStringWidth($text, 'UTF-8'))
+            $converter->toPt($this->manager->getModule(Cell::class)->getStringWidth($text, 'UTF-8'))
         );
 
         $this->manager->getCanvas()->text()

@@ -89,10 +89,10 @@ class Link
         }
 
         if (!$scaled) {
-            $x = $this->manager->getConverter()->convertX($x);
-            $y = $this->manager->getConverter()->convertY($y);
-            $w = $this->manager->getConverter()->convert($w);
-            $h = $this->manager->getConverter()->convert($h);
+            $x = $this->manager->getConverter()->toPt($x);
+            $y = $this->manager->getHeight() - $this->manager->getConverter()->toPt($y);
+            $w = $this->manager->getConverter()->toPt($w);
+            $h = $this->manager->getConverter()->toPt($h);
         }
 
         $this->links[] = [
@@ -160,7 +160,7 @@ class Link
                 $page,
                 \SetaPDF_Core_Document_Destination::FIT_MODE_XYZ,
                 0,
-                $height - $this->manager->getConverter()->convert($target[0]),
+                $height - $this->manager->getConverter()->toPt($target[0]),
                 null
             );
         }

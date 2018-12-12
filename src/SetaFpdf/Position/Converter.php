@@ -9,9 +9,13 @@
 
 namespace setasign\SetaFpdf\Position;
 
-use setasign\SetaFpdf\Manager;
-use setasign\SetaFpdf\Modules\Document;
-
+/**
+ * Class Converter
+ *
+ * This class converts the configured unit to pt.
+ *
+ * @see \setasign\SetaFpdf\SetaFpdf::__construct()
+ */
 class Converter
 {
     /**
@@ -20,69 +24,33 @@ class Converter
     protected $scaleFactor;
 
     /**
-     * @var Manager
-     */
-    protected $manager;
-
-    /**
      * Converter constructor.
      *
      * @param int|float $scaleFactor
-     * @param Manager $manager
      */
-    public function __construct($scaleFactor, Manager $manager)
+    public function __construct($scaleFactor)
     {
-        $this->manager = $manager;
         $this->scaleFactor = $scaleFactor;
     }
 
     /**
-     * Scales up a value.
+     * Converts the given value in the configured unit to pt.
      *
-     * @param float|int $value
-     * @return float|int
+     * @param float|int $value Value in the configured unit
+     * @return float|int Value in pt
      */
-    public function convert($value)
+    public function toPt($value)
     {
         return ($value * $this->scaleFactor);
     }
 
     /**
-     * Scales up and prepares a x value.
+     * Converts the given value in pt to the configured unit.
      *
-     * @param float|int $value
-     * @return float|int
+     * @param int|float $value Value in pt
+     * @return int|float Value in the configured unit
      */
-    public function convertX($value)
-    {
-        return $this->convert($value);
-    }
-
-    /**
-     * Scales up and prepares a y value.
-     *
-     * @param int|float $value
-     * @return int|float
-     * @throws \BadMethodCallException
-     */
-    public function convertY($value)
-    {
-        try {
-            $canvasHeight = $this->manager->getCanvas()->getHeight();
-        } catch (\BadMethodCallException $e) {
-            $canvasHeight = $this->manager->getModule(Document::class)->getDefaultHeight();
-        }
-
-        return ($canvasHeight - $this->convert($value));
-    }
-
-    /**
-     * Scales down a value.
-     *
-     * @param int|float $value
-     * @return int|float
-     */
-    public function revert($value)
+    public function fromPt($value)
     {
         return ($value / $this->scaleFactor);
     }

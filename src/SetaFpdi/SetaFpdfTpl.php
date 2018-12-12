@@ -68,8 +68,8 @@ class SetaFpdfTpl extends SetaFpdf
         $box = \SetaPDF_Core_DataStructure_Rectangle::byArray([
             0,
             0,
-            $this->manager->getConverter()->convert($size[0]),
-            $this->manager->getConverter()->convert($size[1])
+            $this->manager->getConverter()->toPt($size[0]),
+            $this->manager->getConverter()->toPt($size[1])
         ]);
 
         $page->setMediaBox($box);
@@ -117,13 +117,13 @@ class SetaFpdfTpl extends SetaFpdf
 
         $canvas = $this->manager->getCanvas();
 
-        $newWidth = $this->manager->getConverter()->convert($newSize['width']);
-        $newHeight = $this->manager->getConverter()->convert($newSize['height']);
+        $newWidth = $this->manager->getConverter()->toPt($newSize['width']);
+        $newHeight = $this->manager->getConverter()->toPt($newSize['height']);
 
         $this->templates[$tpl]->draw(
             $canvas,
-            $this->manager->getConverter()->convert($x),
-            $canvas->getHeight() - $this->manager->getConverter()->convert($y) - $newHeight,
+            $this->manager->getConverter()->toPt($x),
+            $canvas->getHeight() - $this->manager->getConverter()->toPt($y) - $newHeight,
             $newWidth,
             $newHeight
         );
@@ -152,8 +152,8 @@ class SetaFpdfTpl extends SetaFpdf
         $converter = $this->manager->getConverter();
 
         if ($width === null && $height === null) {
-            $width = $converter->revert($this->templates[$tpl]->getWidth());
-            $height = $converter->revert($this->templates[$tpl]->getHeight());
+            $width = $converter->fromPt($this->templates[$tpl]->getWidth());
+            $height = $converter->fromPt($this->templates[$tpl]->getHeight());
         } elseif ($width === null) {
             $width = $this->templates[$tpl]->getWidth($height);
         } elseif ($height === null) {
@@ -186,18 +186,18 @@ class SetaFpdfTpl extends SetaFpdf
         $converter = $this->manager->getConverter();
 
         if ($width === null) {
-            $width = $converter->revert($document->getDefaultWidth());
+            $width = $converter->fromPt($document->getDefaultWidth());
         }
 
         if ($height === null) {
-            $height = $converter->revert($document->getDefaultHeight());
+            $height = $converter->fromPt($document->getDefaultHeight());
         }
 
         $this->currentTemplateId = $this->getNextTemplateId();
 
         $this->templates[$this->currentTemplateId] = \SetaPDF_Core_XObject_Form::create(
             $document->get(),
-            [0, 0, $converter->convert($width), $converter->convert($height)]
+            [0, 0, $converter->toPt($width), $converter->toPt($height)]
         );
 
         $this->manager->save();

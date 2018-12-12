@@ -188,13 +188,13 @@ class SetaFpdi extends SetaFpdfTpl
 
         $canvas = $this->manager->getCanvas();
 
-        $height = $this->manager->getConverter()->convert($newSize['height']);
-        $width = $this->manager->getConverter()->convert($newSize['width']);
+        $height = $this->manager->getConverter()->toPt($newSize['height']);
+        $width = $this->manager->getConverter()->toPt($newSize['width']);
 
         $this->importedPages[$pageId]->draw(
             $canvas,
-            $this->manager->getConverter()->convert($x),
-            $canvas->getHeight() - $this->manager->getConverter()->convert($y) - $height,
+            $this->manager->getConverter()->toPt($x),
+            $canvas->getHeight() - $this->manager->getConverter()->toPt($y) - $height,
             $width,
             $height
         );
@@ -222,8 +222,8 @@ class SetaFpdi extends SetaFpdfTpl
             $converter = $this->manager->getConverter();
 
             if ($width === null && $height === null) {
-                $width = $converter->revert($importedPage->getWidth());
-                $height = $converter->revert($importedPage->getHeight());
+                $width = $converter->fromPt($importedPage->getWidth());
+                $height = $converter->fromPt($importedPage->getHeight());
             } elseif ($width === null) {
                 $width = $importedPage->getWidth($height);
             } elseif ($height  === null) {

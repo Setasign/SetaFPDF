@@ -12,9 +12,6 @@ namespace setasign\SetaFpdf\Modules;
 use setasign\SetaFpdf\Manager;
 use setasign\SetaFpdf\StateBuffer\StateBufferInterface;
 
-/**
- * Class Margin
- */
 class Margin implements StateBufferInterface
 {
 
@@ -105,7 +102,7 @@ class Margin implements StateBufferInterface
         $this->manager = $manager;
 
         $converter = $this->manager->getConverter();
-        $margin = $converter->revert(28.35);
+        $margin = $converter->fromPt(28.35);
         $this->set($margin, $margin);
         $this->cell = $margin / 10;
         $this->bottom = $margin * 2;

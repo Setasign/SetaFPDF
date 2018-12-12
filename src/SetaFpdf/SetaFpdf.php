@@ -235,13 +235,7 @@ class SetaFpdf
      */
     public function GetPageHeight()
     {
-        try {
-            $value = $this->manager->getCanvas()->getHeight();
-        } catch (\BadMethodCallException $e) {
-            $value =$this->manager->getModule(Document::class)->getDefaultHeight();
-        }
-
-        return $this->manager->getConverter()->revert($value);
+        return $this->manager->getConverter()->fromPt($this->manager->getHeight());
     }
 
     /**
@@ -252,13 +246,7 @@ class SetaFpdf
      */
     public function GetPageWidth()
     {
-        try {
-            $value = $this->manager->getCanvas()->getWidth();
-        } catch (\BadMethodCallException $e) {
-            $value = $this->manager->getModule(Document::class)->getDefaultWidth();
-        }
-
-        return $this->manager->getConverter()->revert($value);
+        return $this->manager->getConverter()->fromPt($this->manager->getWidth());
     }
 
     /**
@@ -689,7 +677,7 @@ class SetaFpdf
      */
     public function SetLineWidth($width)
     {
-        $this->manager->getCanvasState()->lineWidth = $this->manager->getConverter()->convert($width);
+        $this->manager->getCanvasState()->lineWidth = $this->manager->getConverter()->toPt($width);
     }
 
     /**
@@ -975,13 +963,9 @@ class SetaFpdf
             case 'hpt':
                 return $this->manager->getCanvas()->getHeight();
             case 'w':
-                return $this->manager->getConverter()->convert(
-                    $this->manager->getCanvas()->getWidth()
-                );
+                return $this->GetPageWidth();
             case 'h':
-                return $this->manager->getConverter()->convert(
-                    $this->manager->getCanvas()->getHeight()
-                );
+                return $this->GetPageHeight();
             case 'FontSize':
                 return $this->manager->getFontState()->getNewFontSize();
             case 'rMargin':
@@ -997,7 +981,7 @@ class SetaFpdf
             case 'PageBreakTrigger':
                 $margin = $this->manager->getModule(Margin::class);
 
-                return $this->manager->getConverter()->revert($this->manager->getCanvas()->getHeight())
+                return $this->manager->getConverter()->fromPt($this->manager->getCanvas()->getHeight())
                     - $margin->getBottom();
 
             default:
