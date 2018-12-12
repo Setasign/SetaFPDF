@@ -1,0 +1,63 @@
+{
+  "name": "setasign/setafpdf",
+  "description": "SetaFpdf is a clone of FPDF with an almost compatible interface while using SetaPDF-Core internally for the PDF generation.",
+  "homepage": "https://www.setasign.com",
+  "type": "library",
+  "license": "MIT",
+
+  "minimum-stability": "stable",
+
+  "authors": [
+    {
+      "name": "Setasign",
+      "email": "support@setasign.com"
+    }
+  ],
+
+  "autoload": {
+    "psr-4": {
+      "setasign\\": "src/"
+    }
+  },
+
+  "autoload-dev": {
+    "psr-4": {
+      "setasign\\tests\\": "tests/"
+    }
+  },
+
+  "require": {
+    "php": "^5.6 || ^7.0",
+    "setasign/setapdf-core": "^2.29"
+  },
+
+  "require-dev": {
+    "phpunit/phpunit": "~5.7",
+    "setasign/fpdi-fpdf": "^2.1",
+    "setasign/fpdf": "1.8.1"
+  },
+
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://www.setasign.com/downloads/"
+    }
+  ],
+
+  "config": {
+    "process-timeout":600,
+    "secure-http": false,
+
+    "optimize-autoloader": true,
+    "preferred-install": {
+      "*": "dist"
+    }
+  },
+
+  "keywords": [
+    "pdf",
+    "FPDF",
+    "SetaFpdf",
+    "SetaPDF"
+  ]
+}

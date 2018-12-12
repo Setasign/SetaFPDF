@@ -1,0 +1,4 @@
+tests/tmp/
+vendor/
+local-tests/SetaFpdf/pdfs/
+local-tests/SetaFpdi/pdfs/

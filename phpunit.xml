@@ -1,0 +1,39 @@
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="false"
+         bootstrap="./tests/bootstrap.php">
+    <php>
+        <!--Path to the autoload file that should be used. Use a composer autoloader by default-->
+        <const name="AUTOLOAD_PATH" value="./vendor/autoload.php"/>
+    </php>
+
+    <testsuites>
+        <testsuite name="SetaFpdf functional Tests">
+            <directory>./tests/SetaFpdf/functional</directory>
+        </testsuite>
+
+        <testsuite name="SetaFpdf Visual Tests">
+            <directory>./tests/SetaFpdf/visual</directory>
+        </testsuite>
+
+        <testsuite name="SetaFpdi Visual Tests">
+            <directory>./tests/SetaFpdi/visual</directory>
+        </testsuite>
+
+        <testsuite name="SetaFpdi Functional Tests">
+            <directory>./tests/SetaFpdi/functional</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>./src/</directory>
+        </whitelist>
+    </filter>
+</phpunit>

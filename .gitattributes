@@ -1,0 +1,13 @@
+*.json text
+*.php text
+*.md text
+
+*.png binary
+*.pdf binary
+
+# Ignore all test and documentation with "export-ignore".
+/.gitattributes     export-ignore
+/.gitignore         export-ignore
+/tests              export-ignore
+/local-tests        export-ignore
+/phpunit.xml        export-ignore
