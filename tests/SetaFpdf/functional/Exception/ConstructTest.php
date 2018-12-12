@@ -12,6 +12,9 @@ class ConstructTest extends TestCase
         try {
             new \FPDF($orientation, $unit, $size);
             $this->fail();
+        // required for php5.6
+        } catch (\Exception $e) {
+            $error = $e;
         } catch (\Throwable $e) {
             $error = $e;
         }
@@ -19,6 +22,9 @@ class ConstructTest extends TestCase
         try {
             new SetaFpdf($orientation, $unit, $size);
             $this->fail();
+        // required for php5.6
+        } catch (\Exception $e) {
+            $error2 = $e;
         } catch (\Throwable $e) {
             $error2 = $e;
         }
