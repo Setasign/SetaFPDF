@@ -121,6 +121,40 @@ class Draw
         $canvas = $this->manager->getCanvas();
         $canvas->draw()->line($x1, $y1, $x2, $y2);
     }
+    
+    /**
+     * Gets a image instance.
+     *
+     * @param string|resource|\SetaPDF_Core_Reader_ReaderInterface $file
+     * @return \SetaPDF_Core_XObject_Image
+     */
+    public function getImage($file)
+    {
+        if ($file == '') {
+            throw new \BadMethodCallException('Image file name is empty.');
+        }
+
+        $uuid = null;
+        if (\is_string($file)) {
+            $uuid = \realpath($file);
+            if ($uuid === false) {
+                $uuid = $file;
+            }
+        } elseif (\is_object($file) ) {
+            $uuid = spl_object_hash($file);
+        } elseif (\is_resource($file)) {
+            $uuid = (string)$file;
+        }
+
+        if ($uuid === null || !isset($this->images[$uuid])) {
+            $this->images[$uuid] = \SetaPDF_Core_XObject_Image::create(
+                $this->manager->getModule(Document::class)->get(),
+                self::createReader($file)
+            );
+        }
+
+        return $this->images[$uuid];
+    }
 
     /**
      * Implementation of the FPDF::Image() method.
