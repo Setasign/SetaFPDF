@@ -54,6 +54,10 @@ class StaticHelper
             return explode("\x00\x0a", $text);
         }
 
+        if ($font === null || $fontSize === null) {
+            throw new \InvalidArgumentException('Both font instance and font size is required.');
+        }
+
         $breaks = [];
 
         $currentLine = 0;
