@@ -48,7 +48,6 @@
 
   "config": {
     "process-timeout":600,
-    "secure-http": false,
 
     "optimize-autoloader": true,
     "preferred-install": {
@@ -59,7 +58,7 @@
   "keywords": [
     "pdf",
     "FPDF",
-    "SetaFpdf",
+    "SetaFPDF",
     "SetaPDF"
   ]
 }
