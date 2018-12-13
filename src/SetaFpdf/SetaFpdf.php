@@ -579,15 +579,15 @@ class SetaFpdf
      * RGB components, CMYK components or gray scale. The method can be called before the first page is created and the
      * value is retained from page to page.
      *
-     * @param int|float $r If g and b are given, red component; if $k is given, cyan component;
-     *                     if not, indicates the gray level. Value between 0 and 255.
-     * @param int|float|null $g If $k is given, magenta component; if not Green component. Value between 0 and 255.
-     * @param int|float|null $b If $k is given, yellow component; if nto Blue component. Value between 0 and 255.
-     * @param int|float|null $k If $k black component. Value between 0 and 255.
+     * The count of $components define the color space (1 - gray, 3 - RGB, 4 - CMYK).
+     * If the colorspace is grayscale or RGB the color values must be between 0 and 255.
+     * For cmyk the color values must be between 0 and 100.
+     *
+     * @param array $components
      */
-    public function SetDrawColor($r, $g = null, $b = null, $k = null)
+    public function SetDrawColor(...$components)
     {
-        $this->manager->getModule(Color::class)->setDraw($r, $g, $b, $k);
+        $this->manager->getModule(Color::class)->setDraw(...$components);
     }
 
     /**
@@ -595,15 +595,15 @@ class SetaFpdf
      * in RGB components, CMYK components or gray scale. The method can be called before the first page is created and
      * the value is retained from page to page.
      *
-     * @param int|float $r If g and b are given, red component; if $k is given, cyan component;
-     *                     if not, indicates the gray level. Value between 0 and 255.
-     * @param int|float|null $g If $k is given, magenta component; if not Green component. Value between 0 and 255.
-     * @param int|float|null $b If $k is given, yellow component; if nto Blue component. Value between 0 and 255.
-     * @param int|float|null $k If $k black component. Value between 0 and 255.
+     * The count of $components define the color space (1 - gray, 3 - RGB, 4 - CMYK).
+     * If the colorspace is grayscale or RGB the color values must be between 0 and 255.
+     * For cmyk the color values must be between 0 and 100.
+     *
+     * @param array $components
      */
-    public function SetFillColor($r, $g = null, $b = null, $k = null)
+    public function SetFillColor(...$components)
     {
-        $this->manager->getModule(Color::class)->setFill($r, $g, $b, $k);
+        $this->manager->getModule(Color::class)->setFill(...$components);
     }
 
     /**
@@ -739,15 +739,15 @@ class SetaFpdf
      * It can be expressed in RGB components, CMYK components or gray scale. The method can be called
      * before the first page is created and the value is retained from page to page.
      *
-     * @param int|float $r If g and b are given, red component; if $k is given, cyan component;
-     *                     if not, indicates the gray level. Value between 0 and 255.
-     * @param int|float|null $g If $k is given, magenta component; if not Green component. Value between 0 and 255.
-     * @param int|float|null $b If $k is given, yellow component; if nto Blue component. Value between 0 and 255.
-     * @param int|float|null $k If $k black component. Value between 0 and 255.
+     * The count of $components define the color space (1 - gray, 3 - RGB, 4 - CMYK).
+     * If the colorspace is grayscale or RGB the color values must be between 0 and 255.
+     * For cmyk the color values must be between 0 and 100.
+     *
+     * @param array $components
      */
-    public function SetTextColor($r, $g = null, $b = null, $k = null)
+    public function SetTextColor(...$components)
     {
-        $this->manager->getModule(Color::class)->setText($r, $g, $b, $k);
+        $this->manager->getModule(Color::class)->setText(...$components);
     }
 
     /**

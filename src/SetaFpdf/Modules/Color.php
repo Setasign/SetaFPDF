@@ -31,69 +31,69 @@ class Color
     /**
      * Implementation of the FPDF::SetDrawColor() method.
      *
-     * @param int|float $red
-     * @param int|float $green
-     * @param int|float $blue
-     * @param int|float $cyan
+     * The count of $components define the color space (1 - gray, 3 - RGB, 4 - CMYK).
+     * If the colorspace is grayscale or RGB the color values must be between 0 and 255.
+     * For cmyk the color values must be between 0 and 100.
+     *
+     * @param array $components
      */
-    public function setDraw($red, $green, $blue, $cyan)
+    public function setDraw(...$components)
     {
-        $this->color->drawColor = $this->ensureColor($red, $green, $blue, $cyan);
+        $this->color->drawColor = $this->ensureColor(...$components);
     }
 
     /**
      * Implementation of the FPDF::SetFillColor method.
      *
-     * @param int|float $red
-     * @param int|float $green
-     * @param int|float $blue
-     * @param int|float $cyan
+     * The count of $components define the color space (1 - gray, 3 - RGB, 4 - CMYK).
+     * If the colorspace is grayscale or RGB the color values must be between 0 and 255.
+     * For cmyk the color values must be between 0 and 100.
+     *
+     * @param array $components
      */
-    public function setFill($red, $green, $blue, $cyan)
+    public function setFill(...$components)
     {
-        $this->color->fillColor = $this->ensureColor($red, $green, $blue, $cyan);
+        $this->color->fillColor = $this->ensureColor(...$components);
     }
 
     /**
      * Implementation of the FPDF::SetTextColor method.
      *
-     * @param int|float $red
-     * @param int|float $green
-     * @param int|float $blue
-     * @param int|float $cyan
+     * The count of $components define the color space (1 - gray, 3 - RGB, 4 - CMYK).
+     * If the colorspace is grayscale or RGB the color values must be between 0 and 255.
+     * For cmyk the color values must be between 0 and 100.
+     *
+     * @param array $components
      */
-    public function setText($red, $green, $blue, $cyan)
+    public function setText(...$components)
     {
-        $this->color->textColor = $this->ensureColor($red, $green, $blue, $cyan);
+        $this->color->textColor = $this->ensureColor(...$components);
     }
 
     /**
      * Converts the given values into a proper color array.
      *
-     * @param int|float $red
-     * @param int|float $green
-     * @param int|float $blue
-     * @param int|float $cyan
+     * @param array $components
      * @return array
      */
-    protected function ensureColor($red, $green, $blue, $cyan)
+    protected function ensureColor(...$components)
     {
-        if ($cyan !== null) {
-            $colorArray = [
-                round($red / 100, 3),
-                round($green / 100, 3),
-                round($blue / 100, 3),
-                round($cyan / 100, 3)
-            ];
-        } else {
-            $colorArray = [round($red / 255, 3)];
+        switch (count($components)) {
+            case 0:
+            case 1:
+                $grey = isset($components[0]) ? $components[0] : 0;
+                return [round($grey / 255, 3)];
 
-            if ($green !== null) {
-                $colorArray[] = round($green / 255, 3);
-                $colorArray[] = round($blue / 255, 3);
-            }
+            case 4:
+                list($cyan, $magenta, $yellow, $key) = $components;
+                return [round($cyan / 100, 3), round($magenta / 100, 3), round($yellow / 100, 3), round($key / 100, 3)];
+
+            case 3:
+            default:
+                $red = isset($components[0]) ? $components[0] : 0;
+                $green = isset($components[1]) ? $components[1] : 0;
+                $blue = isset($components[2]) ? $components[2] : 0;
+                return [round($red / 255, 3), round($green / 255, 3), round($blue / 255, 3)];
         }
-
-        return $colorArray;
     }
 }
