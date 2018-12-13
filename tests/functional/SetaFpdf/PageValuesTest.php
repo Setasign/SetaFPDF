@@ -40,14 +40,14 @@ class PageValuesTest extends TestCase
      * @param string $size
      * @dataProvider getPageSizeProvider
      */
-    public function testGetPageWidth($orientation = 'P', $unit = 'mm', $size = 'A4')
+    public function testPageWidth($orientation = 'P', $unit = 'mm', $size = 'A4')
     {
+        /** @var SetaFpdf $proxy */
         $proxy = $this->getProxy($orientation, $unit, $size);
-        $proxy->GetPageWidth();
+        $width = $proxy->GetPageWidth();
 
         // asserts are done in the proxy
-        $proxy->w;
-        $proxy->wPt;
+        $this->assertSame($width, $proxy->w);
     }
 
     /**
@@ -56,13 +56,13 @@ class PageValuesTest extends TestCase
      * @param string $size
      * @dataProvider getPageSizeProvider
      */
-    public function testGetPageHeight($orientation = 'P', $unit = 'mm', $size = 'A4')
+    public function testPageHeight($orientation = 'P', $unit = 'mm', $size = 'A4')
     {
+        /** @var SetaFpdf $proxy */
         $proxy = $this->getProxy($orientation, $unit, $size);
-        $proxy->GetPageHeight();
+        $height = $proxy->GetPageHeight();
 
         // asserts are done in the proxy
-        $proxy->h;
-        $proxy->hPt;
+        $this->assertSame($height, $proxy->h);
     }
 }
