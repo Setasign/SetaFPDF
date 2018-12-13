@@ -30,7 +30,7 @@ $textBlock->draw(
     $page->getHeight() - (20 + 39)
 );
 
-foreach ([$document, $pdf->getManager()->getModule(Document::class)->get()] as $key => $documentI) {
+foreach ([$document, $pdf->getManager()->getDocument()->get()] as $key => $documentI) {
     /** @var $documentI SetaPDF_Core_Document */
     $documentI->setWriter(new SetaPDF_Core_Writer_File(__DIR__ . '/../../pdfs/' . $key . '.pdf'))->save()->finish();
 }

@@ -43,7 +43,7 @@ class OutputTest extends TestCase
         }
 
         $pdf->AddFont('testen', 'b', \SetaPDF_Core_Font_Standard_Courier::create(
-            $pdf->getManager()->getModule(Document::class)->get())
+            $pdf->getManager()->getDocument()->get())
         );
 
         $pdf->SetFont('testen', 'b', 120);

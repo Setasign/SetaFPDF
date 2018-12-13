@@ -139,8 +139,8 @@ class Cursor implements StateBufferInterface
      */
     public function reset()
     {
-        $this->x = $this->manager->getModule(Margin::class)->getLeft();
-        $this->y = $this->manager->getModule(Margin::class)->getTop();
+        $this->x = $this->manager->getMargin()->getLeft();
+        $this->y = $this->manager->getMargin()->getTop();
     }
 
     /**

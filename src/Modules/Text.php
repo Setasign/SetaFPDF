@@ -52,10 +52,10 @@ class Text
         $font->ensureFont();
         $this->manager->getColorState()->ensureTextColor();
 
-        $this->manager->getModule(Font::class)->doUnderline(
+        $this->manager->getFont()->doUnderline(
             $x,
             $y,
-            $converter->toPt($this->manager->getModule(Cell::class)->getStringWidth($text, 'UTF-8'))
+            $converter->toPt($this->manager->getCell()->getStringWidth($text, 'UTF-8'))
         );
 
         $this->manager->getCanvas()->text()

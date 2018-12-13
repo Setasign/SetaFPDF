@@ -139,7 +139,7 @@ class SetaFpdi extends SetaFpdfTpl
             ->getCatalog()
             ->getPages()
             ->getPage($pageNumber)
-            ->toXObject($this->manager->getModule(Document::class)->get(), $box);
+            ->toXObject($this->manager->getDocument()->get(), $box);
 
         if ($groupXObject) {
             $this->importedPages[$pageId]->setGroup(new \SetaPDF_Core_TransparencyGroup());

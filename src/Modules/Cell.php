@@ -68,11 +68,11 @@ class Cell
         $colorState = $this->manager->getColorState();
         $canvasState = $this->manager->getCanvasState();
         $fontState = $this->manager->getFontState();
-        $margin = $this->manager->getModule(Margin::class);
-        $document = $this->manager->getModule(Document::class);
+        $margin = $this->manager->getMargin();
+        $document = $this->manager->getDocument();
 
         if ($document->pageBreakAllowed() && !$this->manager->hasSpaceOnPage($height)) {
-            $this->manager->getModule(Document::class)->handleAutoPageBreak();
+            $this->manager->getDocument()->handleAutoPageBreak();
         }
 
         /** @noinspection TypeUnsafeComparisonInspection */
@@ -197,7 +197,7 @@ class Cell
 
             if ($link !== '') {
                 $linkHeight = $converter->toPt($fontSize);
-                $this->manager->getModule(Link::class)->link(
+                $this->manager->getLink()->link(
                     $x,
                     $y + .5 * $linkHeight + .3 * $linkHeight - .5 * $height,
                     $stringWidth,
@@ -207,7 +207,7 @@ class Cell
                 );
             }
 
-            $this->manager->getModule(Font::class)->doUnderline($x, $y, $stringWidth);
+            $this->manager->getFont()->doUnderline($x, $y, $stringWidth);
         }
 
         $this->manager->setLastHeight($height);
@@ -252,7 +252,7 @@ class Cell
 
         $cursor = $this->manager->getCursor();
         $converter = $this->manager->getConverter();
-        $margin = $this->manager->getModule(Margin::class);
+        $margin = $this->manager->getMargin();
 
         /** @noinspection TypeUnsafeComparisonInspection */
         if ($width == 0) {
@@ -361,7 +361,7 @@ class Cell
         }
 
         $cursor = $this->manager->getCursor();
-        $margin = $this->manager->getModule(Margin::class);
+        $margin = $this->manager->getMargin();
         $converter = $this->manager->getConverter();
 
         $width = (

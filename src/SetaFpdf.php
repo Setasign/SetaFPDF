@@ -80,10 +80,15 @@ class SetaFpdf
 
         $this->manager = new Manager($factor);
         $this->manager->getCanvasState()->lineCap = \SetaPDF_Core_Canvas_Path::LINE_CAP_PROJECTING_SQUARE;
-
-        $this->manager->getModule(Document::class, [
-            $orientation, $size, [$this, 'Footer'], [$this, 'Header'], [$this, 'AcceptPageBreak']
-        ]);
+        $document = new Document(
+            $this->manager,
+            $orientation,
+            $size,
+            [$this, 'Footer'],
+            [$this, 'Header'],
+            [$this, 'AcceptPageBreak']
+        );
+        $this->manager->setDocument($document);
 
         $this->SetDrawColor(0);
         $this->SetTextColor(0);
@@ -118,7 +123,7 @@ class SetaFpdf
      */
     public function AddFont($family, $style = '', $pathOrInstance = '')
     {
-        $this->manager->getModule(Font::class)->add($family, $style, $pathOrInstance);
+        $this->manager->getFont()->add($family, $style, $pathOrInstance);
     }
 
     /**
@@ -133,7 +138,7 @@ class SetaFpdf
      */
     public function AddLink()
     {
-        return $this->manager->getModule(Link::class)->addLink();
+        return $this->manager->getLink()->addLink();
     }
 
     /**
@@ -163,7 +168,7 @@ class SetaFpdf
      */
     public function AddPage($orientation = '', $size = '', $rotation = 0)
     {
-        $this->manager->getModule(Document::class)->addPage($orientation, $size, $rotation);
+        $this->manager->getDocument()->addPage($orientation, $size, $rotation);
     }
 
     /**
@@ -202,7 +207,7 @@ class SetaFpdf
     public function Cell($w, $h = 0, $txt = '', $border = 0, $ln = 0, $align = '', $fill = false, $link = '')
     {
         $txt = \SetaPDF_Core_Text::normalizeLineBreaks($txt);
-        $this->manager->getModule(Cell::class)->cell($w, $h, $txt, $border, $ln, $align, $fill, $link);
+        $this->manager->getCell()->cell($w, $h, $txt, $border, $ln, $align, $fill, $link);
     }
 
     /**
@@ -259,7 +264,7 @@ class SetaFpdf
      */
     public function GetStringWidth($s)
     {
-        return $this->manager->getModule(Cell::class)->getStringWidth($s, 'UTF-8');
+        return $this->manager->getCell()->getStringWidth($s, 'UTF-8');
     }
 
     /**
@@ -323,7 +328,7 @@ class SetaFpdf
         /** @noinspection PhpUnusedParameterInspection */ $type = '',
         $link = ''
     ) {
-        $this->manager->getModule(Draw::class)->image($file, $x, $y, $w, $h, $link);
+        $this->manager->getDraw()->image($file, $x, $y, $w, $h, $link);
     }
 
     /**
@@ -337,7 +342,7 @@ class SetaFpdf
      */
     public function Line($x1, $y1, $x2, $y2)
     {
-        $this->manager->getModule(Draw::class)->line($x1, $y1, $x2, $y2);
+        $this->manager->getDraw()->line($x1, $y1, $x2, $y2);
     }
 
     /**
@@ -355,7 +360,7 @@ class SetaFpdf
      */
     public function Link($x, $y, $w, $h, $link)
     {
-        $this->manager->getModule(Link::class)->link($x, $y, $w, $h, $link);
+        $this->manager->getLink()->link($x, $y, $w, $h, $link);
     }
 
     /**
@@ -368,7 +373,7 @@ class SetaFpdf
      */
     public function Ln($h = null)
     {
-        $this->manager->getCursor()->setX($this->manager->getModule(Margin::class)->getLeft());
+        $this->manager->getCursor()->setX($this->manager->getMargin()->getLeft());
 
         if ($h === null) {
             $h = $this->manager->getLastHeight();
@@ -408,7 +413,7 @@ class SetaFpdf
      */
     public function MultiCell($w, $h, $txt, $border = 0, $align = 'J', $fill = false)
     {
-        $this->manager->getModule(Cell::class)->multiCell($w, $h, $txt, $border, $align, $fill);
+        $this->manager->getCell()->multiCell($w, $h, $txt, $border, $align, $fill);
     }
 
     /**
@@ -430,8 +435,8 @@ class SetaFpdf
      */
     public function Output($dest = '', $name = '')
     {
-        $this->manager->getModule(Link::class)->writeLinks(
-            $this->manager->getModule(Document::class)->get()
+        $this->manager->getLink()->writeLinks(
+            $this->manager->getDocument()->get()
         );
 
         if (\strlen($name) === 1 && strlen($dest) !== 1) {
@@ -447,7 +452,7 @@ class SetaFpdf
             $name = 'doc.pdf';
         }
 
-        return $this->manager->getModule(Document::class)->output($dest, $name, $this->displayMode);
+        return $this->manager->getDocument()->output($dest, $name, $this->displayMode);
     }
 
     /**
@@ -457,7 +462,7 @@ class SetaFpdf
      */
     public function PageNo()
     {
-        return $this->manager->getModule(Document::class)->getActivePageNo();
+        return $this->manager->getDocument()->getActivePageNo();
     }
 
     /**
@@ -467,7 +472,7 @@ class SetaFpdf
      */
     public function getPageCount()
     {
-        return $this->manager->getModule(Document::class)->getPageCount();
+        return $this->manager->getDocument()->getPageCount();
     }
 
     /**
@@ -487,7 +492,7 @@ class SetaFpdf
      */
     public function Rect($x, $y, $w, $h, $style = '')
     {
-        $this->manager->getModule(Draw::class)->rect($x, $y, $w, $h, $style);
+        $this->manager->getDraw()->rect($x, $y, $w, $h, $style);
     }
 
     /**
@@ -497,7 +502,7 @@ class SetaFpdf
      */
     public function SetAuthor($author)
     {
-        $this->manager->getModule(Document::class)
+        $this->manager->getDocument()
             ->get()
             ->getInfo()
             ->setSubject($author);
@@ -514,8 +519,8 @@ class SetaFpdf
      */
     public function SetAutoPageBreak($auto, $margin = 0)
     {
-        $this->manager->getModule(Document::class)->setAutoPageBreak($auto);
-        $this->manager->getModule(Margin::class)->setBottom($margin);
+        $this->manager->getDocument()->setAutoPageBreak($auto);
+        $this->manager->getMargin()->setBottom($margin);
     }
 
     /**
@@ -543,7 +548,7 @@ class SetaFpdf
      */
     public function SetCreator($creator)
     {
-        $this->manager->getModule(Document::class)
+        $this->manager->getDocument()
             ->get()
             ->getInfo()
             ->setSubject($creator);
@@ -585,7 +590,7 @@ class SetaFpdf
      */
     public function SetDrawColor(...$components)
     {
-        $this->manager->getModule(Color::class)->setDraw(...$components);
+        $this->manager->getColor()->setDraw(...$components);
     }
 
     /**
@@ -601,7 +606,7 @@ class SetaFpdf
      */
     public function SetFillColor(...$components)
     {
-        $this->manager->getModule(Color::class)->setFill(...$components);
+        $this->manager->getColor()->setFill(...$components);
     }
 
     /**
@@ -631,7 +636,7 @@ class SetaFpdf
      */
     public function SetFont($family, $style = '', $size = '')
     {
-        $this->manager->getModule(Font::class)->set($family, $style, $size);
+        $this->manager->getFont()->set($family, $style, $size);
     }
 
     /**
@@ -651,7 +656,7 @@ class SetaFpdf
      */
     public function SetKeywords($keywords)
     {
-        $this->manager->getModule(Document::class)
+        $this->manager->getDocument()
             ->get()
             ->getInfo()
             ->setKeywords($keywords);
@@ -665,7 +670,7 @@ class SetaFpdf
      */
     public function SetLeftMargin($margin)
     {
-        $this->manager->getModule(Margin::class)->setLeft($margin);
+        $this->manager->getMargin()->setLeft($margin);
     }
 
     /**
@@ -693,7 +698,7 @@ class SetaFpdf
             $page = $this->PageNo();
         }
 
-        $this->manager->getModule(Link::class)->setLink($link, $y, $page);
+        $this->manager->getLink()->setLink($link, $y, $page);
     }
 
     /**
@@ -705,7 +710,7 @@ class SetaFpdf
      */
     public function SetMargins($left, $top, $right = null)
     {
-        $this->manager->getModule(Margin::class)->set($left, $top, $right);
+        $this->manager->getMargin()->set($left, $top, $right);
     }
 
     /**
@@ -715,7 +720,7 @@ class SetaFpdf
      */
     public function SetRightMargin($margin)
     {
-        $this->manager->getModule(Margin::class)->setRight($margin);
+        $this->manager->getMargin()->setRight($margin);
     }
 
     /**
@@ -725,7 +730,7 @@ class SetaFpdf
      */
     public function SetSubject($subject)
     {
-        $this->manager->getModule(Document::class)
+        $this->manager->getDocument()
             ->get()
             ->getInfo()
             ->setSubject($subject);
@@ -745,7 +750,7 @@ class SetaFpdf
      */
     public function SetTextColor(...$components)
     {
-        $this->manager->getModule(Color::class)->setText(...$components);
+        $this->manager->getColor()->setText(...$components);
     }
 
     /**
@@ -755,7 +760,7 @@ class SetaFpdf
      */
     public function SetTitle($title)
     {
-        $this->manager->getModule(Document::class)
+        $this->manager->getDocument()
             ->get()
             ->getInfo()
             ->setTitle($title);
@@ -768,7 +773,7 @@ class SetaFpdf
      */
     public function SetTopMargin($margin)
     {
-        $this->manager->getModule(Margin::class)->setTop($margin);
+        $this->manager->getMargin()->setTop($margin);
     }
 
     /**
@@ -816,7 +821,7 @@ class SetaFpdf
         $cursor = $this->manager->getCursor();
         $cursor->setY($y);
         if ($resetX) {
-            $cursor->setX($this->manager->getModule(Margin::class)->getLeft());
+            $cursor->setX($this->manager->getMargin()->getLeft());
         }
     }
 
@@ -836,7 +841,7 @@ class SetaFpdf
      */
     public function Text($x, $y, $txt)
     {
-        $this->manager->getModule(Text::class)->text($x, $y, $txt);
+        $this->manager->getText()->text($x, $y, $txt);
     }
 
     /**
@@ -858,7 +863,7 @@ class SetaFpdf
     {
         $txt = \SetaPDF_Core_Text::normalizeLineBreaks($txt);
 
-        $this->manager->getModule(Cell::class)->write($h, $txt, $link, 'UTF-8');
+        $this->manager->getCell()->write($h, $txt, $link, 'UTF-8');
     }
 
     /**
@@ -872,7 +877,7 @@ class SetaFpdf
             $pageNo = $this->PageNo();
         }
 
-        $this->manager->getModule(Document::class)->setActivePage($pageNo);
+        $this->manager->getDocument()->setActivePage($pageNo);
         $this->manager->getCursor()->reset();
     }
 
@@ -920,16 +925,16 @@ class SetaFpdf
                 $this->manager->getFontState()->fontSize = $value;
                 break;
             case 'rMargin':
-                $this->manager->getModule(Margin::class)->setRight($value);
+                $this->manager->getMargin()->setRight($value);
                 break;
             case 'lMargin':
-                $this->manager->getModule(Margin::class)->setLeft($value);
+                $this->manager->getMargin()->setLeft($value);
                 break;
             case 'tMargin':
-                $this->manager->getModule(Margin::class)->setTop($value);
+                $this->manager->getMargin()->setTop($value);
                 break;
             case 'bMargin':
-                $this->manager->getModule(Margin::class)->setBottom($value);
+                $this->manager->getMargin()->setBottom($value);
                 break;
             default:
                 throw new \InvalidArgumentException(sprintf('Property "%s" cannot be set.', $name));
@@ -966,18 +971,18 @@ class SetaFpdf
             case 'FontSize':
                 return $this->manager->getFontState()->getNewFontSize();
             case 'rMargin':
-                return $this->manager->getModule(Margin::class)->getRight();
+                return $this->manager->getMargin()->getRight();
             case 'cMargin':
-                return $this->manager->getModule(Margin::class)->getCell();
+                return $this->manager->getMargin()->getCell();
             case 'lMargin':
-                return $this->manager->getModule(Margin::class)->getLeft();
+                return $this->manager->getMargin()->getLeft();
             case 'tMargin':
-                return $this->manager->getModule(Margin::class)->getTop();
+                return $this->manager->getMargin()->getTop();
             case 'bMargin':
-                return $this->manager->getModule(Margin::class)->getBottom();
+                return $this->manager->getMargin()->getBottom();
             case 'PageBreakTrigger':
                 // todo solve via property
-                $margin = $this->manager->getModule(Margin::class);
+                $margin = $this->manager->getMargin();
 
                 return $this->manager->getConverter()->fromPt($this->manager->getCanvas()->getHeight())
                     - $margin->getBottom();

@@ -92,7 +92,7 @@ class Font
         $this->underline = false;
         $this->manager = $manager;
         $this->fontState = $manager->getFontState();
-        $this->document = $manager->getModule(Document::class);
+        $this->document = $manager->getDocument();
     }
 
     /**

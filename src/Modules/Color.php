@@ -9,23 +9,23 @@
 
 namespace setasign\SetaFpdf\Modules;
 
-use setasign\SetaFpdf\Manager;
+use setasign\SetaFpdf\StateBuffer\Color as ColorState;
 
 class Color
 {
     /**
-     * @var \setasign\SetaFpdf\StateBuffer\Color
+     * @var ColorState
      */
     private $color;
 
     /**
      * Color constructor.
      *
-     * @param Manager $manager
+     * @param ColorState $colorState
      */
-    public function __construct(Manager $manager)
+    public function __construct(ColorState $colorState)
     {
-        $this->color = $manager->getColorState();
+        $this->color = $colorState;
     }
 
     /**

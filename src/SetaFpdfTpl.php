@@ -61,7 +61,7 @@ class SetaFpdfTpl extends SetaFpdf
         $orientation = Document::parseOrientation($orientation);
         $size = Document::parseSize($this->manager->getConverter(), $size, $orientation);
 
-        $document = $this->manager->getModule(Document::class);
+        $document = $this->manager->getDocument();
         $page = $document->get()->getCatalog()->getPages()->getPage($document->getActivePageNo());
 
         $box = \SetaPDF_Core_DataStructure_Rectangle::byArray([
@@ -181,7 +181,7 @@ class SetaFpdfTpl extends SetaFpdf
      */
     public function beginTemplate($width = null, $height = null)
     {
-        $document = $this->manager->getModule(Document::class);
+        $document = $this->manager->getDocument();
         $converter = $this->manager->getConverter();
 
         if ($width === null) {
@@ -218,7 +218,7 @@ class SetaFpdfTpl extends SetaFpdf
         }
 
 
-        $document = $this->manager->getModule(Document::class);
+        $document = $this->manager->getDocument();
         try {
             $document->setActivePage($document->getActivePageNo());
         } catch (\BadMethodCallException $e) {

@@ -348,7 +348,7 @@ class Document implements StateBufferInterface
 
         $pageCount = $this->getPageCount();
 
-        $margin = $this->manager->getModule(Margin::class);
+        $margin = $this->manager->getMargin();
 
         $this->manager->save();
 

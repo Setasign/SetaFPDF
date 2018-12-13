@@ -149,7 +149,7 @@ class Draw
 
         if ($uuid === null || !isset($this->images[$uuid])) {
             $this->images[$uuid] = \SetaPDF_Core_XObject_Image::create(
-                $this->manager->getModule(Document::class)->get(),
+                $this->manager->getDocument()->get(),
                 self::createReader($file)
             );
         }
@@ -192,14 +192,14 @@ class Draw
 
         if ($uuid === null || !isset($this->images[$uuid])) {
             $this->images[$uuid] = \SetaPDF_Core_XObject_Image::create(
-                $this->manager->getModule(Document::class)->get(),
+                $this->manager->getDocument()->get(),
                 self::createReader($file)
             );
         }
 
         $xObject = $this->images[$uuid];
         $converter = $this->manager->getConverter();
-        $document = $this->manager->getModule(Document::class);
+        $document = $this->manager->getDocument();
 
         /** @noinspection TypeUnsafeComparisonInspection */
         if ($width == 0 && $height == 0) {
@@ -225,7 +225,7 @@ class Draw
         if ($y === null) {
             if ($document->pageBreakAllowed() && !$this->manager->hasSpaceOnPage($height)) {
                 $x2 = $this->manager->getCursor()->getX();
-                $this->manager->getModule(Document::class)->handleAutoPageBreak();
+                $this->manager->getDocument()->handleAutoPageBreak();
                 $this->manager->getCursor()->setX($x2);
             }
             $y = $this->manager->getCursor()->getY();
@@ -251,7 +251,7 @@ class Draw
         );
 
         if ($link != '') {
-            $this->manager->getModule(Link::class)->link(
+            $this->manager->getLink()->link(
                 $x,
                 $y + $height,
                 $width,
