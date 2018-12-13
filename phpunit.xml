@@ -15,19 +15,11 @@
 
     <testsuites>
         <testsuite name="SetaFpdf functional Tests">
-            <directory>./tests/SetaFpdf/functional</directory>
+            <directory>./tests/functional</directory>
         </testsuite>
 
         <testsuite name="SetaFpdf Visual Tests">
-            <directory>./tests/SetaFpdf/visual</directory>
-        </testsuite>
-
-        <testsuite name="SetaFpdi Visual Tests">
-            <directory>./tests/SetaFpdi/visual</directory>
-        </testsuite>
-
-        <testsuite name="SetaFpdi Functional Tests">
-            <directory>./tests/SetaFpdi/functional</directory>
+            <directory>./tests/visual</directory>
         </testsuite>
     </testsuites>
 

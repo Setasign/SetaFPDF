@@ -86,8 +86,7 @@ Then simply require the `src/autoload.php` file or register following namespaces
 ```php
 $loader = new \Example\Psr4AutoloaderClass;
 $loader->register();
-$loader->addNamespace('setasign\SetaFpdf', 'path/to/src/SetaFpdf');
-$loader->addNamespace('setasign\SetaFpdi', 'path/to/src/SetaFpdi');
+$loader->addNamespace('setasign\SetaFpdf', 'path/to/src');
 ```
 
 ## Usage
@@ -189,13 +188,13 @@ $pdf->Output();
 
 #### Import existing pages from existing PDF documents
 
-There is also a clone for [FPDI](https://www.setasign.com/fpdi) available. If you need the methods of FPDI just use the class `\setasign\SetaFpdi\SetaFpdi` and you can use methods like `setSourceFile()`, `importPage()` and `useTemplate()`:
+There is also a clone for [FPDI](https://www.setasign.com/fpdi) available. If you need the methods of FPDI just use the class `SetaFpdi` and you can use methods like `setSourceFile()`, `importPage()` and `useTemplate()`:
 
 ```php
 <?php
-use \setasign\SetaFpdi\SetaFpdi;
+use \setasign\SetaFpdf\SetaFpdi;
 
-require_once '../vendor/autoload.php';
+require_once 'vendor/autoload.php';
 
 $pdf = new SetaFpdi();
 
