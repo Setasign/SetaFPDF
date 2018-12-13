@@ -895,8 +895,7 @@ class SetaFpdf
         return in_array(
             $name,
             [
-                'page', 'x', 'y', 'w', 'h', 'FontSize', 'rMargin', 'cMargin', 'lMargin', 'tMargin', 'bMargin',
-                'PageBreakTrigger', 'wpt', 'hpt'
+                'page', 'x', 'y', 'w', 'h', 'fontSize', 'rMargin', 'lMargin', 'tMargin', 'bMargin'
             ]
         );
     }
@@ -920,7 +919,7 @@ class SetaFpdf
             case 'y':
                 $this->manager->getCursor()->setY($value);
                 break;
-            case 'FontSize':
+            case 'fontSize':
                 $this->manager->getFontState()->fontSize = $value;
                 break;
             case 'rMargin':
@@ -959,32 +958,20 @@ class SetaFpdf
                 return $this->manager->getCursor()->getX();
             case 'y':
                 return $this->manager->getCursor()->getY();
-            case 'wPt':
-                return $this->manager->getWidth();
-            case 'hPt':
-                return $this->manager->getHeight();
             case 'w':
                 return $this->GetPageWidth();
             case 'h':
                 return $this->GetPageHeight();
-            case 'FontSize':
+            case 'fontSize':
                 return $this->manager->getFontState()->getNewFontSize();
-            case 'rMargin':
-                return $this->manager->getModule(Margin::class)->getRight();
-            case 'cMargin':
-                return $this->manager->getModule(Margin::class)->getCell();
             case 'lMargin':
                 return $this->manager->getModule(Margin::class)->getLeft();
             case 'tMargin':
                 return $this->manager->getModule(Margin::class)->getTop();
+            case 'rMargin':
+                return $this->manager->getModule(Margin::class)->getRight();
             case 'bMargin':
                 return $this->manager->getModule(Margin::class)->getBottom();
-            case 'PageBreakTrigger':
-                // todo solve via property
-                $margin = $this->manager->getModule(Margin::class);
-
-                return $this->manager->getConverter()->fromPt($this->manager->getCanvas()->getHeight())
-                    - $margin->getBottom();
 
             default:
                 throw new \InvalidArgumentException(sprintf('Property "%s" cannot be accessed.', $name));
