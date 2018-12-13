@@ -19,6 +19,19 @@ use setasign\SetaFpdf\Modules\Margin;
 use setasign\SetaFpdf\Modules\Text;
 use setasign\SetaFpdf\Position\Converter;
 
+/**
+ * @property-read int $page
+ * @property-read int $pageCount
+ * @property float|int $x
+ * @property float|int $y
+ * @property-read float|int $w
+ * @property-read float|int $h
+ * @property float|int $fontSize
+ * @property float|int $lMargin
+ * @property float|int $tMargin
+ * @property float|int $rMargin
+ * @property float|int $bMargin
+ */
 class SetaFpdf
 {
     const VERSION = 'v1.0.0beta';
