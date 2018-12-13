@@ -46,7 +46,6 @@ class Cell
      * @throws \BadMethodCallException
      * @throws \SetaPDF_Core_Font_Exception
      * @throws \SetaPDF_Core_Type_IndirectReference_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
      */
     public function cell(
         $width,
@@ -238,7 +237,6 @@ class Cell
      * @throws \BadMethodCallException
      * @throws \SetaPDF_Core_Font_Exception
      * @throws \SetaPDF_Core_Type_IndirectReference_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
      */
     public function multiCell($width, $height, $text, $border, $align, $fill, $encoding = 'UTF-8')
     {
@@ -345,7 +343,6 @@ class Cell
      * @throws \BadMethodCallException
      * @throws \SetaPDF_Core_Font_Exception
      * @throws \SetaPDF_Core_Type_IndirectReference_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
      */
     public function write($height, $text, $link, $encoding = 'UTF-16BE')
     {

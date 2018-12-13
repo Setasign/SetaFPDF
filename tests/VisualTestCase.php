@@ -166,8 +166,6 @@ abstract class VisualTestCase extends TestCase
      * @param int|float $tolerance
      * @param int $dpi
      * @param boolean $delete
-     * @throws \SetaPDF_Core_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
      */
     public function assertProxySame(TestProxy $proxy, $tolerance = self::TOLERANCE, $dpi = self::DPI, $delete = true)
     {
@@ -194,7 +192,11 @@ abstract class VisualTestCase extends TestCase
                 . str_replace('\\', '_', \get_class($instance))
                 . '.pdf';
 
-            $instance->Output('F', $compareFileName);
+            try {
+                $instance->Output('F', $compareFileName);
+            } catch (\SetaPDF_Core_Exception $e) {
+                throw new \RuntimeException('Couldn\'t output file!', 0, $e);
+            }
             $instance->Close();
         }
 

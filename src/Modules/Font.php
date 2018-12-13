@@ -151,7 +151,7 @@ class Font
      * @param string|\SetaPDF_Core_Font_FontInterface $pathOrInstance
      * @throws \InvalidArgumentException
      * @throws \SetaPDF_Core_Font_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
+     * @throws \SetaPDF_Exception_NotImplemented if an unknown font type is given (only otf and ttf are supported)
      */
     public function add($family, $style, $pathOrInstance)
     {
@@ -170,8 +170,7 @@ class Font
                 throw new \InvalidArgumentException('File not found (' . $pathOrInstance . ').');
             }
 
-            $extension = \pathinfo($pathOrInstance, PATHINFO_EXTENSION);
-
+            $extension = strtolower(\pathinfo($pathOrInstance, PATHINFO_EXTENSION));
             switch ($extension) {
                 case 'otf':
                 case 'ttf':

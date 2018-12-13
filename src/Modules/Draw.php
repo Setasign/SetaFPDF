@@ -130,6 +130,7 @@ class Draw
      */
     public function getImage($file)
     {
+        /** @noinspection TypeUnsafeComparisonInspection */
         if ($file == '') {
             throw new \BadMethodCallException('Image file name is empty.');
         }
@@ -140,7 +141,7 @@ class Draw
             if ($uuid === false) {
                 $uuid = $file;
             }
-        } elseif (\is_object($file) ) {
+        } elseif (\is_object($file)) {
             $uuid = spl_object_hash($file);
         } elseif (\is_resource($file)) {
             $uuid = (string)$file;
@@ -169,6 +170,7 @@ class Draw
      */
     public function image($file, $x, $y, $width, $height, $link)
     {
+        /** @noinspection TypeUnsafeComparisonInspection */
         if ($file == '') {
             throw new \BadMethodCallException('Image file name is empty.');
         }

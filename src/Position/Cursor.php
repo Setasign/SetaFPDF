@@ -13,6 +13,11 @@ use setasign\SetaFpdf\Manager;
 use setasign\SetaFpdf\Modules\Margin;
 use setasign\SetaFpdf\StateBuffer\StateBufferInterface;
 
+/**
+ * Class Cursor
+ *
+ * The cursor works completly with unit.
+ */
 class Cursor implements StateBufferInterface
 {
     /**

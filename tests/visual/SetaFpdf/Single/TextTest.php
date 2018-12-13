@@ -6,7 +6,6 @@ use setasign\tests\VisualTestCase;
 
 /**
  * Class Text
- * @package setasign\SetaFpdf\visual\Single
  *
  * @covers \setasign\SetaFpdf\Modules\Text::text()
  */

@@ -59,7 +59,7 @@ class SetaFpdfTpl extends SetaFpdf
         }
 
         $orientation = Document::parseOrientation($orientation);
-        $size = Document::parseSize($size, $orientation);
+        $size = Document::parseSize($this->manager->getConverter(), $size, $orientation);
 
         $document = $this->manager->getModule(Document::class);
         $page = $document->get()->getCatalog()->getPages()->getPage($document->getActivePageNo());
@@ -185,11 +185,11 @@ class SetaFpdfTpl extends SetaFpdf
         $converter = $this->manager->getConverter();
 
         if ($width === null) {
-            $width = $converter->fromPt($document->getDefaultWidth());
+            $width = $document->getDefaultWidth();
         }
 
         if ($height === null) {
-            $height = $converter->fromPt($document->getDefaultHeight());
+            $height = $document->getDefaultHeight();
         }
 
         $this->currentTemplateId = $this->getNextTemplateId();

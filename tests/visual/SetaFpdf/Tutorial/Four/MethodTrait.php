@@ -4,7 +4,6 @@ namespace setasign\tests\visual\SetaFpdf\Tutorial\Four;
 
 /**
  * Trait MethodTrait
- * @package setasign\tests\SetaFpdf\visual\Tutorial\Four
  *
  * @mixin \FPDF
  */

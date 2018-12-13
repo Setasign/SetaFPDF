@@ -114,7 +114,7 @@ class SetaFpdf
      * @param string $style
      * @param string|\SetaPDF_Core_Font_FontInterface $pathOrInstance
      * @throws \SetaPDF_Core_Font_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
+     * @throws \SetaPDF_Exception_NotImplemented if an unknown font type is given (only otf and ttf are supported)
      */
     public function AddFont($family, $style = '', $pathOrInstance = '')
     {
@@ -171,7 +171,7 @@ class SetaFpdf
      *
      * Currently not supported {@see SetaFpdf::SetPage()} for "manual" processing.
      *
-     * @throws \SetaPDF_Exception_NotImplemented
+     * @throws \SetaPDF_Exception_NotImplemented AliasNbPages is not supported in SetaFpdf
      */
     public function AliasNbPages()
     {
@@ -198,7 +198,6 @@ class SetaFpdf
      * @throws \BadMethodCallException
      * @throws \SetaPDF_Core_Font_Exception
      * @throws \SetaPDF_Core_Type_IndirectReference_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
      */
     public function Cell($w, $h = 0, $txt = '', $border = 0, $ln = 0, $align = '', $fill = false, $link = '')
     {
@@ -406,7 +405,6 @@ class SetaFpdf
      * @throws \BadMethodCallException
      * @throws \SetaPDF_Core_Font_Exception
      * @throws \SetaPDF_Core_Type_IndirectReference_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
      */
     public function MultiCell($w, $h, $txt, $border = 0, $align = 'J', $fill = false)
     {
@@ -529,7 +527,7 @@ class SetaFpdf
      * Note: Compression can't be turned off while using SetaPDF.
      *
      * @param bool $value Boolean indicating if compression must be enabled.
-     * @throws \SetaPDF_Exception_NotImplemented
+     * @throws \SetaPDF_Exception_NotImplemented SetaPDF only supports compressed streams.
      */
     public function SetCompression($value = true)
     {
@@ -835,7 +833,6 @@ class SetaFpdf
      * @throws \BadMethodCallException
      * @throws \SetaPDF_Core_Font_Exception
      * @throws \SetaPDF_Core_Type_IndirectReference_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
      */
     public function Text($x, $y, $txt)
     {
@@ -856,7 +853,6 @@ class SetaFpdf
      * @throws \BadMethodCallException
      * @throws \SetaPDF_Core_Font_Exception
      * @throws \SetaPDF_Core_Type_IndirectReference_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
      */
     public function Write($h, $txt, $link = '')
     {

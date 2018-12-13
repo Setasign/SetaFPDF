@@ -75,13 +75,13 @@ class Manager implements CleanupInterface
      *
      * If there isn't a canvas (because no page was added yet) the default page width of the document will be returned.
      *
-     * @return float|int
+     * @return float|int Returns the width in pt.
      */
     public function getWidth()
     {
         if ($this->canvas === null) {
             // fallback if no page was added before
-            return $this->getModule(Document::class)->getDefaultWidth();
+            return $this->converter->toPt($this->getModule(Document::class)->getDefaultWidth());
         }
 
         return $this->canvas->getWidth();
@@ -92,13 +92,13 @@ class Manager implements CleanupInterface
      *
      * If there isn't a canvas (because no page was added yet) the default page height of the document will be returned.
      *
-     * @return float|int
+     * @return float|int Returns the height in pt.
      */
     public function getHeight()
     {
         if ($this->canvas === null) {
             // fallback if no page was added before
-            return $this->getModule(Document::class)->getDefaultHeight();
+            return $this->converter->toPt($this->getModule(Document::class)->getDefaultHeight());
         }
 
         return $this->canvas->getHeight();
@@ -107,10 +107,10 @@ class Manager implements CleanupInterface
     /**
      * Check whether space of a specific height is available on the current page.
      *
-     * @param $height
+     * @param int|float $heightInUnit
      * @return bool
      */
-    public function hasSpaceOnPage($height)
+    public function hasSpaceOnPage($heightInUnit)
     {
         $margin = $this->getModule(Margin::class);
 
@@ -118,7 +118,7 @@ class Manager implements CleanupInterface
 
         $leftSpace = $canvasHeight - $this->getCursor()->getY() - $margin->getBottom();
 
-        return $leftSpace - $height >= 0;
+        return $leftSpace - $heightInUnit >= 0;
     }
 
     /**

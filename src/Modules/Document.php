@@ -10,6 +10,7 @@
 namespace setasign\SetaFpdf\Modules;
 
 use setasign\SetaFpdf\Manager;
+use setasign\SetaFpdf\Position\Converter;
 use setasign\SetaFpdf\SetaFpdf;
 use setasign\SetaFpdf\StateBuffer\StateBufferInterface;
 
@@ -116,12 +117,13 @@ class Document implements StateBufferInterface
     /**
      * Parses size values, and formats it into an array.
      *
-     * @param array|string $size
+     * @param Converter $converter
+     * @param array|string $size Expects an string (@see \SetaPDF_Core_PageFormats::getFormat) or an array with 2 values
+     *                           in unit.
      * @param string $orientation
-     * @return array
-     * @throws \InvalidArgumentException
+     * @return array Size in Unit
      */
-    public static function parseSize($size, $orientation)
+    public static function parseSize(Converter $converter, $size, $orientation)
     {
         if (\is_string($size)) {
             $size = strtolower($size);
@@ -129,10 +131,23 @@ class Document implements StateBufferInterface
             if (!isset($size[0], $size[1])) {
                 throw new \InvalidArgumentException('Invalid size array.');
             }
-            $size = [$size[0], $size[1]];
+            $size = [
+                $converter->toPt($size[0]),
+                $converter->toPt($size[1])
+            ];
         }
 
-        return \SetaPDF_Core_PageFormats::getFormat($size, $orientation);
+        $result = \SetaPDF_Core_PageFormats::getFormat($size, $orientation);
+
+        $width = $converter->fromPt($result['width']);
+        $result['width'] = $width;
+        $result[0] = $width;
+
+        $height = $converter->fromPt($result['height']);
+        $result['height'] = $height;
+        $result[1] = $height;
+
+        return $result;
     }
 
     /**
@@ -271,7 +286,7 @@ class Document implements StateBufferInterface
         $this->document->setWriter(new \SetaPDF_Core_Writer_String());
 
         $this->defaultOrientation = self::parseOrientation($defaultOrientation);
-        $this->defaultSize = self::parseSize($defaultSize, $this->defaultOrientation);
+        $this->defaultSize = self::parseSize($this->manager->getConverter(), $defaultSize, $this->defaultOrientation);
 
         $this->footerCallable = $footerCallable;
         $this->headerCallable = $headerCallable;
@@ -284,7 +299,7 @@ class Document implements StateBufferInterface
     /**
      * Gets the default page width.
      *
-     * @return int|float
+     * @return int|float Returns the default width in unit
      */
     public function getDefaultWidth()
     {
@@ -294,7 +309,7 @@ class Document implements StateBufferInterface
     /**
      * Gets the default page height.
      *
-     * @return int|float
+     * @return int|float Returns the default height in unit
      */
     public function getDefaultHeight()
     {
@@ -317,14 +332,16 @@ class Document implements StateBufferInterface
             throw new \InvalidArgumentException(\sprintf('Incorrect rotation value: %s', $rotation));
         }
 
-        if ($orientation !== '') {
+        /** @noinspection TypeUnsafeComparisonInspection */
+        if ($orientation != '') {
             $orientation = self::parseOrientation($orientation);
         } else {
             $orientation = $this->defaultOrientation;
         }
 
-        if ($size !== '') {
-            $size = self::parseSize($size, $orientation);
+        /** @noinspection TypeUnsafeComparisonInspection */
+        if ($size != '') {
+            $size = self::parseSize($this->manager->getConverter(), $size, $orientation);
         } else {
             $size = $this->defaultSize;
         }
@@ -348,7 +365,16 @@ class Document implements StateBufferInterface
         $margin->store();
         $this->manager->restore();
 
-        $this->document->getCatalog()->getPages()->create($size, $orientation);
+        $widthPt = $this->manager->getConverter()->toPt($size[0]);
+        $heightPt = $this->manager->getConverter()->toPt($size[1]);
+        $sizePt = [
+            0 => $widthPt,
+            1 => $heightPt,
+            'width' => $widthPt,
+            'height' => $heightPt
+        ];
+
+        $this->document->getCatalog()->getPages()->create($sizePt, $orientation);
         $this->rotation = $rotation;
 
         $this->size = $size;

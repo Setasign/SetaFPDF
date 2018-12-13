@@ -12,6 +12,11 @@ namespace setasign\SetaFpdf\Modules;
 use setasign\SetaFpdf\Manager;
 use setasign\SetaFpdf\StateBuffer\StateBufferInterface;
 
+/**
+ * Class Margin
+ *
+ * The margin works completly in unit.
+ */
 class Margin implements StateBufferInterface
 {
 
