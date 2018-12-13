@@ -1,5 +1,5 @@
 <?php
-use \setasign\SetaFpdi\SetaFpdi;
+use \setasign\SetaFpdf\SetaFpdi;
 
 require_once '../vendor/autoload.php';
 
