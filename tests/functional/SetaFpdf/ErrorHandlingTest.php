@@ -24,7 +24,7 @@ class ErrorHandlingTest extends TestCase
     public function testAddFontWithAlreadyAddedFont()
     {
         $pdf = new SetaFpdf();
-        $pdf->AddFont('dejavu', '', __DIR__ . '/../../../assets/fonts/DejaVu/DejaVuSans.ttf');
-        $pdf->AddFont('DeJavu', '', __DIR__ . '/../../../assets/fonts/DejaVu/DejaVuSans-BoldOblique.ttf');
+        $pdf->AddFont('dejavu', '', $this->getAssetsDir() . '/fonts/DejaVu/DejaVuSans.ttf');
+        $pdf->AddFont('DeJavu', '', $this->getAssetsDir() . '/fonts/DejaVu/DejaVuSans-BoldOblique.ttf');
     }
 }

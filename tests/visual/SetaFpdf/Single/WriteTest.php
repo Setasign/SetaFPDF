@@ -6,7 +6,6 @@ use setasign\tests\VisualTestCase;
 
 /**
  * Class Write
- * @package setasign\SetaFpdf\visual\Single
  *
  * @covers \setasign\SetaFpdf\Modules\Cell::write()
  */

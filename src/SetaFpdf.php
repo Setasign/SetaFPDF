@@ -93,10 +93,15 @@ class SetaFpdf
 
         $this->manager = new Manager($factor);
         $this->manager->getCanvasState()->lineCap = \SetaPDF_Core_Canvas_Path::LINE_CAP_PROJECTING_SQUARE;
-
-        $this->manager->getModule(Document::class, [
-            $orientation, $size, [$this, 'Footer'], [$this, 'Header'], [$this, 'AcceptPageBreak']
-        ]);
+        $document = new Document(
+            $this->manager,
+            $orientation,
+            $size,
+            [$this, 'Footer'],
+            [$this, 'Header'],
+            [$this, 'AcceptPageBreak']
+        );
+        $this->manager->setDocument($document);
 
         $this->SetDrawColor(0);
         $this->SetTextColor(0);
@@ -127,11 +132,11 @@ class SetaFpdf
      * @param string $style
      * @param string|\SetaPDF_Core_Font_FontInterface $pathOrInstance
      * @throws \SetaPDF_Core_Font_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
+     * @throws \SetaPDF_Exception_NotImplemented if an unknown font type is given (only otf and ttf are supported)
      */
     public function AddFont($family, $style = '', $pathOrInstance = '')
     {
-        $this->manager->getModule(Font::class)->add($family, $style, $pathOrInstance);
+        $this->manager->getFont()->add($family, $style, $pathOrInstance);
     }
 
     /**
@@ -146,7 +151,7 @@ class SetaFpdf
      */
     public function AddLink()
     {
-        return $this->manager->getModule(Link::class)->addLink();
+        return $this->manager->getLink()->addLink();
     }
 
     /**
@@ -176,7 +181,7 @@ class SetaFpdf
      */
     public function AddPage($orientation = '', $size = '', $rotation = 0)
     {
-        $this->manager->getModule(Document::class)->addPage($orientation, $size, $rotation);
+        $this->manager->getDocument()->addPage($orientation, $size, $rotation);
     }
 
     /**
@@ -184,7 +189,7 @@ class SetaFpdf
      *
      * Currently not supported {@see SetaFpdf::SetPage()} for "manual" processing.
      *
-     * @throws \SetaPDF_Exception_NotImplemented
+     * @throws \SetaPDF_Exception_NotImplemented AliasNbPages is not supported in SetaFpdf
      */
     public function AliasNbPages()
     {
@@ -211,12 +216,11 @@ class SetaFpdf
      * @throws \BadMethodCallException
      * @throws \SetaPDF_Core_Font_Exception
      * @throws \SetaPDF_Core_Type_IndirectReference_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
      */
     public function Cell($w, $h = 0, $txt = '', $border = 0, $ln = 0, $align = '', $fill = false, $link = '')
     {
         $txt = \SetaPDF_Core_Text::normalizeLineBreaks($txt);
-        $this->manager->getModule(Cell::class)->cell($w, $h, $txt, $border, $ln, $align, $fill, $link);
+        $this->manager->getCell()->cell($w, $h, $txt, $border, $ln, $align, $fill, $link);
     }
 
     /**
@@ -273,7 +277,7 @@ class SetaFpdf
      */
     public function GetStringWidth($s)
     {
-        return $this->manager->getModule(Cell::class)->getStringWidth($s, 'UTF-8');
+        return $this->manager->getCell()->getStringWidth($s, 'UTF-8');
     }
 
     /**
@@ -337,7 +341,7 @@ class SetaFpdf
         /** @noinspection PhpUnusedParameterInspection */ $type = '',
         $link = ''
     ) {
-        $this->manager->getModule(Draw::class)->image($file, $x, $y, $w, $h, $link);
+        $this->manager->getDraw()->image($file, $x, $y, $w, $h, $link);
     }
 
     /**
@@ -351,7 +355,7 @@ class SetaFpdf
      */
     public function Line($x1, $y1, $x2, $y2)
     {
-        $this->manager->getModule(Draw::class)->line($x1, $y1, $x2, $y2);
+        $this->manager->getDraw()->line($x1, $y1, $x2, $y2);
     }
 
     /**
@@ -369,7 +373,7 @@ class SetaFpdf
      */
     public function Link($x, $y, $w, $h, $link)
     {
-        $this->manager->getModule(Link::class)->link($x, $y, $w, $h, $link);
+        $this->manager->getLink()->link($x, $y, $w, $h, $link);
     }
 
     /**
@@ -382,7 +386,7 @@ class SetaFpdf
      */
     public function Ln($h = null)
     {
-        $this->manager->getCursor()->setX($this->manager->getModule(Margin::class)->getLeft());
+        $this->manager->getCursor()->setX($this->manager->getMargin()->getLeft());
 
         if ($h === null) {
             $h = $this->manager->getLastHeight();
@@ -419,11 +423,10 @@ class SetaFpdf
      * @throws \BadMethodCallException
      * @throws \SetaPDF_Core_Font_Exception
      * @throws \SetaPDF_Core_Type_IndirectReference_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
      */
     public function MultiCell($w, $h, $txt, $border = 0, $align = 'J', $fill = false)
     {
-        $this->manager->getModule(Cell::class)->multiCell($w, $h, $txt, $border, $align, $fill);
+        $this->manager->getCell()->multiCell($w, $h, $txt, $border, $align, $fill);
     }
 
     /**
@@ -445,8 +448,8 @@ class SetaFpdf
      */
     public function Output($dest = '', $name = '')
     {
-        $this->manager->getModule(Link::class)->writeLinks(
-            $this->manager->getModule(Document::class)->get()
+        $this->manager->getLink()->writeLinks(
+            $this->manager->getDocument()->get()
         );
 
         if (\strlen($name) === 1 && strlen($dest) !== 1) {
@@ -462,7 +465,7 @@ class SetaFpdf
             $name = 'doc.pdf';
         }
 
-        return $this->manager->getModule(Document::class)->output($dest, $name, $this->displayMode);
+        return $this->manager->getDocument()->output($dest, $name, $this->displayMode);
     }
 
     /**
@@ -472,7 +475,7 @@ class SetaFpdf
      */
     public function PageNo()
     {
-        return $this->manager->getModule(Document::class)->getActivePageNo();
+        return $this->manager->getDocument()->getActivePageNo();
     }
 
     /**
@@ -482,7 +485,7 @@ class SetaFpdf
      */
     public function getPageCount()
     {
-        return $this->manager->getModule(Document::class)->getPageCount();
+        return $this->manager->getDocument()->getPageCount();
     }
 
     /**
@@ -502,7 +505,7 @@ class SetaFpdf
      */
     public function Rect($x, $y, $w, $h, $style = '')
     {
-        $this->manager->getModule(Draw::class)->rect($x, $y, $w, $h, $style);
+        $this->manager->getDraw()->rect($x, $y, $w, $h, $style);
     }
 
     /**
@@ -512,7 +515,7 @@ class SetaFpdf
      */
     public function SetAuthor($author)
     {
-        $this->manager->getModule(Document::class)
+        $this->manager->getDocument()
             ->get()
             ->getInfo()
             ->setSubject($author);
@@ -529,8 +532,8 @@ class SetaFpdf
      */
     public function SetAutoPageBreak($auto, $margin = 0)
     {
-        $this->manager->getModule(Document::class)->setAutoPageBreak($auto);
-        $this->manager->getModule(Margin::class)->setBottom($margin);
+        $this->manager->getDocument()->setAutoPageBreak($auto);
+        $this->manager->getMargin()->setBottom($margin);
     }
 
     /**
@@ -542,7 +545,7 @@ class SetaFpdf
      * Note: Compression can't be turned off while using SetaPDF.
      *
      * @param bool $value Boolean indicating if compression must be enabled.
-     * @throws \SetaPDF_Exception_NotImplemented
+     * @throws \SetaPDF_Exception_NotImplemented SetaPDF only supports compressed streams.
      */
     public function SetCompression($value = true)
     {
@@ -558,7 +561,7 @@ class SetaFpdf
      */
     public function SetCreator($creator)
     {
-        $this->manager->getModule(Document::class)
+        $this->manager->getDocument()
             ->get()
             ->getInfo()
             ->setSubject($creator);
@@ -592,15 +595,15 @@ class SetaFpdf
      * RGB components, CMYK components or gray scale. The method can be called before the first page is created and the
      * value is retained from page to page.
      *
-     * @param int|float $r If g and b are given, red component; if $k is given, cyan component;
-     *                     if not, indicates the gray level. Value between 0 and 255.
-     * @param int|float|null $g If $k is given, magenta component; if not Green component. Value between 0 and 255.
-     * @param int|float|null $b If $k is given, yellow component; if nto Blue component. Value between 0 and 255.
-     * @param int|float|null $k If $k black component. Value between 0 and 255.
+     * The count of $components define the color space (1 - gray, 3 - RGB, 4 - CMYK).
+     * If the colorspace is grayscale or RGB the color values must be between 0 and 255.
+     * For cmyk the color values must be between 0 and 100.
+     *
+     * @param array $components
      */
-    public function SetDrawColor($r, $g = null, $b = null, $k = null)
+    public function SetDrawColor(...$components)
     {
-        $this->manager->getModule(Color::class)->setDraw($r, $g, $b, $k);
+        $this->manager->getColor()->setDraw(...$components);
     }
 
     /**
@@ -608,15 +611,15 @@ class SetaFpdf
      * in RGB components, CMYK components or gray scale. The method can be called before the first page is created and
      * the value is retained from page to page.
      *
-     * @param int|float $r If g and b are given, red component; if $k is given, cyan component;
-     *                     if not, indicates the gray level. Value between 0 and 255.
-     * @param int|float|null $g If $k is given, magenta component; if not Green component. Value between 0 and 255.
-     * @param int|float|null $b If $k is given, yellow component; if nto Blue component. Value between 0 and 255.
-     * @param int|float|null $k If $k black component. Value between 0 and 255.
+     * The count of $components define the color space (1 - gray, 3 - RGB, 4 - CMYK).
+     * If the colorspace is grayscale or RGB the color values must be between 0 and 255.
+     * For cmyk the color values must be between 0 and 100.
+     *
+     * @param array $components
      */
-    public function SetFillColor($r, $g = null, $b = null, $k = null)
+    public function SetFillColor(...$components)
     {
-        $this->manager->getModule(Color::class)->setFill($r, $g, $b, $k);
+        $this->manager->getColor()->setFill(...$components);
     }
 
     /**
@@ -646,7 +649,7 @@ class SetaFpdf
      */
     public function SetFont($family, $style = '', $size = '')
     {
-        $this->manager->getModule(Font::class)->set($family, $style, $size);
+        $this->manager->getFont()->set($family, $style, $size);
     }
 
     /**
@@ -666,7 +669,7 @@ class SetaFpdf
      */
     public function SetKeywords($keywords)
     {
-        $this->manager->getModule(Document::class)
+        $this->manager->getDocument()
             ->get()
             ->getInfo()
             ->setKeywords($keywords);
@@ -680,7 +683,7 @@ class SetaFpdf
      */
     public function SetLeftMargin($margin)
     {
-        $this->manager->getModule(Margin::class)->setLeft($margin);
+        $this->manager->getMargin()->setLeft($margin);
     }
 
     /**
@@ -708,7 +711,7 @@ class SetaFpdf
             $page = $this->PageNo();
         }
 
-        $this->manager->getModule(Link::class)->setLink($link, $y, $page);
+        $this->manager->getLink()->setLink($link, $y, $page);
     }
 
     /**
@@ -720,7 +723,7 @@ class SetaFpdf
      */
     public function SetMargins($left, $top, $right = null)
     {
-        $this->manager->getModule(Margin::class)->set($left, $top, $right);
+        $this->manager->getMargin()->set($left, $top, $right);
     }
 
     /**
@@ -730,7 +733,7 @@ class SetaFpdf
      */
     public function SetRightMargin($margin)
     {
-        $this->manager->getModule(Margin::class)->setRight($margin);
+        $this->manager->getMargin()->setRight($margin);
     }
 
     /**
@@ -740,7 +743,7 @@ class SetaFpdf
      */
     public function SetSubject($subject)
     {
-        $this->manager->getModule(Document::class)
+        $this->manager->getDocument()
             ->get()
             ->getInfo()
             ->setSubject($subject);
@@ -752,15 +755,15 @@ class SetaFpdf
      * It can be expressed in RGB components, CMYK components or gray scale. The method can be called
      * before the first page is created and the value is retained from page to page.
      *
-     * @param int|float $r If g and b are given, red component; if $k is given, cyan component;
-     *                     if not, indicates the gray level. Value between 0 and 255.
-     * @param int|float|null $g If $k is given, magenta component; if not Green component. Value between 0 and 255.
-     * @param int|float|null $b If $k is given, yellow component; if nto Blue component. Value between 0 and 255.
-     * @param int|float|null $k If $k black component. Value between 0 and 255.
+     * The count of $components define the color space (1 - gray, 3 - RGB, 4 - CMYK).
+     * If the colorspace is grayscale or RGB the color values must be between 0 and 255.
+     * For cmyk the color values must be between 0 and 100.
+     *
+     * @param array $components
      */
-    public function SetTextColor($r, $g = null, $b = null, $k = null)
+    public function SetTextColor(...$components)
     {
-        $this->manager->getModule(Color::class)->setText($r, $g, $b, $k);
+        $this->manager->getColor()->setText(...$components);
     }
 
     /**
@@ -770,7 +773,7 @@ class SetaFpdf
      */
     public function SetTitle($title)
     {
-        $this->manager->getModule(Document::class)
+        $this->manager->getDocument()
             ->get()
             ->getInfo()
             ->setTitle($title);
@@ -783,7 +786,7 @@ class SetaFpdf
      */
     public function SetTopMargin($margin)
     {
-        $this->manager->getModule(Margin::class)->setTop($margin);
+        $this->manager->getMargin()->setTop($margin);
     }
 
     /**
@@ -831,7 +834,7 @@ class SetaFpdf
         $cursor = $this->manager->getCursor();
         $cursor->setY($y);
         if ($resetX) {
-            $cursor->setX($this->manager->getModule(Margin::class)->getLeft());
+            $cursor->setX($this->manager->getMargin()->getLeft());
         }
     }
 
@@ -848,11 +851,10 @@ class SetaFpdf
      * @throws \BadMethodCallException
      * @throws \SetaPDF_Core_Font_Exception
      * @throws \SetaPDF_Core_Type_IndirectReference_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
      */
     public function Text($x, $y, $txt)
     {
-        $this->manager->getModule(Text::class)->text($x, $y, $txt);
+        $this->manager->getText()->text($x, $y, $txt);
     }
 
     /**
@@ -869,13 +871,12 @@ class SetaFpdf
      * @throws \BadMethodCallException
      * @throws \SetaPDF_Core_Font_Exception
      * @throws \SetaPDF_Core_Type_IndirectReference_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
      */
     public function Write($h, $txt, $link = '')
     {
         $txt = \SetaPDF_Core_Text::normalizeLineBreaks($txt);
 
-        $this->manager->getModule(Cell::class)->write($h, $txt, $link, 'UTF-8');
+        $this->manager->getCell()->write($h, $txt, $link, 'UTF-8');
     }
 
     /**
@@ -889,7 +890,7 @@ class SetaFpdf
             $pageNo = $this->PageNo();
         }
 
-        $this->manager->getModule(Document::class)->setActivePage($pageNo);
+        $this->manager->getDocument()->setActivePage($pageNo);
         $this->manager->getCursor()->reset();
     }
 
@@ -936,16 +937,16 @@ class SetaFpdf
                 $this->manager->getFontState()->fontSize = $value;
                 break;
             case 'rMargin':
-                $this->manager->getModule(Margin::class)->setRight($value);
+                $this->manager->getMargin()->setRight($value);
                 break;
             case 'lMargin':
-                $this->manager->getModule(Margin::class)->setLeft($value);
+                $this->manager->getMargin()->setLeft($value);
                 break;
             case 'tMargin':
-                $this->manager->getModule(Margin::class)->setTop($value);
+                $this->manager->getMargin()->setTop($value);
                 break;
             case 'bMargin':
-                $this->manager->getModule(Margin::class)->setBottom($value);
+                $this->manager->getMargin()->setBottom($value);
                 break;
             default:
                 throw new \InvalidArgumentException(sprintf('Property "%s" cannot be set.', $name));
@@ -978,13 +979,13 @@ class SetaFpdf
             case 'fontSize':
                 return $this->manager->getFontState()->getNewFontSize();
             case 'lMargin':
-                return $this->manager->getModule(Margin::class)->getLeft();
+                return $this->manager->getMargin()->getLeft();
             case 'tMargin':
-                return $this->manager->getModule(Margin::class)->getTop();
+                return $this->manager->getMargin()->getTop();
             case 'rMargin':
-                return $this->manager->getModule(Margin::class)->getRight();
+                return $this->manager->getMargin()->getRight();
             case 'bMargin':
-                return $this->manager->getModule(Margin::class)->getBottom();
+                return $this->manager->getMargin()->getBottom();
 
             default:
                 throw new \InvalidArgumentException(sprintf('Property "%s" cannot be accessed.', $name));

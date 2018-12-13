@@ -96,7 +96,7 @@ class Link
         }
 
         $this->links[] = [
-            'page' => $this->manager->getModule(Document::class)->getActivePageNo(),
+            'page' => $this->manager->getDocument()->getActivePageNo(),
             'rectangle' => [$x, $y, $x + $w, $y - $h],
             'target' => $link
         ];

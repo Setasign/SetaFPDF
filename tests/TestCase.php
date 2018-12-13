@@ -24,6 +24,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @return string
+     */
+    protected function getAssetsDir()
+    {
+        return realpath(dirname(__DIR__) . '/assets/');
+    }
+
+    /**
      * @return TestProxy
      * @throws \InvalidArgumentException
      */

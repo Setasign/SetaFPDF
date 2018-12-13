@@ -67,19 +67,19 @@ class SetaFpdfTplStorageTest extends TestCase
         $pdf->beginTemplate();
         $pdf->endTemplate();
 
-        $this->assertEquals(false, $pdf->getManager()->getModule(Document::class)->pageBreakAllowed());
+        $this->assertEquals(false, $pdf->getManager()->getDocument()->pageBreakAllowed());
 
         $pdf->SetAutoPageBreak(true);
         $pdf->beginTemplate();
         $pdf->endTemplate();
 
-        $this->assertEquals(true, $pdf->getManager()->getModule(Document::class)->pageBreakAllowed());
+        $this->assertEquals(true, $pdf->getManager()->getDocument()->pageBreakAllowed());
     }
 
     public function testMarginBehaviour()
     {
         $pdf = new SetaFpdfTpl();
-        $margin = $pdf->getManager()->getModule(Margin::class);
+        $margin = $pdf->getManager()->getMargin();
 
         $pdf->SetMargins(10, 20 ,30);
         $pdf->SetAutoPageBreak(true, 200);

@@ -6,7 +6,6 @@ use setasign\tests\VisualTestCase;
 
 /**
  * Class Line
- * @package setasign\FPDF\visual\Draw
  *
  * @covers \setasign\SetaFpdf\Modules\Draw::line()
  */
