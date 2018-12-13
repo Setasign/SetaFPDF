@@ -30,7 +30,7 @@ class SetaFpdiTest extends VisualTestCase
         return [
             [
                 [
-                    'Boombastic-Box.pdf' =>  __DIR__ . '/../../../assets/pdfs/Boombastic-Box.pdf'
+                    'Boombastic-Box.pdf' =>  $this->getAssetsDir() . '/pdfs/Boombastic-Box.pdf'
                 ],
                 [
                     [
@@ -51,7 +51,7 @@ class SetaFpdiTest extends VisualTestCase
             ],
             [
                 [
-                    '1000.pdf' => __DIR__ . '/../../../assets/pdfs/1000.pdf'
+                    '1000.pdf' => $this->getAssetsDir() . '/pdfs/1000.pdf'
                 ],
                 [
                     [
@@ -72,17 +72,17 @@ class SetaFpdiTest extends VisualTestCase
             ],
             [
                 [
-                    '-90' => __DIR__ . '/../../../assets/pdfs/rotated/-90.pdf',
-                    '-180' => __DIR__ . '/../../../assets/pdfs/rotated/-180.pdf',
-                    '-270' => __DIR__ . '/../../../assets/pdfs/rotated/-270.pdf',
-                    '-360' => __DIR__ . '/../../../assets/pdfs/rotated/-360.pdf',
-                    '-450' => __DIR__ . '/../../../assets/pdfs/rotated/-450.pdf',
-                    '90' => __DIR__ . '/../../../assets/pdfs/rotated/90.pdf',
-                    '180' => __DIR__ . '/../../../assets/pdfs/rotated/180.pdf',
-                    '270' => __DIR__ . '/../../../assets/pdfs/rotated/270.pdf',
-                    '360' => __DIR__ . '/../../../assets/pdfs/rotated/360.pdf',
-                    '450' => __DIR__ . '/../../../assets/pdfs/rotated/450.pdf',
-                    'all' => __DIR__ . '/../../../assets/pdfs/rotated/all.pdf ',
+                    '-90' => $this->getAssetsDir() . '/pdfs/rotated/-90.pdf',
+                    '-180' => $this->getAssetsDir() . '/pdfs/rotated/-180.pdf',
+                    '-270' => $this->getAssetsDir() . '/pdfs/rotated/-270.pdf',
+                    '-360' => $this->getAssetsDir() . '/pdfs/rotated/-360.pdf',
+                    '-450' => $this->getAssetsDir() . '/pdfs/rotated/-450.pdf',
+                    '90' => $this->getAssetsDir() . '/pdfs/rotated/90.pdf',
+                    '180' => $this->getAssetsDir() . '/pdfs/rotated/180.pdf',
+                    '270' => $this->getAssetsDir() . '/pdfs/rotated/270.pdf',
+                    '360' => $this->getAssetsDir() . '/pdfs/rotated/360.pdf',
+                    '450' => $this->getAssetsDir() . '/pdfs/rotated/450.pdf',
+                    'all' => $this->getAssetsDir() . '/pdfs/rotated/all.pdf ',
                 ],
                 [
                     [
@@ -216,7 +216,7 @@ class SetaFpdiTest extends VisualTestCase
             ],
             [
                 [
-                    'All' => __DIR__ . '/../../../assets/pdfs/boxes/all.pdf',
+                    'All' => $this->getAssetsDir() . '/pdfs/boxes/all.pdf',
                 ],
                 [
                     [
@@ -293,7 +293,7 @@ class SetaFpdiTest extends VisualTestCase
             ],
             [
                 [
-                    '1' => __DIR__ . '/../../../assets/pdfs/boxes/[-100 -100 1000 1000].pdf'
+                    '1' => $this->getAssetsDir() . '/pdfs/boxes/[-100 -100 1000 1000].pdf'
                 ],
                 [
                     [
@@ -314,7 +314,7 @@ class SetaFpdiTest extends VisualTestCase
             ],
             [
                 [
-                    'transparent' => __DIR__ . '/../../../assets/pdfs/transparency/ex74.pdf'
+                    'transparent' => $this->getAssetsDir() . '/pdfs/transparency/ex74.pdf'
                 ],
                 [
                     [

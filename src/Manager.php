@@ -32,9 +32,44 @@ class Manager implements CleanupInterface
     private $stateBufferInterfaces = [];
 
     /**
-     * @var mixed[]
+     * @var null|Cell
      */
-    private $modules = [];
+    private $cell;
+
+    /**
+     * @var null|Color
+     */
+    private $color;
+
+    /**
+     * @var null|Document
+     */
+    private $document;
+
+    /**
+     * @var null|Draw
+     */
+    private $draw;
+
+    /**
+     * @var null|Font
+     */
+    private $font;
+
+    /**
+     * @var null|Link
+     */
+    private $link;
+
+    /**
+     * @var null|Margin
+     */
+    private $margin;
+
+    /**
+     * @var null|Text
+     */
+    private $text;
 
     /**
      * @var null|\SetaPDF_Core_Canvas
@@ -75,13 +110,13 @@ class Manager implements CleanupInterface
      *
      * If there isn't a canvas (because no page was added yet) the default page width of the document will be returned.
      *
-     * @return float|int
+     * @return float|int Returns the width in pt.
      */
     public function getWidth()
     {
         if ($this->canvas === null) {
             // fallback if no page was added before
-            return $this->getModule(Document::class)->getDefaultWidth();
+            return $this->converter->toPt($this->getDocument()->getDefaultWidth());
         }
 
         return $this->canvas->getWidth();
@@ -92,13 +127,13 @@ class Manager implements CleanupInterface
      *
      * If there isn't a canvas (because no page was added yet) the default page height of the document will be returned.
      *
-     * @return float|int
+     * @return float|int Returns the height in pt.
      */
     public function getHeight()
     {
         if ($this->canvas === null) {
             // fallback if no page was added before
-            return $this->getModule(Document::class)->getDefaultHeight();
+            return $this->converter->toPt($this->getDocument()->getDefaultHeight());
         }
 
         return $this->canvas->getHeight();
@@ -107,18 +142,18 @@ class Manager implements CleanupInterface
     /**
      * Check whether space of a specific height is available on the current page.
      *
-     * @param $height
+     * @param int|float $heightInUnit
      * @return bool
      */
-    public function hasSpaceOnPage($height)
+    public function hasSpaceOnPage($heightInUnit)
     {
-        $margin = $this->getModule(Margin::class);
+        $margin = $this->getMargin();
 
         $canvasHeight = $this->getConverter()->fromPt($this->getHeight());
 
         $leftSpace = $canvasHeight - $this->getCursor()->getY() - $margin->getBottom();
 
-        return $leftSpace - $height >= 0;
+        return $leftSpace - $heightInUnit >= 0;
     }
 
     /**
@@ -180,25 +215,106 @@ class Manager implements CleanupInterface
     }
 
     /**
-     * Get a module.
-     *
-     * @param string $class
-     * @param mixed[] $args
-     * @return mixed|Cell|Color|Document|Draw|Font|Margin|Text|Link
+     * @return Cell
      */
-    public function getModule($class, $args = [])
+    public function getCell()
     {
-        if (!isset($this->modules[$class])) {
-            $newModule = new $class($this, ...$args);
-
-            if ($newModule instanceof StateBufferInterface) {
-                $this->stateBufferInterfaces[] = $newModule;
-            }
-
-            $this->modules[$class] = $newModule;
+        if ($this->cell === null) {
+            $this->cell = new Cell($this);
         }
 
-        return $this->modules[$class];
+        return $this->cell;
+    }
+
+    /**
+     * @return Color
+     */
+    public function getColor()
+    {
+        if ($this->color === null) {
+            $this->color = new Color($this->getColorState());
+        }
+
+        return $this->color;
+    }
+
+    public function setDocument(Document $document)
+    {
+        $this->stateBufferInterfaces[] = $document;
+        $this->document = $document;
+    }
+
+    /**
+     * @return Document
+     */
+    public function getDocument()
+    {
+        if ($this->document === null) {
+            throw new \BadMethodCallException('No document is set!');
+        }
+
+        return $this->document;
+    }
+
+    /**
+     * @return Draw
+     */
+    public function getDraw()
+    {
+        if ($this->draw === null) {
+            $this->draw = new Draw($this);
+        }
+
+        return $this->draw;
+    }
+
+    /**
+     * @return Font
+     */
+    public function getFont()
+    {
+        if ($this->font === null) {
+            $this->font = new Font($this);
+        }
+
+        return $this->font;
+    }
+
+    /**
+     * @return Link
+     */
+    public function getLink()
+    {
+        if ($this->link === null) {
+            $this->link = new Link($this);
+        }
+
+        return $this->link;
+    }
+
+    /**
+     * @return Margin
+     */
+    public function getMargin()
+    {
+        if ($this->margin === null) {
+            $this->margin = new Margin($this->converter, $this->cursor);
+            $this->stateBufferInterfaces[] = $this->margin;
+        }
+
+        return $this->margin;
+    }
+
+    /**
+     * @return Text
+     */
+    public function getText()
+    {
+        if ($this->text === null) {
+            $this->text = new Text($this);
+        }
+
+        return $this->text;
     }
 
     /**
@@ -212,16 +328,15 @@ class Manager implements CleanupInterface
         }
         $this->stateBufferInterfaces = [];
 
-        // maintain the document module, to enable saving after the cleanup.
-        $documentModule = $this->getModule(Document::class);
-        foreach ($this->modules as $module) {
-            if (!($module instanceof CleanupInterface)) {
-                continue;
-            }
-            $module->cleanUp();
-        }
-        // append only the document module, which might got cleaned.
-        $this->modules = [$documentModule];
+        $this->cell = null;
+        $this->color = null;
+        // note: the document module is not cleaned, to enable saving after the cleanup.
+        //$this->document = null;
+        $this->draw = null;
+        $this->font = null;
+        $this->link = null;
+        $this->margin = null;
+        $this->text = null;
 
         $this->canvas = null;
         $this->converter = null;

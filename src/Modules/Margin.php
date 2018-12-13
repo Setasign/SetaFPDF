@@ -9,18 +9,22 @@
 
 namespace setasign\SetaFpdf\Modules;
 
-use setasign\SetaFpdf\Manager;
+use setasign\SetaFpdf\Position\Converter;
+use setasign\SetaFpdf\Position\Cursor;
 use setasign\SetaFpdf\StateBuffer\StateBufferInterface;
 
+/**
+ * Class Margin
+ *
+ * The margin works completly in unit.
+ */
 class Margin implements StateBufferInterface
 {
 
     /**
-     * The manager.
-     *
-     * @var Manager
+     * @var Cursor
      */
-    protected $manager;
+    protected $cursor;
 
     /**
      * The left margin.
@@ -95,13 +99,12 @@ class Margin implements StateBufferInterface
     /**
      * Margin constructor.
      *
-     * @param Manager $manager
+     * @param Converter $converter
+     * @param Cursor $cursor
      */
-    public function __construct(Manager $manager)
+    public function __construct(Converter $converter, Cursor $cursor)
     {
-        $this->manager = $manager;
-
-        $converter = $this->manager->getConverter();
+        $this->cursor = $cursor;
         $margin = $converter->fromPt(28.35);
         $this->set($margin, $margin);
         $this->cell = $margin / 10;
@@ -117,9 +120,8 @@ class Margin implements StateBufferInterface
     {
         $this->left = $margin;
 
-        $cursor = $this->manager->getCursor();
-        if ($cursor->getX() < $margin) {
-            $cursor->setX($margin);
+        if ($this->cursor->getX() < $margin) {
+            $this->cursor->setX($margin);
         }
     }
 
@@ -222,7 +224,7 @@ class Margin implements StateBufferInterface
      */
     public function cleanUp()
     {
-        $this->manager = null;
+        $this->cursor = null;
     }
 
     /**

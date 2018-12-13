@@ -12,6 +12,7 @@ class LinkTest extends TestCase
      * @throws \BadMethodCallException
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
+     * @throws \SetaPDF_Core_Exception
      */
     public function testCreateExternalLink()
     {
@@ -24,10 +25,9 @@ class LinkTest extends TestCase
         $proxy->Cell(200, 0, 'testen', 0, 0, '', false, 'https://example.com');
 
 
-        $proxy->Image(__DIR__ . '/../../../assets/images/logo.png', 0, 0, 0, 0, '', 'https://setasign.com');
+        $proxy->Image($this->getAssetsDir() . '/images/logo.png', 0, 0, 0, 0, '', 'https://setasign.com');
 
         $this->assertProxySame($proxy, 0.1);
-
     }
 
     /**
@@ -35,6 +35,7 @@ class LinkTest extends TestCase
      * @throws \BadMethodCallException
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
+     * @throws \SetaPDF_Core_Exception
      */
     public function testCreateInternalLink()
     {
@@ -51,16 +52,14 @@ class LinkTest extends TestCase
         $proxy->SetFont('arial');
         $proxy->Cell(200, 0, 'testen', 0, 0, '', false, $link);
 
-        $proxy->Image(__DIR__ . '/../../../assets/images/logo.png', 0, 0, 0, 0, '', $link);
+        $proxy->Image($this->getAssetsDir() . '/images/logo.png', 0, 0, 0, 0, '', $link);
 
         $this->assertProxySame($proxy, .01);
     }
 
     /**
      *
-     * @throws \BadMethodCallException
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
+     * @throws \SetaPDF_Core_Exception
      */
     public function testCreateMultipleInternal()
     {
@@ -72,7 +71,6 @@ class LinkTest extends TestCase
         $yCount = 10;
         for ($x = 0; $x < $xCount; $x++) {
             for ($y = 0; $y < $yCount; $y++) {
-
                 $link = $proxy->AddLink();
                 $proxy->Link(
                     ($proxy->GetPageWidth() / $xCount) * $x,
@@ -92,6 +90,7 @@ class LinkTest extends TestCase
      * @param TestProxy $proxy
      * @param float $tolerance
      * @param bool $delete
+     * @throws \SetaPDF_Core_Exception
      */
     public function assertProxySame(TestProxy $proxy, $tolerance = 0.0001, $delete = true)
     {
@@ -156,7 +155,6 @@ class LinkTest extends TestCase
             $currentDir = realpath($tempDir);
 
             do {
-                /** @noinspection RealpathInSteamContextInspection */
                 $newCurrentDir = realpath($currentDir . DIRECTORY_SEPARATOR . '..');
                 rmdir($currentDir);
             } while (($currentDir = $newCurrentDir) !== $targetDir);

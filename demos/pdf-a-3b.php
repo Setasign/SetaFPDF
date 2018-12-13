@@ -9,7 +9,7 @@ class PdfA extends SetaFpdf
 {
     private function makePdfA()
     {
-        $document = $this->getManager()->getModule(Document::class)->get();
+        $document = $this->getManager()->getDocument()->get();
         $info = $document->getInfo();
 
         $info->setSyncMetadata(true);

@@ -4,7 +4,6 @@ namespace setasign\tests\functional\SetaFpdf\FooterTest;
 
 /**
  * Trait MethodTrait
- * @package setasign\tests\SetaFpdf\functional\FooterTest
  *
  * @mixin \FPDF
  */

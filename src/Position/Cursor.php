@@ -13,6 +13,11 @@ use setasign\SetaFpdf\Manager;
 use setasign\SetaFpdf\Modules\Margin;
 use setasign\SetaFpdf\StateBuffer\StateBufferInterface;
 
+/**
+ * Class Cursor
+ *
+ * The cursor works completly with unit.
+ */
 class Cursor implements StateBufferInterface
 {
     /**
@@ -134,8 +139,8 @@ class Cursor implements StateBufferInterface
      */
     public function reset()
     {
-        $this->x = $this->manager->getModule(Margin::class)->getLeft();
-        $this->y = $this->manager->getModule(Margin::class)->getTop();
+        $this->x = $this->manager->getMargin()->getLeft();
+        $this->y = $this->manager->getMargin()->getTop();
     }
 
     /**

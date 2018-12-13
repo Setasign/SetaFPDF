@@ -6,24 +6,17 @@ use setasign\tests\VisualTestCase;
 
 /**
  * Class Image
- * @package setasign\FPDF\visual\Draw
  *
  * @covers \setasign\SetaFpdf\Modules\Draw::Image()
  */
 class ImageTest extends VisualTestCase
 {
-    public function getRandomImage()
-    {
-        $images = glob(__DIR__ . '/../../../../assets/images/*');
-        return $images[array_rand($images)];
-    }
-
     public function testDraw()
     {
         $proxy = $this->getProxy();
 
         $proxy->AddPage();
-        $proxy->Image($this->getRandomImage());
+        $proxy->Image($this->getAssetsDir() . '/images/logo.png');
 
         $this->assertProxySame($proxy);
     }
@@ -33,7 +26,7 @@ class ImageTest extends VisualTestCase
         $proxy = $this->getProxy();
 
         $proxy->AddPage();
-        $proxy->Image($this->getRandomImage(), null, null, 0, 1000);
+        $proxy->Image($this->getAssetsDir() . '/images/logo.png', null, null, 0, 1000);
 
         $this->assertProxySame($proxy);
     }
@@ -43,7 +36,7 @@ class ImageTest extends VisualTestCase
         $proxy = $this->getProxy();
 
         $proxy->AddPage();
-        $proxy->Image($this->getRandomImage(), null, null, 1000);
+        $proxy->Image($this->getAssetsDir() . '/images/logo.png', null, null, 1000);
 
         $this->assertProxySame($proxy);
     }

@@ -59,7 +59,7 @@ class FontTest extends VisualTestCase
         $proxy->AddPage();
 
         list($setaFpdf, $pdf) = $proxy->getInstances();
-        $fontPath =  __DIR__ . '/../../../../assets/fonts/DejaVu';
+        $fontPath =  $this->getAssetsDir() . '/fonts/DejaVu';
         $setaFpdf->AddFont('DejaVuSans', '', $fontPath . '/DejaVuSans.ttf');
         $setaFpdf->AddFont('DejaVuSans', 'B', $fontPath . '/DejaVuSans-Bold.ttf');
         $setaFpdf->AddFont('DejaVuSans', 'I', $fontPath . '/DejaVuSans-Oblique.ttf');

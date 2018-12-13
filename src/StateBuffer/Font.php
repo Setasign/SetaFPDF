@@ -160,10 +160,8 @@ class Font implements StateBufferInterface
     /**
      * Ensures that the font and the font size are set correctly in the canvas.
      *
-     * @throws \BadMethodCallException
      * @throws \SetaPDF_Core_Font_Exception
      * @throws \SetaPDF_Core_Type_IndirectReference_Exception
-     * @throws \SetaPDF_Exception_NotImplemented
      */
     public function ensureFont()
     {
@@ -171,7 +169,11 @@ class Font implements StateBufferInterface
             $this->currentFont = $this->newFont;
             $this->currentFontSize = $this->newFontSize;
 
-            $this->manager->getCanvas()->text()->setFont($this->currentFont, $this->currentFontSize);
+            try {
+                $this->manager->getCanvas()->text()->setFont($this->currentFont, $this->currentFontSize);
+            } catch (\SetaPDF_Exception_NotImplemented $e) {
+                throw new \RuntimeException('The current font should be valid.', 0, $e);
+            }
         }
     }
 

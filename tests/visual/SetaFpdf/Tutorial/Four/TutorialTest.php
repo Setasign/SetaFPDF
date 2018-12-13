@@ -25,8 +25,8 @@ class TutorialTest extends VisualTestCase
         $title = '20000 Leagues Under the Seas';
         $pdf->SetTitle($title);
         $pdf->SetAuthor('Jules Verne');
-        $pdf->PrintChapter(1,'A RUNAWAY REEF',__DIR__ . '/../../../../../assets/text/20k_c1.txt');
-        $pdf->PrintChapter(2,'THE PROS AND CONS',__DIR__ . '/../../../../../assets/text/20k_c2.txt');
+        $pdf->PrintChapter(1, 'A RUNAWAY REEF', $this->getAssetsDir() .'/text/20k_c1.txt');
+        $pdf->PrintChapter(2, 'THE PROS AND CONS', $this->getAssetsDir() . '/text/20k_c2.txt');
 //        $pdf->Output(); // REPLACED BY ASSERTION
 
         $this->assertProxySame($pdf, 83, 60);
