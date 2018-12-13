@@ -16,7 +16,7 @@
 
   "autoload": {
     "psr-4": {
-      "setasign\\": "src/"
+      "setasign\\SetaFpdf\\": "src/"
     }
   },
 
