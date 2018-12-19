@@ -9,14 +9,7 @@
 
 namespace setasign\SetaFpdf;
 
-use setasign\SetaFpdf\Modules\Cell;
-use setasign\SetaFpdf\Modules\Color;
 use setasign\SetaFpdf\Modules\Document;
-use setasign\SetaFpdf\Modules\Draw;
-use setasign\SetaFpdf\Modules\Font;
-use setasign\SetaFpdf\Modules\Link;
-use setasign\SetaFpdf\Modules\Margin;
-use setasign\SetaFpdf\Modules\Text;
 use setasign\SetaFpdf\Position\Converter;
 
 /**
