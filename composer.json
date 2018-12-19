@@ -1,6 +1,6 @@
 {
   "name": "setasign/setafpdf",
-  "description": "SetaFpdf is a clone of FPDF with an almost compatible interface while using SetaPDF-Core internally for the PDF generation.",
+  "description": "SetaFPDF is a clone of FPDF with an almost compatible interface while using SetaPDF-Core internally for the PDF generation.",
   "homepage": "https://www.setasign.com",
   "type": "library",
   "license": "MIT",
