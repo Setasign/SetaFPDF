@@ -98,10 +98,10 @@ You can use SetaFPDF the same way as FPDF. Their interfaces are almost identical
 - The `$isUTF8` parameter is removed from the `Output()` method. The HTTP header is always send with an UTF-8 variant by SetaPDF.
 - The `$isUTF8` parameter is removed from following methods: `SetAuthor()`, `SetCreator()`, `SetKeywords()`, `SetSubject()` and `SetTitle()`. You need to pass the parameters in UTF-8 throughout.
 - The method `SetCompression()` will throw an `SetaPDF_Exception_NotImplemented` exception if called with `false` as its argument (SetaPDF has no option to turn compression off).
-- There's no `Error()` method anymore. Exceptions are thrown were the errors occur.
+- There's no `Error()` method anymore. Exceptions are thrown where the errors occur.
 
 Improved and new methods:
-- The `SetDrawColor()`, `SetTextColor()` and `SetFillColor()` accept 3 arguments for RGB and 4 arguments for CMYK now by default.
+- The `SetDrawColor()`, `SetTextColor()` and `SetFillColor()` accept 1 argument (0-255) for grayscale colors, 3 arguments (each 0-255) for RGB and 4 arguments (each 0-100) for CMYK now by default.
 - A new method `SetPage()` is introduced to allow you to navigate between pages. With it you can e.g. write page numbers and the final page count into the pages footer or header. This was done before with `AliasNbPages()`.
 - The new `getPageCount()` method is self-explaining. 
 - The `getManager()` method allows you to get access to the underlaying object structure.
