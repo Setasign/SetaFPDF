@@ -1,6 +1,5 @@
 <?php
 
-use setasign\SetaFpdf\Modules\Document;
 use \setasign\SetaFpdf\SetaFpdf;
 
 require_once '../vendor/autoload.php';
@@ -42,9 +41,15 @@ class PdfA extends SetaFpdf
         $description =  $xml->createElementNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'Description');
         // "[...]an empty string, which means that the XMP is physically local to the resource being described.[...]"
         $description->setAttribute('rdf:about', '');
-        $description->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:pdfaExtension', 'http://www.aiim.org/pdfa/ns/extension/');
-        $description->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:pdfaSchema', 'http://www.aiim.org/pdfa/ns/schema#');
-        $description->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:pdfaProperty', 'http://www.aiim.org/pdfa/ns/property#');
+        $description->setAttributeNS(
+            'http://www.w3.org/2000/xmlns/', 'xmlns:pdfaExtension', 'http://www.aiim.org/pdfa/ns/extension/'
+        );
+        $description->setAttributeNS(
+            'http://www.w3.org/2000/xmlns/', 'xmlns:pdfaSchema', 'http://www.aiim.org/pdfa/ns/schema#'
+        );
+        $description->setAttributeNS(
+            'http://www.w3.org/2000/xmlns/', 'xmlns:pdfaProperty', 'http://www.aiim.org/pdfa/ns/property#'
+        );
 
         $rdf = $xml->getElementsByTagName('RDF')->item(0);
         $rdf->appendChild($description);
@@ -57,7 +62,9 @@ class PdfA extends SetaFpdf
         $li->setAttributeNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'rdf:parseType', 'Resource');
         $bag->appendChild($li);
 
-        $namespaceURI = $xml->createElementNS('http://www.aiim.org/pdfa/ns/schema#', 'namespaceURI', 'http://ns.adobe.com/pdf/1.3/');
+        $namespaceURI = $xml->createElementNS(
+            'http://www.aiim.org/pdfa/ns/schema#', 'namespaceURI', 'http://ns.adobe.com/pdf/1.3/'
+        );
         $li->appendChild($namespaceURI);
         $prefix = $xml->createElementNS('http://www.aiim.org/pdfa/ns/schema#', 'prefix', 'pdf');
         $li->appendChild($prefix);
@@ -74,7 +81,11 @@ class PdfA extends SetaFpdf
 
         $category = $xml->createElementNS('http://www.aiim.org/pdfa/ns/property#', 'category', 'internal');
         $li->appendChild($category);
-        $description = $xml->createElementNS('http://www.aiim.org/pdfa/ns/property#', 'description', 'A name object indicating whether the document has been modified to include trapping information');
+        $description = $xml->createElementNS(
+            'http://www.aiim.org/pdfa/ns/property#',
+            'description',
+            'A name object indicating whether the document has been modified to include trapping information'
+        );
         $li->appendChild($description);
         $name = $xml->createElementNS('http://www.aiim.org/pdfa/ns/property#', 'name', 'Trapped');
         $li->appendChild($name);
@@ -85,8 +96,12 @@ class PdfA extends SetaFpdf
         $info->syncMetadata();
 
         $outputIntents = $document->getCatalog()->getOutputIntents();
-        $iccStream = \SetaPDF_Core_IccProfile_Stream::create($document, __DIR__ . '/../assets/icc/sRGB_ICC_v4_Appearance.icc');
-        $outputIntent = \SetaPDF_Core_OutputIntent::createByProfile('GTS_PDFA1', $iccStream);
+        $iccStream = \SetaPDF_Core_IccProfile_Stream::create(
+            $document, __DIR__ . '/../assets/icc/sRGB_ICC_v4_Appearance.icc'
+        );
+        $outputIntent = \SetaPDF_Core_OutputIntent::createByProfile(
+            SetaPDF_Core_OutputIntent::SUBTYPE_GTS_PDFA1, $iccStream
+        );
         $outputIntents->addOutputIntent($outputIntent);
 
         $document->setPdfVersion('1.4');
