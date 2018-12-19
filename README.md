@@ -77,6 +77,8 @@ By default this packages depends on a licensed version of the [SetaPDF-Core](htt
 }
 ```
 
+Notice that the evaluation branch depends on the version for **PHP 7.1 and up**.
+
 ### Without Composer
 
 Make sure, that the [SetaPDF-Core](https://www.setasign.com/core) component is [installed](https://manuals.setasign.com/setapdf-core-manual/installation/#index-2) and its [autoloader is registered](https://manuals.setasign.com/setapdf-core-manual/getting-started/#index-1) correctly.
