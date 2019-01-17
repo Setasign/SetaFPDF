@@ -186,7 +186,7 @@ class SetaFpdf
      */
     public function AliasNbPages()
     {
-        throw new \SetaPDF_Exception_NotImplemented('This method is not supported in SetaFpdf.');
+        throw new \SetaPDF_Exception_NotImplemented('The method "AliasNbPages" is not supported in SetaFpdf.');
     }
 
     /**
