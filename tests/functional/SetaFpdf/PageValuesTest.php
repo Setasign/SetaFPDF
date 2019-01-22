@@ -65,4 +65,15 @@ class PageValuesTest extends TestCase
         // asserts are done in the proxy
         $this->assertSame($height, $proxy->h);
     }
+
+    public function testDifferentOrienatations()
+    {
+        $proxy = $this->getProxy('P', 'pt', [100, 200]);
+        $this->assertSame(100, $proxy->GetPageWidth());
+        $this->assertSame(200, $proxy->GetPageHeight());
+
+        $proxy->AddPage('L');
+        $this->assertSame(200, $proxy->GetPageWidth());
+        $this->assertSame(100, $proxy->GetPageHeight());
+    }
 }

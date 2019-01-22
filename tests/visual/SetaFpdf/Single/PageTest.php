@@ -35,7 +35,7 @@ class PageTest extends VisualTestCase
         $proxy->AddPage();
         $f();
 
-        $this->assertProxySame($proxy);
+        $this->assertProxySame($proxy, VisualTestCase::TOLERANCE, 72);
     }
 
     public function testAddPagesWithDefault()
@@ -43,7 +43,7 @@ class PageTest extends VisualTestCase
         $proxy = $this->getProxy('L', 'cm', 'A3');
         $proxy->AddPage();
         $proxy->AddPage();
-        $this->assertProxySame($proxy);
+        $this->assertProxySame($proxy, VisualTestCase::TOLERANCE, 72);
     }
 
     public function testAddPagesWithOwnValueAndFallback()
@@ -52,7 +52,7 @@ class PageTest extends VisualTestCase
         $proxy->AddPage();
         $proxy->AddPage('P', 'A5', 180);
         $proxy->AddPage(null, null, 0);
-        $this->assertProxySame($proxy);
+        $this->assertProxySame($proxy, VisualTestCase::TOLERANCE, 72);
     }
 
     public function testAddPagesWithOwnSize()
@@ -63,6 +63,19 @@ class PageTest extends VisualTestCase
         $proxy->AddPage(null, null, 0);
         $proxy->AddPage('P', [10, 15], 90);
         $proxy->AddPage(null, [100, 25], 0);
-        $this->assertProxySame($proxy);
+        $this->assertProxySame($proxy, VisualTestCase::TOLERANCE, 72);
+    }
+
+    public function testDifferentOrienatations()
+    {
+        $proxy = $this->getProxy('P', 'pt', [100, 200]);
+        $proxy->AddPage();
+        $proxy->SetDrawColor(255, 0, 0);
+        $proxy->Rect(2, 2, $proxy->GetPageWidth() - 4, $proxy->GetPageHeight() - 4);
+
+        $proxy->AddPage('L');
+        $proxy->SetDrawColor(255, 0, 0);
+        $proxy->Rect(2, 2, $proxy->GetPageWidth() - 4, $proxy->GetPageHeight() - 4);
+        $this->assertProxySame($proxy, VisualTestCase::TOLERANCE, 72);
     }
 }

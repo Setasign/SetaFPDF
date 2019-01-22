@@ -367,12 +367,7 @@ class Document implements StateBufferInterface
 
         $widthPt = $this->manager->getConverter()->toPt($size[0]);
         $heightPt = $this->manager->getConverter()->toPt($size[1]);
-        $sizePt = [
-            0 => $widthPt,
-            1 => $heightPt,
-            'width' => $widthPt,
-            'height' => $heightPt
-        ];
+        $sizePt = [$widthPt, $heightPt];
 
         $this->document->getCatalog()->getPages()->create($sizePt, $orientation);
         $this->rotation = $rotation;

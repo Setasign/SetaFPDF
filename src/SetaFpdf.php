@@ -24,6 +24,7 @@ use setasign\SetaFpdf\Position\Converter;
  * @property float|int $tMargin
  * @property float|int $rMargin
  * @property float|int $bMargin
+ * @property float|int $pageBreakTrigger
  */
 class SetaFpdf
 {
@@ -979,6 +980,10 @@ class SetaFpdf
                 return $this->manager->getMargin()->getRight();
             case 'bMargin':
                 return $this->manager->getMargin()->getBottom();
+            case 'pageBreakTrigger':
+            case 'PageBreakTrigger': // allow both upper- and lower case
+                $manager = $this->manager;
+                return ($manager->getConverter()->fromPt($manager->getHeight()) - $manager->getMargin()->getBottom());
 
             default:
                 throw new \InvalidArgumentException(sprintf('Property "%s" cannot be accessed.', $name));

@@ -89,4 +89,23 @@ class PropertiesTest extends TestCase
         $proxy->SetAutoPageBreak(true, $bottom);
         $this->assertSame($bottom, $proxy->bMargin);
     }
+
+    public function testPageBreakTrigger()
+    {
+        $proxy = $this->getProxy('P', 'mm', [100, 200]);
+        $proxy->SetAutoPageBreak(true, 10);
+
+        $this->assertSame(190., $proxy->pageBreakTrigger);
+
+        $proxy = $this->getProxy('P', 'pt', [100, 200]);
+        $proxy->SetAutoPageBreak(true, 10);
+        $this->assertSame(190, $proxy->pageBreakTrigger);
+
+        $proxy = $this->getProxy('P', 'cm', [100, 200]);
+        $proxy->SetAutoPageBreak(true, 10);
+        $this->assertSame(190., $proxy->pageBreakTrigger);
+
+        $proxy->AddPage('L');
+        $this->assertSame(90., $proxy->pageBreakTrigger);
+    }
 }

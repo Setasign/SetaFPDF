@@ -27,6 +27,9 @@ class FpdfProperties extends \FPDF
                 return $this->rMargin;
             case 'bMargin':
                 return $this->bMargin;
+            case 'pageBreakTrigger':
+            case 'PageBreakTrigger':
+                return $this->PageBreakTrigger;
 
             default:
                 throw new \InvalidArgumentException(sprintf('Property "%s" cannot be accessed.', $name));
