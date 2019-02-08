@@ -159,17 +159,17 @@ class Pdf extends SetaFpdf
 {
     public function writeFooters()
     {
-        $pdf->SetAutoPageBreak(false);
+        $this->SetAutoPageBreak(false);
         
-        $pageCount = $pdf->getPageCount();
+        $pageCount = $this->getPageCount();
         // iterate through the pages and draw the footer
         for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
-            $pdf->SetPage($pageNo);
+            $this->SetPage($pageNo);
             $this->SetY(-15);
             $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/' . $pageCount, 0, 0, 'R');
         }
         
-        $pdf->SetAutoPageBreak(true);
+        $this->SetAutoPageBreak(true);
     }
 }
 
