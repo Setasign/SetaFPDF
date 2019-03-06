@@ -404,13 +404,13 @@ class Cell
         $maxWidth = ($width - 2 * $converter->toPt($margin->getCell()));
         if ($text !== '') {
             foreach (StaticHelper::getLines($text, $maxWidth, $font->getNewFont(), $font->getNewFontSize()) as $line) {
-                $lines[] = [true, $line[1], $width];
+                $lines[] = [$line[0], $line[1], $width];
             }
         }
 
         $lastLine = array_pop($lines);
         foreach ($lines as $line) {
-            $this->cell($line[2], $height, $line[1], 0, $line[0] ? 2 : 1, '', false, $link, 'UTF-16BE');
+            $this->cell($line[2], $height, $line[1], 0, 1, '', false, $link, 'UTF-16BE');
         }
 
         $this->cell(
@@ -418,7 +418,7 @@ class Cell
             $height,
             $lastLine[1],
             0,
-            0,
+            $lastLine[0] ? 1 : 0,
             '',
             false,
             $link,
