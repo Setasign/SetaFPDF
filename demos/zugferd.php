@@ -208,6 +208,8 @@ class ZUGFeRD extends SetaFpdi
 
 $pdf = new ZUGFeRD();
 
+// We do not build the PDF from scratch her but import an existing document for demonstration purpose.
+// For sure this document needs to be valid in view to PDF/A requirements!
 $pageCount = $pdf->setSourceFile(__DIR__ . '/../assets/pdfs/tektown/eBook-Invoice.pdf');
 for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
     $tpl = $pdf->importPage($pageNo);
