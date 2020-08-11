@@ -1,5 +1,5 @@
 *.json text
-*.php text
+*.php text eol=lf
 *.md text
 
 *.png binary
