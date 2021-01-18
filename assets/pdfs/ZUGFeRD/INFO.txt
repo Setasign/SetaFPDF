@@ -1,0 +1,1 @@
+Demo files in this folder are extracted from the ZUGFeRD specification available at: https://www.ferd-net.de/
