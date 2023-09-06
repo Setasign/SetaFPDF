@@ -196,7 +196,7 @@ class ZUGFeRD extends SetaFpdi
         );
         $outputIntents->addOutputIntent($outputIntent);
 
-        $document->setPdfVersion('1.4');
+        $document->setPdfVersion('1.7');
     }
 
     public function Output($dest = '', $name = '')
