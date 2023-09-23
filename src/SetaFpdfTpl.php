@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of SetaFPDI
  *
@@ -68,7 +69,7 @@ class SetaFpdfTpl extends SetaFpdf
             0,
             0,
             $this->manager->getConverter()->toPt($size[0]),
-            $this->manager->getConverter()->toPt($size[1])
+            $this->manager->getConverter()->toPt($size[2])
         ]);
 
         $page->setMediaBox($box);
