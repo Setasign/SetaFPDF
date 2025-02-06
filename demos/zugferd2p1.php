@@ -40,6 +40,7 @@ class ZUGFeRD2p1 extends SetaFpdi
             $iccStream
         );
         $outputIntents->addOutputIntent($outputIntent);
+        $document->setPdfVersion('1.7');
     }
 
     public function Output($dest = '', $name = '')
