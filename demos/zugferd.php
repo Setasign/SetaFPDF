@@ -1,5 +1,5 @@
 <?php
-
+/* PLEASE NOTE THAT THIS ZUGFERD VERSION SHOULD NOT BE USED ANYMORE! */
 use setasign\SetaFpdf\SetaFpdi;
 
 require_once '../vendor/autoload.php';
