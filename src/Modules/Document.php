@@ -451,13 +451,13 @@ class Document implements StateBufferInterface
      *
      * @param string $destination
      * @param string $name
-     * @param array $displayMode
+     * @param null|array $displayMode
      * @return null|string
      * @throws \BadMethodCallException
      * @throws \InvalidArgumentException
      * @throws \SetaPDF_Core_Exception
      */
-    public function output($destination, $name, array $displayMode = null)
+    public function output($destination, $name, ?array $displayMode = null)
     {
         $destination = strtolower($destination);
         switch ($destination) {
