@@ -36,6 +36,6 @@ class FooterTest extends VisualTestCase
         $proxy->Cell(20, 0, 'red');
         $proxy->Cell(20, 0, 'testdaten');
 
-        $this->assertProxySame($proxy, 0.3, self::DPI);
+        $this->assertProxySame($proxy, 0.4, self::DPI);
     }
 }

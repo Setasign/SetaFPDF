@@ -72,9 +72,6 @@ class SetaFpdfTplTest extends VisualTestCase
         $this->assertProxySame($proxy, 1);
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     */
     public function testAdjustPageSize()
     {
         $proxy = $this->getProxy();
@@ -83,6 +80,7 @@ class SetaFpdfTplTest extends VisualTestCase
         $proxy->endTemplate();
 
         $proxy->beginTemplate(250, 250);
+        $this->expectException(\BadMethodCallException::class);
         $proxy->useTemplate($templateId, 10, 10, null, null, true);
     }
 

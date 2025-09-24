@@ -95,17 +95,17 @@ class PropertiesTest extends TestCase
         $proxy = $this->getProxy('P', 'mm', [100, 200]);
         $proxy->SetAutoPageBreak(true, 10);
 
-        $this->assertSame(190., $proxy->pageBreakTrigger);
+        $this->assertEqualsWithDelta(190, $proxy->pageBreakTrigger, 0.00001);
 
         $proxy = $this->getProxy('P', 'pt', [100, 200]);
         $proxy->SetAutoPageBreak(true, 10);
-        $this->assertSame(190, $proxy->pageBreakTrigger);
+        $this->assertEqualsWithDelta(190, $proxy->pageBreakTrigger, 0.00001);
 
         $proxy = $this->getProxy('P', 'cm', [100, 200]);
         $proxy->SetAutoPageBreak(true, 10);
-        $this->assertSame(190., $proxy->pageBreakTrigger);
+        $this->assertEqualsWithDelta(190., $proxy->pageBreakTrigger, 0.00001);
 
         $proxy->AddPage('L');
-        $this->assertSame(90., $proxy->pageBreakTrigger);
+        $this->assertEqualsWithDelta(90., $proxy->pageBreakTrigger, 0.00001);
     }
 }

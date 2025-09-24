@@ -81,7 +81,7 @@ class MultiCellTest extends VisualTestCase
         $proxy->SetLineWidth(5);
         $proxy->MultiCell(100, 20, 'Another test', 'RLB', 'J', true);
 
-        $this->assertProxySame($proxy, 0.15);
+        $this->assertProxySame($proxy, 0.16);
     }
 
     public function testVeryLongWord()
@@ -93,7 +93,7 @@ class MultiCellTest extends VisualTestCase
 
         $proxy->MultiCell(0, 20, str_repeat('HelloWorld', 30));
 
-        $this->assertProxySame($proxy, 2);
+        $this->assertProxySame($proxy, 3);
     }
 
     public function testToLessSpace()

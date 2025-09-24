@@ -15,22 +15,18 @@ class MissingPageTest extends TestCase
         return $proxy;
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage No page has been added yet.
-     */
     public function testWithTextEmpty()
     {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('No page has been added yet.');
         $proxy = $this->getProxy();
         $proxy->Text(0, 0, '');
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage No page has been added yet.
-     */
     public function testWithText()
     {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('No page has been added yet.');
         $proxy = $this->getProxy();
         $proxy->Text(0, 0, 'testen');
     }
@@ -44,12 +40,10 @@ class MissingPageTest extends TestCase
         $proxy->Cell(200, 200, '');
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage No page has been added yet.
-     */
     public function testWithSetCell()
     {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('No page has been added yet.');
         $proxy =  $this->getProxy();
         $proxy->Cell(200, 200, 'hallo');
     }
@@ -65,12 +59,10 @@ class MissingPageTest extends TestCase
         $proxy->MultiCell(200, 200, '');
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage No page has been added yet.
-     */
     public function testWithMultiCell()
     {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('No page has been added yet.');
         $proxy = $this->getProxy();
         $proxy->MultiCell(200, 200, 'hallo');
     }
@@ -81,12 +73,10 @@ class MissingPageTest extends TestCase
         $proxy->Write(200, '');
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage No page has been added yet.
-     */
     public function testWithWrite()
     {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('No page has been added yet.');
         $proxy = $this->getProxy();
         $proxy->Write(200, 'hallo');
     }

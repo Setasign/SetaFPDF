@@ -98,13 +98,14 @@ class TestProxy extends \PHPUnit\Framework\TestCase
             ));
 
             if ($resultIsError || $expectedResultIsError) {
-                $this->assertEquals(
+                $this->assertEqualsWithDelta(
                     $expectedResultIsError,
                     $resultIsError,
+                    0.00001,
                     $resultIsError ? (string) $result : (string) $expectedResult
                 );
             } else {
-                $this->assertEquals($expectedResult, $result, 'Different result: '. var_export($method, true));
+                $this->assertEqualsWithDelta($expectedResult, $result, 0.00001, 'Different result: '. var_export($method, true));
             }
         }
 

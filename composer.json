@@ -34,9 +34,9 @@
   },
 
   "require-dev": {
-    "phpunit/phpunit": "~5.7",
-    "setasign/fpdi-fpdf": "^2.1",
-    "setasign/fpdf": "1.8.1"
+    "phpunit/phpunit": "~7.5",
+    "setasign/fpdi": "^2.3",
+    "setasign/fpdf": "^1.8"
   },
 
   "repositories": [

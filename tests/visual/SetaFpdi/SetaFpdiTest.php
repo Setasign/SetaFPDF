@@ -25,7 +25,7 @@ class SetaFpdiTest extends VisualTestCase
         ]);
     }
 
-    public function testDataProvider()
+    public function dataProvider()
     {
         return [
             [
@@ -351,7 +351,7 @@ class SetaFpdiTest extends VisualTestCase
     }
 
     /**
-     * @dataProvider testDataProvider
+     * @dataProvider dataProvider
      */
     public function testImport($files, $pages)
     {
