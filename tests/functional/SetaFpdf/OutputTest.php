@@ -5,6 +5,7 @@ namespace setasign\tests\functional\SetaFpdf;
 use PHPUnit\Framework\TestCase;
 use setasign\SetaFpdf\Modules\Document;
 use setasign\SetaFpdf\SetaFpdf;
+use setasign\SetaPDF2\Core\Document\ObjectStreamCompressor;
 
 class OutputTest extends TestCase
 {
@@ -45,5 +46,23 @@ class OutputTest extends TestCase
 
         $pdf->SetFont('testen', 'b', 120);
         $this->assertInstanceOf(SetaFpdf::class, $pdf);
+    }
+
+    public function testCompressedObjectStreams()
+    {
+        $pdf = new SetaFpdf();
+        $pdf->AddPage();
+        $pdf->AddFont('DejaVuSans', 'B', __DIR__ . '/../../../assets/fonts/DejaVu/DejaVuSans-Bold.ttf');
+        $pdf->SetFont('DejaVuSans', 'B', 20);
+        $pdf->Cell(0, 10, 'TESTING FONT SUBSETTING');
+
+        $document = $pdf->getManager()->getDocument()->get();
+        $compressor = new ObjectStreamCompressor($document);
+        $compressor->register();
+
+        $pdfString = $pdf->Output('S');
+
+        $this->assertStringNotContainsString('/Font', $pdfString);
+        $this->assertStringNotContainsString('/Page ', $pdfString);
     }
 }

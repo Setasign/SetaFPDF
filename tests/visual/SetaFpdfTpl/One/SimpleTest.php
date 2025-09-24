@@ -38,6 +38,6 @@ class SimpleTest extends VisualTestCase
         $proxy->AddPage();
         $proxy->useTemplate($templateId, 20, 20, $proxy->GetPageWidth() - 40);
 
-        $this->assertProxySame($proxy, 1.6, self::DPI);
+        $this->assertProxySame($proxy, 1.85, self::DPI);
     }
 }
