@@ -1,6 +1,6 @@
 <?php
 
-namespace setasign\tests\visual\SetaFpdf\Single;
+namespace setasign\tests\functional\SetaFpdf\Single;
 
 use setasign\tests\TestCase;
 
