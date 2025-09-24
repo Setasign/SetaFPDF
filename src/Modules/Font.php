@@ -10,6 +10,7 @@
 namespace setasign\SetaFpdf\Modules;
 
 use setasign\SetaFpdf\Manager;
+use setasign\SetaPDF2\Core\Document\Page\Annotation\FreeTextAnnotation;
 
 class Font
 {
@@ -43,7 +44,7 @@ class Font
      *
      * @var \SetaPDF_Core_Font[]
      */
-    protected $fonts;
+    protected $fonts = [];
 
 
     /**
@@ -194,9 +195,9 @@ class Font
     }
 
     /**
-     * Tries to draw a underline.
+     * Tries to draw an underline.
      *
-     * This function draws a underline when its enabled, otherwise it will do nothing.
+     * This function draws an underline when its enabled, otherwise it will do nothing.
      *
      * @param int|float $x
      * @param int|float $y
@@ -225,5 +226,13 @@ class Font
         if ($strokingColor) {
             $this->manager->getCanvas()->draw()->setStrokingColor($strokingColor);
         }
+    }
+
+    /**
+     * @return \SetaPDF_Core_Font[]
+     */
+    public function getFonts()
+    {
+        return $this->fonts;
     }
 }

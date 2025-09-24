@@ -4,3 +4,4 @@ local-tests/SetaFpdf/pdfs/
 local-tests/SetaFpdi/pdfs/
 .idea
 composer.phar
+auth.json

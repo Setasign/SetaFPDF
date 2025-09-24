@@ -35,7 +35,7 @@
 
   "require-dev": {
     "phpunit/phpunit": "~7.5",
-    "setasign/fpdi": "^2.3",
+    "setasign/fpdi": "dev-master",
     "setasign/fpdf": "^1.8"
   },
 

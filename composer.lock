@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "addaa6eb4ebfe542fa2c58264c265427",
+    "content-hash": "c032e10d18105a2511f1adad8f46c675",
     "packages": [
         {
             "name": "setasign/setapdf-core",
@@ -1619,16 +1619,16 @@
         },
         {
             "name": "setasign/fpdi",
-            "version": "v2.6.4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Setasign/FPDI.git",
-                "reference": "4b53852fde2734ec6a07e458a085db627c60eada"
+                "reference": "f90eb86b01dca252ee50a1244228885d94fa117d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Setasign/FPDI/zipball/4b53852fde2734ec6a07e458a085db627c60eada",
-                "reference": "4b53852fde2734ec6a07e458a085db627c60eada",
+                "url": "https://api.github.com/repos/Setasign/FPDI/zipball/f90eb86b01dca252ee50a1244228885d94fa117d",
+                "reference": "f90eb86b01dca252ee50a1244228885d94fa117d",
                 "shasum": ""
             },
             "require": {
@@ -1648,6 +1648,7 @@
             "suggest": {
                 "setasign/fpdf": "FPDI will extend this class but as it is also possible to use TCPDF or tFPDF as an alternative. There's no fixed dependency configured."
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1679,7 +1680,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Setasign/FPDI/issues",
-                "source": "https://github.com/Setasign/FPDI/tree/v2.6.4"
+                "source": "https://github.com/Setasign/FPDI/tree/master"
             },
             "funding": [
                 {
@@ -1687,7 +1688,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-05T09:57:14+00:00"
+            "time": "2025-09-24T10:35:22+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -1868,7 +1869,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "setasign/fpdi": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
