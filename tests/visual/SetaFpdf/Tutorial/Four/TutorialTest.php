@@ -29,6 +29,6 @@ class TutorialTest extends VisualTestCase
         $pdf->PrintChapter(2, 'THE PROS AND CONS', $this->getAssetsDir() . '/text/20k_c2.txt');
 //        $pdf->Output(); // REPLACED BY ASSERTION
 
-        $this->assertProxySame($pdf, 83, 60);
+        $this->assertProxySame($pdf, 83);
     }
 }

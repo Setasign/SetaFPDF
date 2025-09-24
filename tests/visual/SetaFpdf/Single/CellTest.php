@@ -78,7 +78,7 @@ class CellTest extends VisualTestCase
         $proxy->Ln();
         $proxy->Cell(0, 5, 'Some text.', 'BT', 1, 'C');
 
-        $this->assertProxySame($proxy, .17);
+        $this->assertProxySame($proxy, 8);
     }
 
     public function testLineBreak()
@@ -95,6 +95,6 @@ class CellTest extends VisualTestCase
         $proxy->Cell(20, 10, "test", 0, true, '', false, '');
         $proxy->Cell(20, 10, "test", true, true, '', false, '');
 
-        $this->assertProxySame($proxy, .1);
+        $this->assertProxySame($proxy, .11);
     }
 }

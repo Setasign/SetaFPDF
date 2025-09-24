@@ -20,14 +20,12 @@ class OutputTest extends TestCase
         unlink(__DIR__ . '/doc.pdf');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Font "testen" with style "b" not found.
-     */
     public function testFontNotFound()
     {
         $pdf = new SetaFpdf();
 
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Font "testen" with style "b" not found.');
         $pdf->SetFont('testen', 'b', 120);
     }
 
@@ -42,10 +40,10 @@ class OutputTest extends TestCase
             // we expect a exception.
         }
 
-        $pdf->AddFont('testen', 'b', \SetaPDF_Core_Font_Standard_Courier::create(
-            $pdf->getManager()->getDocument()->get())
-        );
+        $font = \SetaPDF_Core_Font_Standard_Courier::create($pdf->getManager()->getDocument()->get());
+        $pdf->AddFont('testen', 'b', $font);
 
         $pdf->SetFont('testen', 'b', 120);
+        $this->assertInstanceOf(SetaFpdf::class, $pdf);
     }
 }

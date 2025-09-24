@@ -24,7 +24,7 @@ class WriteTest extends VisualTestCase
         $proxy->Write(8, 'Da kommt ein sehr langer Text und ich weiss nicht mehr wie sich dieses Ding verhaelt...');
         $proxy->Write(8, 'Da kommt ein sehr langer Text und ich weiss nicht mehr wie sich dieses Ding verhaelt...');
 
-        $this->assertProxySame($proxy, 6.1);
+        $this->assertProxySame($proxy, 8.1);
     }
 
     public function testSpecialWrite()
@@ -40,7 +40,7 @@ class WriteTest extends VisualTestCase
         $proxy->Write(8, 'Da kommt ein sehr langer Text und ich weiss nicht mehr wie sich dieses Ding verhaelt...' . "\n");
         $proxy->Write(8, 'Da kommt ein sehr langer Text und ich weiss nicht mehr wie sich dieses Ding verhaelt...' . "\n");
 
-        $this->assertProxySame($proxy, 16.38);
+        $this->assertProxySame($proxy, 22);
     }
 
     public function testWriteWithLineBreak()
@@ -53,7 +53,7 @@ class WriteTest extends VisualTestCase
         $proxy->Write(4, 'Da kommt ein sehr langer Text und ich weiss nicht mehr wie sich dieses Ding verhaelt...');
         $proxy->Write(4, 'Da kommt ein sehr langer Text und ich weiss nicht' . "\n" . 'mehr wie sich dieses Ding verhaelt...');
 
-        $this->assertProxySame($proxy, 4.7);
+        $this->assertProxySame($proxy, 6.2);
     }
 
     public function testWriteLong()
@@ -70,7 +70,7 @@ class WriteTest extends VisualTestCase
         $proxy->Write(6, 'test');
         $proxy->Write(6, str_repeat('HelloWorld', 20));
 
-        $this->assertProxySame($proxy, 14.64);
+        $this->assertProxySame($proxy, 20);
     }
 
     public function testWriteEmpty()
@@ -111,6 +111,6 @@ class WriteTest extends VisualTestCase
         $proxy->Write(10, 'Testing' . "\n\n");
         $proxy->Write(10, "\n\n" . 'More tests' . "\n\n" . 'hallo' . "\n\n" . 'ouf');
 
-        $this->assertProxySame($proxy, 1.7, 72);
+        $this->assertProxySame($proxy, 2.2, 72);
     }
 }

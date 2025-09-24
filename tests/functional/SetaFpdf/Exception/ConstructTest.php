@@ -42,30 +42,24 @@ class ConstructTest extends TestCase
         throw $exceptions['error2'];
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unknown orientation: hallo
-     */
     public function testWithInvalidOrientation()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unknown orientation: hallo');
         $this->validate($this->construct('hallo', 'mm', 'A4'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Incorrect unit: hallo
-     */
     public function testWithInvalidUnit()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Incorrect unit: hallo');
         $this->validate($this->construct('P', 'hallo', 'A4'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid size array.
-     */
     public function testWidthInvalidSize()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid size array.');
         $this->validate($this->construct('P', 'mm', [2]));
     }
 }

@@ -43,7 +43,7 @@ class StaticHelper
     public static function getLines(
         $text,
         $width = null,
-        \SetaPDF_Core_Font_Glyph_Collection_CollectionInterface $font = null,
+        ?\SetaPDF_Core_Font_Glyph_Collection_CollectionInterface $font = null,
         $fontSize = null,
         $charSpacing = 0,
         $wordSpacing = 0,

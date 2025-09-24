@@ -6,32 +6,26 @@ use setasign\tests\TestCase;
 
 class FontTest extends TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Font "hawda" with style "" not found.
-     */
     public function testUndefinedFont()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Font "hawda" with style "" not found.');
         $proxy = $this->getProxy();
         $proxy->SetFont('hawda');
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage No font has been set
-     */
     public function testFontNotSetTextEmpty()
     {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('No font has been set');
         $proxy = $this->getProxy();
         $proxy->Text(0, 0, '');
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage No font has been set
-     */
     public function testFontNotSetText()
     {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('No font has been set');
         $proxy = $this->getProxy();
         $proxy->Text(0, 0, 'testen');
     }
@@ -45,52 +39,42 @@ class FontTest extends TestCase
         $proxy->Cell(200, 200, '');
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage No font has been set
-     */
     public function testFontNotSetCell()
     {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('No font has been set');
         $proxy =  $this->getProxy();
         $proxy->Cell(200, 200, 'hallo');
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage No font has been set
-     */
     public function testFontNotSetMultiCellEmpty()
     {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('No font has been set');
         $proxy = $this->getProxy();
         $proxy->MultiCell(200, 200, '');
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage No font has been set
-     */
     public function testFontNotSetMultiCell()
     {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('No font has been set');
         $proxy = $this->getProxy();
         $proxy->MultiCell(200, 200, 'hallo');
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage No font has been set
-     */
     public function testFontNotSetWriteEmpty()
     {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('No font has been set');
         $proxy = $this->getProxy();
         $proxy->Write(200, '');
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage No font has been set
-     */
     public function testFontNotSetWrite()
     {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('No font has been set');
         $proxy = $this->getProxy();
         $proxy->Write(200, 'hallo');
     }

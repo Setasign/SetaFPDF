@@ -131,7 +131,6 @@ class SetaFpdiTest extends TestCase
     /**
      * @throws \SetaPDF_Core_Exception
      * @throws \SetaPDF_Core_Parser_CrossReferenceTable_Exception
-     * @expectedException \InvalidArgumentException
      */
     public function testInvalidBoxName()
     {
@@ -139,6 +138,7 @@ class SetaFpdiTest extends TestCase
 
         $reader = $this->createPdf([['a4', \SetaPDF_Core_PageFormats::ORIENTATION_PORTRAIT]]);
         $pdf->setSourceFile($reader);
+        $this->expectException(\InvalidArgumentException::class);
         $pdf->importPage(1, 'anything');
     }
 }

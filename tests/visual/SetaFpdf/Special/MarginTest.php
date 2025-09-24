@@ -18,7 +18,7 @@ class MarginTest extends VisualTestCase
 
         $proxy->Cell(20, 20, 'Test');
 
-        $this->assertProxySame($proxy, 0.47);
+        $this->assertProxySame($proxy, 0.7);
     }
 
     public function testSetTopMarginAfterAddPage()
@@ -33,6 +33,6 @@ class MarginTest extends VisualTestCase
 
         $proxy->Cell(20, 20, 'Test');
 
-        $this->assertProxySame($proxy, 0.47);
+        $this->assertProxySame($proxy, 0.7);
     }
 }

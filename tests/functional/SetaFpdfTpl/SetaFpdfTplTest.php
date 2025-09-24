@@ -40,15 +40,16 @@ class SetaFpdfTplTest extends TestCase
         $template = $pdf->beginTemplate(100, 200);
         $pdf->endTemplate();
 
-        $this->assertEquals(
+        $this->assertEqualsWithDelta(
             [
-                'width' => 100,
-                'height' => 200,
+                'width' => 100.,
+                'height' => 200.,
                 0 => 100,
                 1 => 200,
                 'orientation' => 'P'
             ],
-            $pdf->getTemplateSize($template)
+            $pdf->getTemplateSize($template),
+            0.00001
         );
     }
 
