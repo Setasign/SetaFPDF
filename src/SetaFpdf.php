@@ -460,7 +460,7 @@ class SetaFpdf
             $name = 'doc.pdf';
         }
 
-        foreach ($this->manager->getFont()->getFonts() as $font) {
+        foreach ($this->manager->getFont()->getUsedFonts() as $font) {
             if ($font instanceof Subset) {
                 $font->createSubset();
             }

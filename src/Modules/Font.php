@@ -46,6 +46,13 @@ class Font
      */
     protected $fonts = [];
 
+    /**
+     * All font objects that were ever used by a `setFont()` call.
+     *
+     * @var array
+     */
+    protected $usedFonts = [];
+
 
     /**
      * The document module, to get the document instance.
@@ -147,6 +154,8 @@ class Font
             }
             $this->fontState->fontSize = $size;
         }
+
+        $this->usedFonts[$fontKey] = $this->fonts[$fontKey];
     }
 
     /**
@@ -234,5 +243,13 @@ class Font
     public function getFonts()
     {
         return $this->fonts;
+    }
+
+    /**
+     * @return array
+     */
+    public function getUsedFonts()
+    {
+        return $this->usedFonts;
     }
 }
