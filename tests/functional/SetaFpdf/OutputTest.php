@@ -56,6 +56,8 @@ class OutputTest extends TestCase
         $pdf->SetFont('DejaVuSans', 'B', 20);
         $pdf->Cell(0, 10, 'TESTING FONT SUBSETTING');
 
+        $pdf->AddFont('DejaVuSans', '', __DIR__ . '/../../../assets/fonts/DejaVu/DejaVuSans.ttf');
+
         $document = $pdf->getManager()->getDocument()->get();
         $compressor = new ObjectStreamCompressor($document);
         $compressor->register();
