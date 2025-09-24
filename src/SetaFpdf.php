@@ -631,24 +631,24 @@ class SetaFpdf
      * font size, it is simpler to call SetFontSize().
      *
      * @param string $family Family font. It can be either a name defined by AddFont() or one of the
-     *                       standard families (case insensitive):
+     *                       standard families (case-insensitive):
      *                         Courier: (fixed with)
      *                         Helvetica or Arial: (synonymous; sans serif)
      *                         Times: (serif)
      *                         Symbol: (symbolic)
      *                         ZapfDingbats: (symbolic)
      *                       It is also possible to pass an empty string. In that case, the current family is kept.
-     * @param string $style Font style. Possible values are (case insensitive):
+     * @param string $style Font style. Possible values are (case-insensitive):
      *                        empty string: regular
      *                        B: bold
      *                        I: italic
      *                        U: underline
      *                      or any combination. The default value is regular. Bold and italic styles do not apply to
      *                      Symbol and ZapfDingbats.
-     * @param string $size Font size in points. The default value is the current size. If no size has been specified
-     *                     since the beginning of the document, the value taken is 12.
+     * @param string|int|float $size Font size in points. The default value is the current size. If no size has been
+     *                               specified since the beginning of the document, the value taken is 12.
      */
-    public function SetFont($family, $style = '', $size = '')
+    public function SetFont($family, $style = '', $size = 0)
     {
         $this->manager->getFont()->set($family, $style, $size);
     }

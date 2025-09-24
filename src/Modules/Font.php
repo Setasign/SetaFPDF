@@ -101,7 +101,7 @@ class Font
      *
      * @param string $family
      * @param string $style
-     * @param string $size
+     * @param string|int|float $size
      * @throws \InvalidArgumentException
      */
     public function set($family, $style, $size)
@@ -139,7 +139,12 @@ class Font
         }
 
         $this->fontState->font = $this->fonts[$fontKey];
-        if ($size !== '') {
+        if ($size !== 0) {
+            if (is_string($size) && \ctype_digit($size)) {
+                $size = (int) $size;
+            } elseif (!\is_int($size)) {
+                $size = (float) $size;
+            }
             $this->fontState->fontSize = $size;
         }
     }
