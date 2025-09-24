@@ -80,7 +80,7 @@ class Font implements StateBufferInterface
     }
 
     /**
-     * Check if the this instance contains a specific state.
+     * Check if this instance contains a specific state.
      *
      * @param string $name
      * @return bool
@@ -89,7 +89,6 @@ class Font implements StateBufferInterface
     {
         switch ($name) {
             case 'font':
-                return true;
             case 'fontSize':
                 return true;
             default:
