@@ -34,7 +34,7 @@ This project is not a start of a new PDF generation project in PHP but it is a t
 
 ## Requirements
 
- - PHP >= 5.6
+ - PHP >= 7.1
  - [SetaPDF-Core](https://www.setasign.com/core) (All [SetaPDF products](https://www.setasign.com/products/) include SetaPDF-Core)
    - [iconv](http://www.php.net/iconv) or [Multibyte String](http://www.php.net/mbstring)
    - [OpenSSL](http://php.net/openssl)
@@ -59,25 +59,6 @@ Add following to your composer.json:
 ```
 
 and execute `composer update`. You need to define the `repository` to evaluate the dependency to the [SetaPDF-Core](https://www.setasign.com/core) component (see [here](https://getcomposer.org/doc/faqs/why-can%27t-composer-load-repositories-recursively.md) for more details).
-
-### Evaluation version
-By default this packages depends on a licensed version of the [SetaPDF-Core](https://www.setasign.com/core) component. If you want to use it with an evaluation version please use following in your composer.json:
-
-```json
-{
-    "require": {
-        "setasign/setafpdf": "dev-evaluation"
-    },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://www.setasign.com/downloads/"
-        }
-    ]
-}
-```
-
-Notice that the evaluation branch depends on the version for **PHP 7.1 and up**.
 
 ### Without Composer
 
