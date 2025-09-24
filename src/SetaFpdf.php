@@ -11,6 +11,7 @@ namespace setasign\SetaFpdf;
 
 use setasign\SetaFpdf\Modules\Document;
 use setasign\SetaFpdf\Position\Converter;
+use setasign\SetaPDF2\Core\Font\TrueType\Subset;
 
 /**
  * @property-read int $page
@@ -457,6 +458,12 @@ class SetaFpdf
 
         if ($name === '') {
             $name = 'doc.pdf';
+        }
+
+        foreach ($this->manager->getFont()->getFonts() as $font) {
+            if ($font instanceof Subset) {
+                $font->createSubset();
+            }
         }
 
         return $this->manager->getDocument()->output($dest, $name, $this->displayMode);
