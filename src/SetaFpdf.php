@@ -460,12 +460,6 @@ class SetaFpdf
             $name = 'doc.pdf';
         }
 
-        foreach ($this->manager->getFont()->getUsedFonts() as $font) {
-            if ($font instanceof Subset) {
-                $font->createSubset();
-            }
-        }
-
         return $this->manager->getDocument()->output($dest, $name, $this->displayMode);
     }
 

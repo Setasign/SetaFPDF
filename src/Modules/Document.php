@@ -13,6 +13,7 @@ use setasign\SetaFpdf\Manager;
 use setasign\SetaFpdf\Position\Converter;
 use setasign\SetaFpdf\SetaFpdf;
 use setasign\SetaFpdf\StateBuffer\StateBufferInterface;
+use setasign\SetaPDF2\Core\Font\TrueType\Subset;
 
 class Document implements StateBufferInterface
 {
@@ -488,6 +489,12 @@ class Document implements StateBufferInterface
             $this->pageBreakDisabled = true;
             \call_user_func($this->footerCallable);
             $this->pageBreakDisabled = false;
+
+            foreach ($this->manager->getFont()->getUsedFonts() as $font) {
+                if ($font instanceof Subset) {
+                    $font->createSubset();
+                }
+            }
 
             self::applyDisplayMode($this->document, $displayMode);
             $info = $this->document->getInfo();
