@@ -127,7 +127,10 @@ class SetaFpdi extends SetaFpdfTpl
             );
         }
 
-        $pageId = $this->currentReaderId . '|' . $pageNumber . '|' . ($groupXObject ? '1' : '0') . '|' . $box;
+        $importExternalLinks = false; // TODO: Implement link handling
+
+        $pageId = $this->currentReaderId . '|' . $pageNumber . '|' . ($groupXObject ? '1' : '0') . '|'
+            . ($importExternalLinks ? '1' : '0') . '|' . $box;
         if (isset($this->importedPages[$pageId])) {
             return $pageId;
         }
