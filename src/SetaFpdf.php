@@ -20,6 +20,8 @@ use setasign\SetaFpdf\Position\Converter;
  * @property-read float|int $w
  * @property-read float|int $h
  * @property float|int $fontSize
+ * @property float|int $FontSize
+ * @property float|int $FontSizePt
  * @property float|int $lMargin
  * @property float|int $tMargin
  * @property float|int $rMargin
