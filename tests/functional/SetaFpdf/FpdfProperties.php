@@ -27,6 +27,12 @@ class FpdfProperties extends \FPDF
                 return $this->rMargin;
             case 'bMargin':
                 return $this->bMargin;
+            case 'k':
+                return $this->k;
+            case 'FontSize':
+                return $this->FontSize;
+            case 'FontSizePt':
+                return $this->FontSizePt;
             case 'pageBreakTrigger':
             case 'PageBreakTrigger':
                 return $this->PageBreakTrigger;

@@ -11,7 +11,6 @@ namespace setasign\SetaFpdf;
 
 use setasign\SetaFpdf\Modules\Document;
 use setasign\SetaFpdf\Position\Converter;
-use setasign\SetaPDF2\Core\Font\TrueType\Subset;
 
 /**
  * @property-read int $page
@@ -26,6 +25,7 @@ use setasign\SetaPDF2\Core\Font\TrueType\Subset;
  * @property float|int $rMargin
  * @property float|int $bMargin
  * @property float|int $pageBreakTrigger
+ * @property float|int $k
  */
 class SetaFpdf
 {
@@ -972,6 +972,9 @@ class SetaFpdf
             case 'h':
                 return $this->GetPageHeight();
             case 'fontSize':
+            case 'FontSize':
+                return $this->manager->getConverter()->fromPt($this->manager->getFontState()->getNewFontSize());
+            case 'FontSizePt':
                 return $this->manager->getFontState()->getNewFontSize();
             case 'lMargin':
                 return $this->manager->getMargin()->getLeft();
@@ -981,6 +984,8 @@ class SetaFpdf
                 return $this->manager->getMargin()->getRight();
             case 'bMargin':
                 return $this->manager->getMargin()->getBottom();
+            case 'k':
+                return $this->manager->getConverter()->toPt(1);
             case 'pageBreakTrigger':
             case 'PageBreakTrigger': // allow both upper- and lower case
                 $manager = $this->manager;

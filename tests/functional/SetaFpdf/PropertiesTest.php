@@ -108,4 +108,37 @@ class PropertiesTest extends TestCase
         $proxy->AddPage('L');
         $this->assertEqualsWithDelta(90., $proxy->pageBreakTrigger, 0.00001);
     }
+
+    public function testK()
+    {
+        $proxy = $this->getProxy('P', 'pt');
+        $this->assertEquals(1, $proxy->k);
+
+        $proxy = $this->getProxy('P', 'mm');
+        $this->assertEquals(72/25.4, $proxy->k);
+
+        $proxy = $this->getProxy('P', 'cm');
+        $this->assertEquals(72/2.54, $proxy->k);
+
+        $proxy = $this->getProxy('P', 'in');
+        $this->assertEquals(72, $proxy->k);
+    }
+
+    public function testFontSizeAndFontSizePt()
+    {
+        $proxy = $this->getProxy('P', 'pt');
+        $proxy->SetFont('Arial', '', 16);
+        $this->assertEquals(16, $proxy->FontSize);
+        $this->assertEquals(16, $proxy->FontSizePt);
+
+        $proxy = $this->getProxy('P', 'mm');
+        $proxy->SetFont('Arial', '', 16);
+        $this->assertEquals(16 / $proxy->k, $proxy->FontSize);
+        $this->assertEquals(16, $proxy->FontSizePt);
+
+        $proxy = $this->getProxy('P', 'cm');
+        $proxy->SetFont('Arial', '', 16);
+        $this->assertEquals(16 / $proxy->k, $proxy->FontSize);
+        $this->assertEquals(16, $proxy->FontSizePt);
+    }
 }
