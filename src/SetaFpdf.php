@@ -29,7 +29,7 @@ use setasign\SetaFpdf\Position\Converter;
  */
 class SetaFpdf
 {
-    const VERSION = 'v1.0.0beta';
+    const VERSION = '1.0.4';
     
     /**
      * The manager.
