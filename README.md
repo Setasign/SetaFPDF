@@ -34,7 +34,7 @@ This project is not a start of a new PDF generation project in PHP but it is a t
 
 ## Requirements
 
- - PHP >= 7.1
+ - PHP >= 7.2
  - [SetaPDF-Core](https://www.setasign.com/core) (All [SetaPDF products](https://www.setasign.com/products/) include SetaPDF-Core)
    - [iconv](http://www.php.net/iconv) or [Multibyte String](http://www.php.net/mbstring)
    - [OpenSSL](http://php.net/openssl)
