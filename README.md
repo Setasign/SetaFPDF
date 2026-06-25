@@ -201,4 +201,4 @@ If you want to create PDF/A documents while importing other files, you need to m
 
 ## License
 
-This package is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This package is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
